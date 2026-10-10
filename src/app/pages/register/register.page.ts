@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonInput, IonButton } from '@ionic/angular';
+import { UserService } from '../../services/user';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +16,8 @@ import { IonContent, IonInput, IonButton } from '@ionic/angular';
 export class RegisterPage {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private userService = inject(UserService);
+  private authService = inject(AuthService);
 
   // 🚦 Angular 22 Signal para controlar el Stepper del Figma
   public pasoActual = signal<number>(1);
@@ -37,9 +41,41 @@ export class RegisterPage {
   }
 
   onRegistrar() {
-    if (this.registerForm.invalid) return;
-    console.log('🚀 Enviando datos de reciclaje a Node.js:', this.registerForm.value);
-    // Aquí conectarás tu servicio HTTP POST a /api/usuarios/crear
+    // 1. Freno de mano si el formulario es inválido
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+
+    console.log('🚀 Enviando datos de registro a Node.js:', this.registerForm.value);
+
+    // 2. Pasamos el valor del formulario a tu servicio
+    this.userService.crearUsuario(this.registerForm.value).subscribe({
+      next: (resp: any) => {
+        if (resp.ok) {
+          console.log('✅ Usuario y Perfil creados con éxito en Atlas:', resp);
+
+          // 3. Si tu backend genera el token en el registro, lo guardamos de una vez
+          if (resp.token) {
+            this.authService.setSession(resp.token);
+
+            // Al ser un usuario nuevo, 'profile_complete' se inicializa en false 
+            // porque aún debe pasar por el flujo de bienvenida/onboarding
+            localStorage.setItem('profile_complete', 'false');
+
+            // Lo mandamos a la pantalla de Bienvenida para que conozca el reto
+            this.router.navigate(['/bienvenida']);
+          } else {
+            // Si no genera token inmediato, lo redirigimos al login con un aviso
+            this.router.navigate(['/login']);
+          }
+        }
+      },
+      error: (err) => {
+        console.error('❌ Error al registrar el usuario:', err);
+        // Aquí puedes disparar un Toast de Ionic o alerta con err.error.msg
+      }
+    });
   }
 
   irAlLogin() {

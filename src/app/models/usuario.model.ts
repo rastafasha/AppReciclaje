@@ -21,3 +21,11 @@ export interface IUsuario {
   profile?: IPerfil; // Enlace relacional directo embebido
   createdAt: string;
 }
+
+// Interfaz para mapear las respuestas HTTP estandarizadas de tu backend de Node
+export interface AuthResponse {
+  ok: boolean;
+  token?: string;
+  usuario?: IUsuario;
+  msg?: string;
+}

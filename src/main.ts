@@ -5,18 +5,27 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
+import {  importProvidersFrom, inject } from '@angular/core';
 import { environment } from './environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AuthService } from './app/services/auth';
+import { provideAppInitializer } from '@angular/core'; // 🚀 LA SOLUCIÓN MODERNA PARA ANGULAR 22
 
 const socketConfig: SocketIoConfig = { url: environment.sockets, options: {} };
 
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient(), 
+    provideHttpClient(),
+    provideIonicAngular({}),
+    // 🛡️ GUARDAESPALDAS DE SESIÓN: Verifica el token antes de disparar rutas y guardianes
+    provideAppInitializer(() => {
+      const authService = inject(AuthService);
+      // Angular 22 esperará a que se resuelva esta promesa antes de disparar el enrutador
+      return authService.cargarSesionPersistente();
+    }),
     importProvidersFrom(SocketIoModule.forRoot(socketConfig)),
-    provideIonicAngular(),
+    
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
     // ⚡ Inicializa el motor de Ionic y sus estados globales (Como los Menús Raíz)
     provideIonicAngular({

@@ -7,20 +7,6 @@ import { IAvanceDiario } from '../models/avance.model';
 
 const apiUrl= environment.apiUrl
 
-
-// Interfaz para el tipado de los materiales en el front
-export interface MaterialReciclado {
-nombreItem: any;
-categoria: string;
-comida: any;
-  id?: string;
-  tipo: 'PLASTICO' | 'VIDRIO' | 'PAPEL_CARTON' | 'METAL' | 'ORGANICO' | 'ELECTRONICO';
-  pesoEnGramos: number;
-  puntosOtorgados: number;
-  detalleOpcional?: string;
-  createdAt?: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })

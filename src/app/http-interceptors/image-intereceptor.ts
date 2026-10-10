@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class imageInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const jwtToken = window.localStorage.getItem('auth_token');
+    const jwtToken = window.localStorage.getItem('token');
 
     const requestToHandle = jwtToken
       ? request.clone({

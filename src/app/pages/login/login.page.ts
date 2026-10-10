@@ -23,7 +23,8 @@ export class LoginPage {
 
   // Formulario reactivo estructurado
   public loginForm: FormGroup = this.fb.group({
-    email: ['usuario@reciclaje.com', [Validators.required, Validators.email]],
+    email: ['mercadocreativo@gmail.com', [Validators.required, Validators.email]],
+    // email: ['usuario@reciclaje.com', [Validators.required, Validators.email]],
     password: ['password', [Validators.required, Validators.minLength(6)]]
   });
 
