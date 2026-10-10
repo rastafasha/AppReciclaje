@@ -1,0 +1,135 @@
+:host {
+  --background: #ffffff;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 40px 24px;
+  background-color: #ffffff;
+}
+
+.logo-area {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 140px;
+    height: auto;
+  }
+}
+
+form {
+  width: 100%;
+  max-width: 340px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+
+  label {
+    display: block;
+    color: #1e2267; // Azul marino del Figma
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+}
+
+// Sobreescribir las cajas de texto nativas de Ionic para que queden redondas y grises
+.custom-input {
+  --background: #e6e6e6; // Gris claro de fondo
+  --color: #333333;
+  --border-radius: 25px; // Redondeado perfecto
+  --padding-start: 20px;
+  --padding-end: 20px;
+  font-size: 16px;
+  height: 50px;
+  box-shadow: none;
+}
+
+.options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  padding: 0 4px;
+
+  ion-checkbox {
+    --size: 18px;
+    --border-radius: 4px;
+    --color-checked: #1e2267;
+    --checkbox-background-checked: #1e2267;
+    font-size: 14px;
+    color: #1e2267;
+    font-weight: 500;
+  }
+
+  a {
+    color: #8fa0b5; // Gris azulado del Figma
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+
+// Botón Principal de Ingresar
+.btn-primary {
+  --background: #252876; // El azul rey/oscuro exacto de tu botón Ingresar
+  --background-activated: #1a1c54;
+  --background-hover: #2e3294;
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  height: 50px;
+  margin: 0;
+  text-transform: none; // Evita que Ionic lo ponga en mayúsculas fijas
+}
+
+// Línea divisoria de la "ó"
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #1e2267;
+  margin: 20px 0;
+  font-size: 16px;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #b3b3b3;
+  }
+
+  &:not(:empty)::before {
+    margin-right: .5em;
+  }
+
+  &:not(:empty)::after {
+    margin-left: .5em;
+  }
+}
+
+// Botones Secundarios y de Redes Sociales
+.btn-secondary {
+  --background: transparent;
+  --color: #252876;
+  --border-color: #252876;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 25px;
+  font-size: 15px;
+  font-weight: 500;
+  height: 48px;
+  margin-bottom: 12px;
+  text-transform: none;
+}

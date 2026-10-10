@@ -1,0 +1,91 @@
+<!-- Barra Superior Corporativa Fija -->
+<app-header></app-header>
+
+<ion-content>
+  <div class="inicio-container">
+
+    <!-- Sección de Saludo y Nivel -->
+    <div class="welcome-section">
+      <h2>Hola, Usuario!</h2>
+      <p>Mi Nivel: {{ rango() }}</p>
+      <span>Notificaciones Activas</span>
+      <ion-icon name="help-circle-outline" class="info-help"></ion-icon>
+    </div>
+
+    <!-- Tarjeta de Hábitos Diarios con el Personaje -->
+    <div class="habitos-card">
+      <span class="card-title">Habitos Diarios</span>
+
+      <!-- Lado del Personaje Estático Leyendo/Saludando -->
+      <div class="character-side">
+        <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos">
+      </div>
+
+      <!-- Lista de Íconos del Figma -->
+      <div class="habitos-list">
+        <div class="habito-item">
+          <ion-icon name="pizza" class="icon-pan"></ion-icon> Desayuno
+        </div>
+        <div class="habito-item">
+          <ion-icon name="restaurant" class="icon-pollo"></ion-icon>Almuerzo
+        </div>
+        <div class="habito-item">
+          <ion-icon name="ribbon" class="icon-cena"></ion-icon>Cena
+        </div>
+      </div>
+    </div>
+
+    <!-- Marcador de Días Completados -->
+    <div class="progress-banner">
+      Comidas Registradas: {{ totalComidas() }} / 63 🍽️
+    </div>
+
+    <!-- Botonera de Navegación -->
+    <ion-button expand="block" class="btn-action" id="open-formulario-avance">
+      ir a Formulario
+    </ion-button>
+
+    <ion-button expand="block" class="btn-action" id="open-mi-puntaje">
+      Ver Mi Puntaje
+    </ion-button>
+
+    <ion-button expand="block" class="btn-action" (click)="irAHistorial()">
+    Ver Historial
+  </ion-button>
+
+    <!-- Tarjeta de Consejo Informativo -->
+    <div class="consejo-card">
+      <h3>Consejo</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod...</p>
+      <div class="read-more" (click)="irAlConsejos()">Leer +</div>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Tabs Bar Calcada del Figma) -->
+<app-menufooter [tabActiva]="'inicio'"></app-menufooter>
+
+<!-- ========================================================================= -->
+<!-- 🔼 MODAL 1: FORMULARIO DE AVANCE (Componente Hijo) -->
+<!-- ========================================================================= -->
+<ion-modal #modalAvance trigger="open-formulario-avance" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
+  style="--height: 85%; --border-radius: 30px 30px 0 0;">
+  <ng-template>
+    <ion-content>
+      <app-formulario-avance (cerrarModal)="modalAvance.dismiss()"></app-formulario-avance>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- ========================================================================= -->
+<!-- 🔼 MODAL 2: MI PUNTAJE (Componente Hijo) -->
+<!-- ========================================================================= -->
+<ion-modal #modalPuntaje trigger="open-mi-puntaje" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
+  style="--height: 85%; --border-radius: 30px 30px 0 0;">
+  <ng-template>
+    <ion-content>
+      <app-mi-puntaje (cerrarModal)="modalPuntaje.dismiss()"></app-mi-puntaje>
+    </ion-content>
+  </ng-template>
+</ion-modal>

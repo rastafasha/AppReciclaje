@@ -1,0 +1,96 @@
+:host {
+  --background: #ffffff;
+}
+
+
+/* 🏠 Contenedor Principal */
+.reglas-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
+  background-color: #ffffff;
+}
+
+/* 🧳 Bloque Superior de Reglas y Logotipos */
+.intro-reglas-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 15px;
+
+  .text-side {
+    text-align: left;
+    flex: 1.8;
+
+    h2 {
+      color: #252876;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+    }
+
+    p {
+      color: #1e2267;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 0 0 14px 0;
+      font-weight: 500;
+    }
+
+    .ucc-brand-image {
+      height: 44px;
+      width: auto;
+      margin-bottom: 10px;
+    }
+  }
+
+  .character-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+
+    img {
+      width: 90px;
+      height: auto;
+    }
+  }
+}
+
+/* 📜 Texto del Subtítulo Informativo de Premios */
+.prizes-subtitle {
+  color: #1e2267;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* 🏆 Tarjetas de Premios y Ganadores del Figma */
+.premio-item-card {
+  border: 1px solid #dcdcdc; // El borde gris/azul sutil de tu captura
+  border-radius: 20px;
+  padding: 16px 20px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 14px;
+  background-color: #ffffff;
+
+  h3 {
+    color: #252876;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+  }
+
+  p {
+    color: #a6a6a6;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+

@@ -1,0 +1,51 @@
+<!-- Barra Superior Corporativa Fija -->
+<app-header></app-header>
+
+<ion-content >
+  <div class="reglas-container">
+    
+    <!-- Bloque Operativo de Reglas, Saludo y Logos -->
+    <div class="intro-reglas-box">
+      <div class="text-side">
+        <h2>Reglas</h2>
+        <p>Hola Usuario!,<br>Gracias por participar!<br>UCC Premia tu reciclaje</p>
+        <!-- Logotipo UCC Consumidors de Catalunya -->
+        <img src="assets/svg/ucclogo.svg" class="ucc-brand-image" alt="UCC Catalunya">
+      </div>
+      <div class="character-side">
+        <img src="assets/images/img_12.png" alt="Hoja Verde Estrellada">
+      </div>
+    </div>
+
+    <!-- Frase del Concurso -->
+    <div class="prizes-subtitle">
+      Al Completar los 21 dias requeridos, estarás participando por fabulosos premios!
+    </div>
+
+    <!-- Tarjetas de Clasificación de Premios -->
+    <div class="premio-item-card">
+      <h3>Primer Lugar</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+    </div>
+
+    <div class="premio-item-card">
+      <h3>Segundo Lugar</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+    </div>
+
+    <div class="premio-item-card">
+      <h3>Tercer Lugar</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+    </div>
+
+    <!-- Tarjeta Histórica de Ganadores -->
+    <div class="premio-item-card">
+      <h3>Ultimos Ganadores</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Tabs Bar) -->
+<app-menufooter [tabActiva]="'reglas'"></app-menufooter>

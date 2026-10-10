@@ -1,0 +1,71 @@
+:host {
+  --background: #ffffff;
+}
+
+
+/* 🏠 Contenedor Principal */
+.bienvenida-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background-color: #ffffff;
+}
+
+.page-title {
+  align-self: flex-start;
+  color: #252876;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #252876;
+  padding-bottom: 2px;
+}
+
+/* ✉️ Caja de Alerta Redondeada Gris */
+.alert-card {
+  background-color: #e6e6e6; // El gris suave de tu captura
+  border-radius: 20px;
+  padding: 30px 24px;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 25px;
+  text-align: center;
+
+  p {
+    color: #4a5568;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+/* 🔵 Botón "Completar Perfil" */
+.btn-complete {
+  width: 100%;
+  max-width: 340px;
+  --background: #252876;
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  height: 50px;
+  text-transform: none;
+  margin-bottom: 40px;
+}
+
+/* 🍃 Contenedor Temporal para el Personaje de la Hoja */
+.character-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: auto; // Empuja el personaje al fondo de la pantalla
+
+  img {
+    width: 180px;
+    height: auto;
+  }
+}

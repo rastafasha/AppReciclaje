@@ -1,0 +1,95 @@
+<!-- Barra Superior Corporativa Fija -->
+<app-header></app-header>
+
+<ion-content >
+  <div class="cuenta-container">
+    
+    <h2 class="page-title">Mi Cuenta</h2>
+
+    <!-- Tarjeta Resumen de Credenciales Maestras NoSQL -->
+    <div class="profile-summary-card">
+      <div class="avatar-box">
+        <img src="assets/icon/avatar-placeholder.png" alt="Avatar">
+      </div>
+      <div class="user-info">
+        <h3>Nombre de Usuario</h3>
+        <p>usuario&#64;correo.com</p>
+        <span>1234567899</span>
+      </div>
+    </div>
+
+    <!-- Banner de Alerta Cerrable para Familiares -->
+    <div class="alert-banner">
+      <ion-icon name="close" class="close-icon"></ion-icon>
+      <p>Hola de nuevo, Usuario!,<br>Agradecemos que Hallas completado tu perfil. Ahora aqui puedes agregar familiares que viven contigo.</p>
+    </div>
+
+    <!-- Sección Mis Familiares -->
+    <h3 class="section-subtitle">Mis Familiares</h3>
+
+    <!-- Fila del Familiar Registrado -->
+    <div class="familiar-card">
+      <div class="familiar-left">
+        <div class="familiar-avatar">
+          <ion-icon name="person"></ion-icon>
+        </div>
+        <div class="familiar-info">
+          <h4>Nombre de Familiar</h4>
+          <p>parentezco</p>
+        </div>
+      </div>
+      <button class="btn-edit-yellow">
+        <ion-icon name="pencil"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Botón Agregar Familiar -->
+    <ion-button expand="block" class="btn-add-familiar" id="open-add-familiar">
+  Agregar Familiar
+</ion-button>
+
+
+    <!-- Menú de Listas de Acciones Inferiores -->
+    <div class="options-list">
+      
+      <!-- Activar Notificaciones (Toggle) -->
+      <div class="option-item-row">
+        <span style="color: #1e2267;">Activar Notificaciones</span>
+        <ion-toggle [checked]="true"></ion-toggle>
+      </div>
+
+      <!-- Editar Perfil Link -->
+      <div class="option-item-row" (click)="irAEditarPerfil()">
+        <div class="option-label-zone">
+          <ion-icon name="create-outline" style="color: #f3a91b;"></ion-icon>
+          <span style="color: #1e2267;">Editar Pefil</span>
+        </div>
+      </div>
+
+      <!-- Cerrar Sesión -->
+      <div class="option-item-row logout-row" (click)="cerrarSesion()">
+        <div class="option-label-zone">
+          <ion-icon name="power-outline"></ion-icon>
+          <span>Cerrar Sesión</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Pestaña Perfil Derecha Activa) -->
+<app-menufooter [tabActiva]="'perfil'"></app-menufooter>
+
+<!-- 🔼 OFFCANVAS SHEET MODAL (Llamando al componente modular hijo) -->
+<ion-modal trigger="open-add-familiar" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85" style="--height: 85%; --border-radius: 30px 30px 0 0;">
+  <ng-template>
+    <ion-content>
+      
+      <!-- 🚀 Invocamos tu componente standalone e interceptamos el Output para cerrar -->
+      <app-agregar-familiar (onCerrarModal)="modal.dismiss()"></app-agregar-familiar>
+      
+    </ion-content>
+  </ng-template>
+</ion-modal>

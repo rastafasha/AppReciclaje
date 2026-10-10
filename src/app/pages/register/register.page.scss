@@ -1,0 +1,164 @@
+:host {
+  --background: #ffffff;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  padding: 40px 24px;
+  background-color: #ffffff;
+}
+
+.logo-area {
+  margin-bottom: 25px;
+  img {
+    width: 140px;
+    height: auto;
+  }
+}
+
+/* 🧭 Estilos del Stepper (Círculos 1 y 2) */
+.stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  margin-bottom: 40px;
+}
+
+.step-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e6e6e6; // Gris por defecto
+  color: #a6a6a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.3s ease;
+
+  /* Estado Activo Amarillo (Paso 1 o Completado) */
+  &.active-yellow {
+    background-color: #f3a91b; // El amarillo/naranja exacto del Figma
+    color: #ffffff;
+  }
+
+  /* Estado Activo Azul (Paso 2) */
+  &.active-blue {
+    background-color: #252876; // El azul rey/oscuro
+    color: #ffffff;
+  }
+}
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background-color: #b3b3b3;
+  margin: 0 15px;
+}
+
+/* 📝 Formulario y Cajas Grises */
+form {
+  width: 100%;
+  max-width: 340px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+
+  label {
+    display: block;
+    color: #1e2267;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+}
+
+.custom-input {
+  --background: #e6e6e6;
+  --color: #333333;
+  --border-radius: 25px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  font-size: 16px;
+  height: 50px;
+}
+
+/* 🔘 Botoneras Dinámicas */
+.btn-primary {
+  --background: #252876;
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  height: 50px;
+  text-transform: none;
+  margin: 0;
+}
+
+.buttons-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+
+  .btn-gray {
+    flex: 1;
+    --background: #999999; // Gris del botón anterior
+    --border-radius: 25px;
+    --color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    height: 50px;
+    text-transform: none;
+    margin: 0;
+  }
+
+  .btn-submit {
+    flex: 1.2;
+    --background: #252876;
+    --border-radius: 25px;
+    --color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    height: 50px;
+    text-transform: none;
+    margin: 0;
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #1e2267;
+  margin: 20px 0;
+  font-size: 16px;
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #b3b3b3;
+  }
+  &:not(:empty)::before { margin-right: .5em; }
+  &:not(:empty)::after { margin-left: .5em; }
+}
+
+.btn-secondary {
+  --background: transparent;
+  --color: #252876;
+  --border-color: #252876;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 25px;
+  font-size: 15px;
+  font-weight: 500;
+  height: 48px;
+  text-transform: none;
+}

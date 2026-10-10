@@ -1,0 +1,216 @@
+:host {
+  --background: #f4f5f7;
+}
+
+/* 🏔️ Cabecera Corporativa Fija (Consistencia total) */
+.custom-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: none;
+  ion-toolbar {
+    --background: #ffffff;
+    --border-style: none;
+    padding: 4px 8px;
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.brand-logo { height: 42px; width: auto; }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  .icon-bell { font-size: 26px; color: #999999; }
+  .icon-menu { font-size: 28px; color: #252876; }
+}
+
+/* 🏠 Contenedor del Panel */
+.puntaje-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px 40px 20px;
+  background-color: #f4f5f7;
+}
+
+/* ➖ Barra Decorativa Superior Naranja y Botón Cerrar X */
+.panel-top-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 24px;
+  margin-bottom: 10px;
+
+  .decor-line {
+    width: 60px;
+    height: 5px;
+    background-color: #f3a91b;
+    border-radius: 10px;
+  }
+
+  .close-icon {
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    font-size: 28px;
+    color: #f3a91b;
+    cursor: pointer;
+  }
+}
+
+.form-title {
+  color: #252876;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* ✉️ Tarjeta Saludo Superior */
+.saludo-card {
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 18px 16px;
+  margin-bottom: 20px;
+  text-align: left;
+  background-color: transparent;
+
+  h4 {
+    color: #252876;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+  }
+  p {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+/* 🦅 Caja de Niveles y Rangos */
+.niveles-box {
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+
+  .box-label {
+    display: block;
+    color: #252876;
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+
+  .nivel-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 4px;
+    border-bottom: 1px solid #e6e6e6;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .nivel-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #1e2267;
+      font-size: 16px;
+      font-weight: 500;
+
+      ion-icon {
+        font-size: 24px;
+      }
+      .icon-pollo { color: #f3a91b; }
+      .icon-aprendiz { color: #a6a6a6; }
+      .icon-soldado { color: #999999; }
+    }
+
+    .nivel-pts {
+      color: #1e2267;
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+}
+
+/* 📊 Barra de Progreso Gris */
+.progress-banner {
+  background-color: #e6e6e6;
+  border-radius: 25px;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555555;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+/* 🔵 Botón de Puntaje Central */
+.btn-score-display {
+  --background: #252876;
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  height: 50px;
+  text-transform: none;
+  margin: 0 0 20px 0;
+  width: 100%;
+}
+
+/* 📝 Texto Motivacional */
+.motivation-text {
+  text-align: center;
+  color: #1e2267;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 25px;
+}
+
+/* 🔘 Botón Gris Inferior "Entendido" */
+.btn-understood {
+  --background: #a6a6a6; // El gris de tu captura
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  height: 50px;
+  text-transform: none;
+  margin: 0;
+  width: 100%;
+}
+
+// * 🚀 Clase añadida para iluminar el nivel actual del reciclador */
+.nivel-row.active-row {
+  background-color: rgba(37, 40, 118, 0.08); // Un azul rey super sutil de fondo
+  border-left: 4px solid #252876; // Línea indicadora azul a la izquierda
+  padding-left: 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  
+  .nivel-info {
+    color: #252876 !important;
+  }
+  .nivel-pts {
+    color: #252876 !important;
+  }
+}

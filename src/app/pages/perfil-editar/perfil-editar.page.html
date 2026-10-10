@@ -1,0 +1,66 @@
+<!-- Barra Superior Corporativa Fija -->
+<app-header></app-header>
+
+<ion-content >
+  <div class="editar-container">
+    
+    <!-- Botón de Retroceso Figma -->
+    <div class="back-row" (click)="volverAtras()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+      Editar Perfil
+    </div>
+
+    <!-- Tarjeta Resumen con Previsualización Dinámica -->
+    <div class="profile-preview-card">
+      <div class="avatar-box">
+        <img [src]="avatarPreview()" alt="Avatar">
+      </div>
+      <div class="user-info">
+        <h3>{{ username() }}</h3>
+        <p>{{ email() }}</p>
+        <span>{{ phone() || 'Sin teléfono registrado' }}</span>
+      </div>
+    </div>
+
+    <!-- Botón Cargar Imagen a Cloudinary -->
+    <ion-button expand="block" class="btn-photo" (click)="dispararSelectorArchivo()">
+      Elegir Foto
+    </ion-button>
+
+    <!-- Línea divisoria gris fina -->
+    <div class="divider-line"></div>
+
+    <!-- Formulario de Campos Personales -->
+    <form [formGroup]="perfilForm" (ngSubmit)="guardarCambiosPerfil()">
+      
+      <div class="input-group">
+        <label>Nombre</label>
+        <ion-input class="custom-input" type="text" formControlName="first_name"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <label>Apellido</label>
+        <ion-input class="custom-input" type="text" formControlName="last_name"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <label>Teléfono Casa / Oficina</label>
+        <ion-input class="custom-input" type="tel" formControlName="phone_office"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <label>Teléfono Móvil</label>
+        <ion-input class="custom-input" type="tel" formControlName="phone_mobile"></ion-input>
+      </div>
+
+      <!-- Botón Guardar definitivo -->
+      <ion-button expand="block" class="btn-save" type="submit" >
+        Guardar
+      </ion-button>
+      <!-- <ion-button expand="block" class="btn-save" type="submit" [disabled]="perfilForm.invalid">
+        Guardar
+      </ion-button> -->
+
+    </form>
+  </div>
+</ion-content>

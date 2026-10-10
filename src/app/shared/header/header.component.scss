@@ -1,0 +1,47 @@
+.custom-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: none;
+
+  ion-toolbar {
+    --background: #ffffff;
+    --border-style: none;
+    padding: 4px 8px;
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.brand-logo {
+  height: 42px;
+  width: auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .icon-bell {
+    font-size: 26px;
+    color: #999999;
+    cursor: pointer;
+  }
+
+  .icon-menu {
+    font-size: 28px;
+    color: #252876; // Azul rey corporativo
+  }
+}
+
+.icon-bell { font-size: 26px; color: #999999; cursor: pointer; }
+.icon-menu { font-size: 28px; color: #252876; cursor: pointer; } // 🚀 ¡Esto le dará vida al botón!
+
+
+
+

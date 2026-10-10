@@ -1,0 +1,90 @@
+:host {
+  --background: #ffffff;
+}
+
+/* 🏠 Contenedor Principal */
+.notificaciones-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 80px 20px;
+  background-color: #ffffff;
+}
+
+/* 🧳 Sección de Título e Interacción Superior */
+.top-actions-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 14px;
+
+  .text-side {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    h2 {
+      color: #252876;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+    }
+
+    .btn-read-all {
+      background: transparent;
+      border: 1px solid #b3b3b3;
+      color: #7f8c8d;
+      border-radius: 12px;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:active {
+        background-color: #f2f2f2;
+      }
+    }
+  }
+
+  .character-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 75px;
+      height: auto;
+    }
+  }
+}
+
+/* ✉️ Tarjetas de Alerta del Figma */
+.notificacion-item-card {
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 16px 20px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 14px;
+  background-color: #ffffff;
+
+  h3 {
+    color: #252876;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+  }
+
+  p {
+    color: #a6a6a6;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+

@@ -1,0 +1,27 @@
+<div class="consejo-detail-panel">
+    
+  <!-- Pestaña decorativa superior naranja y botón de cierre X -->
+  <div class="panel-top-bar">
+    <div class="decor-line"></div>
+    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
+  </div>
+
+  <!-- Cuerpo Detallado del Tip Ecológico -->
+  <div class="detail-body">
+    <span class="detail-tag">Tip Saludable y Responsable</span>
+    <h2>{{ consejo().titulo }}</h2>
+
+    <!-- Personaje de la Hoja Verde en el Detalle -->
+    <div class="character-row">
+      <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida">
+    </div>
+
+    <p>{{ consejo().contenido }}</p>
+  </div>
+
+  <!-- Botón de Cierre Secundario -->
+  <ion-button expand="block" class="btn-understood" (click)="notificarCierre()">
+    Entendido
+  </ion-button>
+
+</div>

@@ -1,0 +1,26 @@
+
+
+<!-- 🏔️ CABECERA COMPARTIDA CORREGIDA CON ENLACES VISIBLES -->
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <div class="header-container">
+      
+      <!-- Logotipo UCC Premia tu Reciclaje (Lado Izquierdo) -->
+      <img src="assets/svg/logotipo.svg" class="brand-logo" alt="App Reciclaje Logo" routerLink="/inicio">
+
+      <!-- Bloque de Acciones (Lado Derecho) -->
+      <div class="header-actions">
+        
+        <!-- 🔔 1. Icono de la Campana (Con su clase asignada) -->
+        <ion-icon name="notifications-outline" class="icon-bell" (click)="irANotificaciones()"></ion-icon>
+        
+        <!-- 🍔 2. Menú Hamburguesa (Con la clase icon-menu para que aparezca en pantalla) -->
+        <ion-menu-toggle menu="main-menu">
+          <ion-icon name="menu-outline" class="icon-menu"></ion-icon>
+        </ion-menu-toggle>
+        
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+

@@ -1,0 +1,75 @@
+<div class="form-panel">
+    
+  <!-- Pestaña superior decorativa y botón de cierre X -->
+  <div class="panel-top-bar">
+    <div class="decor-line"></div>
+    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
+  </div>
+
+  <h2 class="form-title">Formulario de Participación</h2>
+
+  <!-- Tarjeta Informativa de Puntos y Rangos -->
+  <div class="info-points-card">
+    <div class="character-box">
+      <img src="assets/images/img_12.png" alt="Hoja Verde Pensando">
+    </div>
+    <div class="points-text">
+      <p>Es requerido que llenes este formulario de avance diario para obtener puntos</p>
+      <ul>
+        <li>Pollo: 1-9 pts</li>
+        <li>Aprendiz: 9-18 pts</li>
+        <li>Soldado: 18-30 pts</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Formulario de Entrada de Datos Conectado -->
+  <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
+    
+    <!-- 🚀 NUEVO INPUT: Bloque de Comida del Día -->
+    <div class="input-group">
+      <label>Momento del Hábito</label>
+      <ion-select class="custom-select" formControlName="comida" interface="popover">
+        <ion-select-option value="DESAYUNO">🍳 Desayuno</ion-select-option>
+        <ion-select-option value="ALMUERZO">🍽️ Almuerzo</ion-select-option>
+        <ion-select-option value="CENA">🌙 Cena</ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Selector Desplegable de Categoría Alimentos -->
+    <div class="input-group">
+      <label>Alimentos</label>
+      <ion-select class="custom-select" formControlName="categoria" interface="popover" placeholder="Seleccione">
+        <ion-select-option value="PROTEINAS">Proteínas</ion-select-option>
+        <ion-select-option value="CARBOHIDRATOS">Carbohidratos</ion-select-option>
+        <ion-select-option value="VEGETALES_FRUTAS">Vegetales / Frutas</ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Input Nombre Ítem -->
+    <div class="input-group">
+      <label>Nombre Item</label>
+      <ion-input class="custom-input" type="text" formControlName="nombreItem" placeholder="Ej: Tortilla de espinacas"></ion-input>
+    </div>
+
+    <!-- Textarea Descripción Corta -->
+    <div class="input-group">
+      <label>Descripción Corta</label>
+      <ion-textarea class="custom-textarea" formControlName="descripcion" placeholder="Detalla cómo reciclaste los desperdicios..."></ion-textarea>
+    </div>
+
+    <!-- Alerta de Bloqueo Duplicado emitido por Node.js -->
+    @if (errorMessage) {
+      <div style="color: #ea4444; font-size: 14px; font-weight: 600; text-align: left; margin-bottom: 15px; padding-left: 4px;">
+        ⚠️ {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Botón Agregar -->
+    <ion-button expand="block" class="btn-add" type="submit" [disabled]="avanceForm.invalid">
+      Agregar
+    </ion-button>
+
+  </form>
+
+</div>

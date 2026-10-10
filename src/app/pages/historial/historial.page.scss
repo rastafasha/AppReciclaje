@@ -1,0 +1,101 @@
+:host {
+  --background: #ffffff;
+}
+
+
+/* 🏠 Contenedor Principal */
+.historial-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
+  background-color: #ffffff;
+}
+
+.page-title {
+  align-self: flex-start;
+  color: #252876;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0 20px 0;
+}
+
+/* 📊 Tarjeta Resumen de Entregas Totales */
+.summary-card {
+  background-color: #f4f5f7; // Gris claro corporativo
+  border-radius: 20px;
+  padding: 20px 16px;
+  width: 100%;
+  margin-bottom: 25px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+
+  h2 {
+    color: #7f8c8d;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: #252876; // Azul rey exacto
+  }
+}
+
+/* ♻️ Tarjetas del Listado del Historial */
+.history-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 14px;
+  background-color: #ffffff;
+
+  .card-left {
+    text-align: left;
+    
+    h3 {
+      color: #252876;
+      font-weight: 700;
+      font-size: 17px;
+      margin: 0 0 4px 0;
+    }
+    p {
+      color: #a6a6a6;
+      font-size: 14px;
+      margin: 0 0 4px 0;
+    }
+    span {
+      color: #8fa0b5;
+      font-size: 13px;
+    }
+  }
+
+  .card-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+
+    ion-badge {
+      --border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    h4 {
+      color: #252876; // Puntos en azul rey para combinar con tus botones
+      font-weight: 700;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+}
+

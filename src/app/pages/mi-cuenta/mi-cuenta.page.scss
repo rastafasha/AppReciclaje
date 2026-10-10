@@ -1,0 +1,225 @@
+:host {
+  --background: #ffffff;
+}
+
+
+/* 🏠 Contenedor Principal */
+.cuenta-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
+  background-color: #ffffff;
+}
+
+.page-title {
+  align-self: flex-start;
+  color: #252876;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 10px 0 20px 0;
+}
+
+/* 🪪 Tarjeta Resumen Superior del Reciclador */
+.profile-summary-card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  .avatar-box {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #b3b3b3;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+    margin-right: 16px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .user-info {
+    text-align: left;
+    h3 {
+      color: #252876;
+      font-weight: 700;
+      font-size: 18px;
+      margin: 0 0 2px 0;
+    }
+    p {
+      color: #7f8c8d;
+      font-size: 14px;
+      margin: 0 0 2px 0;
+    }
+    span {
+      color: #a6a6a6;
+      font-size: 14px;
+    }
+  }
+}
+
+/* ✉️ Banner de Alerta Gris Familiar */
+.alert-banner {
+  background-color: #e6e6e6; // El gris suave de tu captura
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
+  margin-bottom: 25px;
+  text-align: left;
+  position: relative;
+
+  p {
+    color: #1e2267;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
+    padding-right: 20px;
+  }
+
+  .close-icon {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    font-size: 24px;
+    color: #f3a91b; // La X amarilla exacta del Figma
+    cursor: pointer;
+  }
+}
+
+/* 👥 Sección Mis Familiares */
+.section-subtitle {
+  color: #252876;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.familiar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  .familiar-left {
+    display: flex;
+    align-items: center;
+
+    .familiar-avatar {
+      width: 45px;
+      height: 45px;
+      border: 1px solid #b3b3b3;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f2f2f2;
+      margin-right: 12px;
+      color: #a6a6a6;
+      font-size: 20px;
+    }
+
+    .familiar-info {
+      text-align: left;
+      h4 {
+        color: #252876;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+      }
+      p {
+        color: #a6a6a6;
+        font-size: 13px;
+        margin: 0;
+      }
+    }
+  }
+
+  .btn-edit-yellow {
+    background-color: #f3a91b; // Amarillo del botón editar familiar
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+/* 🔵 Botón Agregar Familiar */
+.btn-add-familiar {
+  --background: #252876;
+  --border-radius: 25px;
+  --color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  height: 48px;
+  text-transform: none;
+  margin: 0 0 25px 0;
+  width: 100%;
+}
+
+/* ⚙️ Menú de Opciones Inferiores Listadas */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.option-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid #e6e6e6;
+  color: #252876;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+
+  .option-label-zone {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    ion-icon {
+      font-size: 22px;
+    }
+  }
+
+  /* Interruptor nativo estilizado */
+  ion-toggle {
+    --background: #e6e6e6;
+    --background-checked: #252876;
+    --handle-background: #ffffff;
+    --handle-background-checked: #ffffff;
+    padding: 0;
+    margin: 0;
+  }
+
+  &.logout-row {
+    color: #f3a91b; // Color naranja/amarillo para cerrar sesión
+    border-bottom: none;
+  }
+}
+

@@ -1,0 +1,11 @@
+<div class="custom-tabs-bar">
+  <button class="tab-button " [class.active]="tabActiva() === 'inicio'">
+    <ion-icon name="refresh-circle-outline" (click)="irAInicio()"></ion-icon> <!-- Icono Reciclaje Izq -->
+  </button>
+  <button class="tab-button" [class.active]="tabActiva() === 'reglas'" (click)="irAReglas()">
+    <ion-icon name="document-text-outline"></ion-icon> <!-- Icono Historial Centro -->
+  </button>
+  <button class="tab-button" [class.active]="tabActiva() === 'perfil'" (click)="irAlPerfil()">
+    <ion-icon name="person-circle-outline"></ion-icon> <!-- Icono Perfil Der -->
+  </button>
+</div>

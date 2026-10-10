@@ -1,0 +1,61 @@
+<ion-content >
+  <div class="login-container">
+    
+    <!-- 🧳 Área del Logo del Bolso de Reciclaje -->
+    <div class="logo-area">
+      <!-- Asegúrate de colocar tu logo en la carpeta assets del proyecto -->
+      <img src="assets/svg/logotipo.svg" alt="App Reciclaje Logo">
+    </div>
+
+    <!-- 📝 Formulario Reactivo Enlazado -->
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <!-- Campo Correo -->
+      <div class="input-group">
+        <label>Correo Electrónico</label>
+        <ion-input class="custom-input" type="email" formControlName="email"></ion-input>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="input-group">
+        <label>Contraseña</label>
+        <ion-input class="custom-input" type="password" formControlName="password"></ion-input>
+      </div>
+
+      <!-- 🔘 Checkbox y Olvido su Contraseña -->
+      <div class="options-row">
+        <ion-checkbox labelPlacement="end">Recuerdame</ion-checkbox>
+        <a href="javascript:void(0)">¿Olvido su Contraseña?</a>
+      </div>
+
+      <!-- Error Técnico en caso de fallar en Node.js -->
+      @if (errorMessage) {
+        <ion-text color="danger" class="ion-margin-bottom" style="display: block; font-size: 13px;">
+          <p>{{ errorMessage }}</p>
+        </ion-text>
+      }
+
+      <!-- 🔵 Botón de Acción Principal -->
+      <ion-button expand="block" class="btn-primary" type="submit" [disabled]="loginForm.invalid">
+        Ingresar
+      </ion-button>
+
+      <!-- ➖ Divisor Ó ➖ -->
+      <div class="divider">ó</div>
+
+      <!-- ⚪ Botones Secundarios -->
+      <ion-button expand="block" class="btn-secondary" fill="clear" routerLink="/register">
+        Registrate
+      </ion-button>
+
+      <ion-button expand="block" class="btn-secondary" fill="clear">
+        Registrate con Google
+      </ion-button>
+
+      <ion-button expand="block" class="btn-secondary" fill="clear">
+        Registrate con Facebook
+      </ion-button>
+
+    </form>
+  </div>
+</ion-content>

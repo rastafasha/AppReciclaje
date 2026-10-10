@@ -1,0 +1,64 @@
+<div class="modal-content-wrapper">
+        
+  <!-- Botón superior derecho de cerrar X -->
+  <div class="modal-close-header">
+    <ion-icon name="close-circle" (click)="notificarCierre()"></ion-icon>
+  </div>
+
+  <h2 class="modal-title">Agregar Familiar</h2>
+
+  <!-- Tarjeta de Previsualización en vivo -->
+  <div class="familiar-preview-card">
+    <div class="preview-left">
+      <div class="preview-avatar">
+        <ion-icon name="person"></ion-icon>
+      </div>
+      <div class="preview-info">
+        <h4>Familiar Usuario</h4>
+        <p>Esposa</p>
+      </div>
+    </div>
+    <ion-icon name="close" class="icon-remove-orange"></ion-icon>
+  </div>
+
+  <!-- Botón Elegir Foto -->
+  <ion-button expand="block" class="btn-modal-blue">
+    Elegir Foto
+  </ion-button>
+
+  <!-- Formulario del Familiar -->
+  <form [formGroup]="familiarForm" (ngSubmit)="guardarFamiliar()">
+    
+    <div class="input-group">
+      <label>Nombre</label>
+      <ion-input class="custom-input" type="text" formControlName="nombre"></ion-input>
+    </div>
+
+    <div class="input-group">
+      <label>Apellido</label>
+      <ion-input class="custom-input" type="text" formControlName="apellido"></ion-input>
+    </div>
+
+    <div class="input-group">
+      <label>Parentezco</label>
+      <ion-select class="custom-select" formControlName="parentezco" interface="popover" placeholder="Seleccione">
+        <ion-select-option value="ESPOSA">Esposa / Esposo</ion-select-option>
+        <ion-select-option value="HIJO">Hijo / Hija</ion-select-option>
+        <ion-select-option value="PADRE">Padre / Madre</ion-select-option>
+        <ion-select-option value="HERMANO">Hermano / Hermana</ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Botón Guardar -->
+    <ion-button expand="block" class="btn-modal-save" type="submit" [disabled]="familiarForm.invalid">
+      Guardar
+    </ion-button>
+
+    <!-- Botón Entendido de Cierre -->
+    <ion-button expand="block" class="btn-modal-understood" (click)="notificarCierre()">
+      Entendido
+    </ion-button>
+
+  </form>
+
+</div>

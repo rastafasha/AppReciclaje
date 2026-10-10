@@ -1,0 +1,28 @@
+<div style="display: flex; flex-direction: column; padding: 25px 20px; background-color: #f4f5f7; height: 100%; text-align: center;">
+  
+  <!-- Pestaña superior decorativa naranja Binance-Style -->
+  <div style="display: flex; justify-content: center; width: 100%; height: 6px; margin-bottom: 20px;">
+    <div style="width: 60px; height: 5px; background-color: #f3a91b; border-radius: 10px;"></div>
+  </div>
+
+  <!-- Título de la notificación inyectado reactivamente por su Signal -->
+  <h2 style="color: #252876; font-size: 22px; font-weight: 700; margin: 0 0 15px 0; text-align: left;">
+    {{ notificacion().titulo }}
+  </h2>
+
+  <!-- Personaje de la Hoja Verde Pensando de tu Figma -->
+  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <img src="assets/icon/personaje-consejos.png" style="width: 100px; height: auto;" alt="Hoja Pensando">
+  </div>
+
+  <!-- Mensaje descriptivo expandido de tu base de datos NoSQL -->
+  <p style="color: #4a5568; font-size: 15px; line-height: 1.5; text-align: left; flex: 1; font-weight: 500; margin: 0 0 25px 0;">
+    {{ notificacion().mensaje }}
+  </p>
+
+  <!-- Botón Entendido que ejecuta el output de cierre -->
+  <ion-button expand="block" style="--background: #a6a6a6; --border-radius: 25px; --color: #ffffff; height: 50px; font-weight: 600; text-transform: none; margin: 0;" (click)="notificarCierre()">
+    Entendido
+  </ion-button>
+
+</div>

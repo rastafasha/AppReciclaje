@@ -1,0 +1,67 @@
+<div class="puntaje-panel">
+    
+  <!-- Pestaña decorativa superior naranja y botón de cierre X -->
+  <div class="panel-top-bar">
+    <div class="decor-line"></div>
+    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
+  </div>
+
+  <h2 class="form-title">Mi Puntaje</h2>
+
+  <!-- Tarjeta de Agradecimiento/Saludo -->
+  <div class="saludo-card">
+    <h4>Hola Usuario!.</h4>
+    <p>Valoramos tu Esfuerzo y dedicación!</p>
+  </div>
+
+  <!-- Desglose de Niveles del Figma con iluminación condicional reactiva -->
+  <div class="niveles-box">
+    <span class="box-label">Rangos del Concurso</span>
+    
+    <!-- Fila Pollito: Se ilumina si tiene entre 1 y 8 puntos -->
+    <div class="nivel-row" [class.active-row]="totalComidas() < 9">
+      <div class="nivel-info">
+        <ion-icon name="pizza" class="icon-pollo"></ion-icon> Pollito 🐥
+      </div>
+      <div class="nivel-pts">1-9 pts</div>
+    </div>
+
+    <!-- Fila Aprendiz: Se ilumina si tiene entre 9 y 17 puntos -->
+    <div class="nivel-row" [class.active-row]="totalComidas() >= 9 && totalComidas() < 18">
+      <div class="nivel-info">
+        <ion-icon name="restaurant" class="icon-aprendiz"></ion-icon> Aprendiz 🦅
+      </div>
+      <div class="nivel-pts">9-18 pts</div>
+    </div>
+
+    <!-- Fila Soldado: Se ilumina si tiene entre 18 y 54 puntos -->
+    <div class="nivel-row" [class.active-row]="totalComidas() >= 18 && totalComidas() < 55">
+      <div class="nivel-info">
+        <ion-icon name="ribbon" class="icon-soldado"></ion-icon> Soldado 🎖️
+      </div>
+      <div class="nivel-pts">18-30 pts</div>
+    </div>
+  </div>
+
+  <!-- Banner de Progreso Calculado -->
+  <div class="progress-banner">
+    Total acumulado: {{ totalComidas() }} / 63 registros 🍽️
+  </div>
+
+  <!-- Botón Central Informativo mostrando el Puntaje en Tiempo Real -->
+  <ion-button expand="block" class="btn-score-display" fill="solid">
+    Mi Puntaje Actual: {{ totalComidas() }} pts
+  </ion-button>
+
+  <!-- Frase Motivacional Inferior -->
+  <div class="motivation-text">
+    ¡Tu rango actual es <strong style="color: #f3a91b;">{{ rango() }}</strong>!<br>
+    Sigue sumando puntos, UCC Premia tu reciclaje.
+  </div>
+
+  <!-- Botón de Cierre Secundario "Entendido" -->
+  <ion-button expand="block" class="btn-understood" (click)="notificarCierre()">
+    Entendido
+  </ion-button>
+
+</div>

@@ -1,0 +1,82 @@
+<!-- Barra Superior Corporativa Fija -->
+<app-header></app-header>
+
+<ion-content >
+  <div class="notificaciones-container">
+    
+    <!-- Bloque Superior Operativo -->
+    <div class="top-actions-box">
+      <div class="text-side">
+        <h2>Notificaciones</h2>
+        <button class="btn-read-all" (click)="marcarTodasComoLeidas()">
+          Marcar Todas como leidas
+        </button>
+      </div>
+      <div class="character-side">
+        <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos">
+      </div>
+    </div>
+
+    <!-- Listado Dinámico con Fallback Estático del Figma -->
+    <div style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
+      
+      @for (alerta of alertasInApp(); track alerta.id) {
+        <!-- ⚡ Si la base de datos distribuida tiene alertas reales, les asigna el clic de apertura -->
+        <div class="notificacion-item-card" (click)="abrirDetalle(alerta)">
+          <h3>{{ alerta.titulo }}</h3>
+          <p>{{ alerta.mensaje.substring(0, 50) }}...</p>
+        </div>
+      } @empty {
+        
+        <!-- 🎨 Las 5 Tarjetas originales de tu Figma que actúan como mocks de prueba clickeables -->
+        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f1', titulo: 'Notificación Concurso 🏆', mensaje: 'Al completar los 21 días requeridos de tu racha alimenticia saludable, estarás participando de manera automática por fabulosos premios del sorteo final de Mercadona.', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
+          <h3>Notificación</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        </div>
+
+        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f2', titulo: '¡Hábito Completado! 🎉', mensaje: 'Has registrado exitosamente tu comida del día de hoy en la base de datos NoSQL. ¡Sigue así para mantener tu acumulado impecable!', tipo: 'LOGRO_DESBLOQUEADO', leido: false, createdAt: '' })">
+          <h3>Notificación</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        </div>
+
+        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f3', titulo: 'Alerta de Racha ⚠️', mensaje: 'No olvides abrir tu formulario deslizable y registrar tu cena de hoy antes de que termine el día para no romper tus días consecutivos.', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
+          <h3>Notificación</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        </div>
+
+        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f4', titulo: 'Consejo del Día 💡', mensaje: '¿Sabías que las cáscaras de zanahoria y patata sirven para preparar caldos vegetales súper nutritivos antes de gestionarlas en el desecho?', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
+          <h3>Notificación</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        </div>
+
+        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f5', titulo: '¡Rango Alcanzado! 🐥', mensaje: 'Felicidades, tu balance transaccional de puntos te ha otorgado la medalla de Pollito en la plataforma de Mercadona Premia tu reciclaje.', tipo: 'LOGRO_DESBLOQUEADO', leido: false, createdAt: '' })">
+          <h3>Notificación</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        </div>
+
+      }
+      
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- Menú de Pestañas Inferior (Tabs Bar Fija) -->
+<app-menufooter></app-menufooter>
+
+<!-- ========================================================================= -->
+<!-- 🔼 SUB-OFFCANVAS: DETALLE DE NOTIFICACIÓN (Emerge superpuesto estilo Binance) -->
+<!-- ========================================================================= -->
+<ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" style="--height: 70%; --border-radius: 30px 30px 0 0;">
+  <ng-template>
+    <ion-content>
+      
+      <!-- 🚀 Invocamos tu componente hijo modular inyectándole la Signal mediante enlace de propiedad -->
+      <app-notificacion-detalle 
+        [notificacion]="alertaSeleccionada()" 
+        (cerrarModal)="modalDetalleAlerta.dismiss()">
+      </app-notificacion-detalle>
+      
+    </ion-content>
+  </ng-template>
+</ion-modal>
