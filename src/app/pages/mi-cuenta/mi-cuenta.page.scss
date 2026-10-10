@@ -108,6 +108,58 @@
 
 .familiar-card {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.familiar-actions {
+  display: flex;
+  gap: 8px; /* Separación entre el lápiz y la x de borrar */
+}
+
+.btn-edit-yellow {
+  background: #ffc107; // Amarillo Mercadona / Premium
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.btn-delete-red {
+  background: #dc3545; // Rojo eliminación
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.familiar-card {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   border: 1px solid #dcdcdc;
@@ -220,6 +272,19 @@
   &.logout-row {
     color: #f3a91b; // Color naranja/amarillo para cerrar sesión
     border-bottom: none;
+  }
+}
+
+.binance-sheet-modal {
+  // Asegura que mantenga las esquinas redondeadas superiores del Figma
+  --border-radius: 24px 24px 0 0;
+  
+  // Forzamos a que el viewport asimile el teclado de forma interna
+  &::part(content) {
+    position: absolute;
+    bottom: 0 !important;
+    left: 0;
+    right: 0;
   }
 }
 

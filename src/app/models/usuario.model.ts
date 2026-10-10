@@ -3,7 +3,8 @@ export interface IPerfil {
   usuario: string; // ID de relación
   first_name?: string;
   last_name?: string;
-  phone?: string;
+  phone_office?: string;
+  phone_mobile?: string;
   avatar_url?: string;
   puntos_totales: number;   // Histórico acumulado
   puntos_actuales: number;  // Elegible si llega a >= 55 pts
@@ -15,6 +16,7 @@ export interface IPerfil {
 export interface IUsuario {
   uid: string;
   username: string;
+  identificacion?: string;
   email: string;
   role: 'USER' | 'EDITOR' | 'SUPERADMIN';
   google: boolean;

@@ -35,6 +35,7 @@
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
+            "serviceWorker": "ngsw-config.json",
             "browser": "src/main.ts"
           },
           "configurations": {

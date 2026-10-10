@@ -1,0 +1,18 @@
+<div class="skeleton-loader-container">
+  
+  <!-- 🔄 Recorremos la cantidad de filas especificadas -->
+  @for (row of rowArray; track row) {
+    <div class="skeleton-row">
+      
+      <!-- 🔄 Recorremos las celdas horizontales dentro de esa fila -->
+      @for (col of columnArray; track col) {
+        <div 
+          class="skeleton-cell" 
+          [ngStyle]="{ 'flex': getColumnWidth(col) }">
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

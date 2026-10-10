@@ -11,22 +11,7 @@
   background-color: #ffffff;
 }
 
-/* ⬅️ Botón Volver Atrás */
-.back-row {
-  display: flex;
-  align-items: center;
-  color: #252876;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  cursor: pointer;
 
-  ion-icon {
-    font-size: 24px;
-    margin-right: 4px;
-    color: #f3a91b; // El amarillo de las flechas del Figma
-  }
-}
 
 /* 🪪 Tarjeta Resumen Superior del Reciclador */
 .profile-preview-card {

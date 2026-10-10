@@ -1,9 +1,9 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { addIcons } from 'ionicons';
-import { closeCircle, pizza, restaurant, ribbon } from 'ionicons/icons';
-import { IonButton, IonIcon, IonInput, IonSelect, IonSelectOption, IonTextarea } from '@ionic/angular';
+import { closeCircle, pizza, refreshCircleOutline, restaurant, ribbon } from 'ionicons/icons';
+import { IonButton, IonIcon, IonInput, IonTextarea, IonSpinner } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
 
 @Component({
@@ -12,14 +12,26 @@ import { MaterialesService } from '../../services/materiales';
   styleUrls: ['./formulario-avance.component.scss'],
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule, 
-    IonButton, IonIcon, IonInput, IonSelect, IonSelectOption, IonTextarea
-  ]
+    CommonModule, ReactiveFormsModule,
+    IonButton, IonIcon, IonInput, IonTextarea,
+    IonSpinner
+]
 })
 export class FormularioAvanceComponent {
   private fb = inject(FormBuilder);
   private materialesService = inject(MaterialesService);
   public errorMessage: string | null = null;
+  
+  // 🚦 Signals de Estado de Carga y Feedback Visual
+  public isLoading = signal<boolean>(false);
+  
+  // Opciones y Signals para la fila de Momento del Hábito
+  public opcionesComida = ['DESAYUNO', 'ALMUERZO', 'CENA'];
+  public comidaSeleccionada = signal<string>('DESAYUNO'); // Por defecto según tu seeder
+
+  // Opciones y Signals para la fila de Categorías de Alimentos
+  public opcionesCategoria = ['Proteínas', 'Carbohidratos', 'Vegetales / Frutas'];
+  public categoriaSeleccionada = signal<string>('');
 
   // ⚡ Estándar de Angular 22: Nueva función output() y nombre limpio sin el prefijo "on"
   public cerrarModal = output<void>();
@@ -32,24 +44,48 @@ export class FormularioAvanceComponent {
   });
 
   constructor() {
-    addIcons({ closeCircle, pizza, restaurant, ribbon });
+    addIcons({ closeCircle, pizza, restaurant, ribbon, refreshCircleOutline });
   }
 
-  onAgregarAvance() {
-    if (this.avanceForm.invalid) return;
+  // Asigna de forma reactiva la comida elegida en los globos
+  seleccionarComida(opcion: string) {
+    this.comidaSeleccionada.set(opcion);
+    this.avanceForm.patchValue({ comida: opcion });
+  }
+
+  // Asigna de forma reactiva la categoría elegida en los globos
+  seleccionarCategoria(opcion: string) {
+    this.categoriaSeleccionada.set(opcion);
+    this.avanceForm.patchValue({ categoria: opcion });
+  }
+
+ onAgregarAvance() {
+    if (this.avanceForm.invalid) {
+      this.avanceForm.markAllAsTouched();
+      return;
+    }
 
     this.errorMessage = null;
+    this.isLoading.set(true); // 🚀 Encendemos el spinner del botón
 
-    // ⚡ CONEXIÓN REAL: Despachamos el objeto hacia tu endpoint Node.js en Render
+    console.log('🚀 Enviando registro diario a Node.js:', this.avanceForm.value);
+
     this.materialesService.crearEntrega(this.avanceForm.value).subscribe({
       next: (resp) => {
         console.log('✅ Hábito guardado con éxito en MongoDB Atlas:', resp);
-        this.avanceForm.reset({ comida: 'DESAYUNO', categoria: '' }); // Limpiamos campos
-        this.cerrarModal.emit(); // Ocultamos el panel inferior automáticamente
+        
+        // Limpiamos el formulario y reseteamos los globos
+        this.avanceForm.reset({ comida: 'DESAYUNO', categoria: '' });
+        this.comidaSeleccionada.set('DESAYUNO');
+        this.categoriaSeleccionada.set('');
+        
+        this.isLoading.set(false); // Apagamos el loading
+        this.cerrarModal.emit();
       },
       error: (err) => {
-        // Atrapamos el bloqueo de duplicados si intenta registrar dos desayunos el mismo día
+        // Captura el error 400 del índice único si el usuario intenta duplicar comida hoy
         this.errorMessage = err.error?.msg || 'Error al conectar con el servidor ecológico';
+        this.isLoading.set(false); // 🛡️ Apagamos el loading para permitir corregir
       }
     });
   }

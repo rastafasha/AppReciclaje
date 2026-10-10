@@ -1,0 +1,39 @@
+<div class="pwa-notifications-wrapper">
+
+  <!-- 🔄 BANNER 1: Alerta de Versión Nueva (Aparece si actualizas el código) -->
+  @if (hayNuevaVersion()) {
+    <div class="pwa-toast-banner update-banner">
+      <div class="banner-text">
+        <p><strong>{{ 'Nueva version disponible'  }}</strong></p>
+      </div>
+      <button class="btn-action-pwa" (click)="actualizarApp()">
+        {{ 'Actualizar ahora'  }}
+      </button>
+    </div>
+  }
+
+  <!-- 📲 BANNER 2: Prompt de Instalación (Aparece si el cel es compatible) -->
+  @if (mostrarBannerInstalar()) {
+    <div class="pwa-toast-banner install-banner">
+      <div class="banner-content-left">
+        <p class="title"><strong>{{ 'Agregue esta App a su Pantalla de inicio'  }}</strong></p>
+        <p class="subtitle">
+          {{ 'Para instalar esta PWA en su dispositivo presiones el boton de menu '  }} 
+          {{ 'y Agregue a la pantalla de inicio'  }}
+        </p>
+      </div>
+      
+      <div class="banner-actions-right">
+        <!-- Botón para gatillar la instalación -->
+        <button class="btn-action-pwa green-btn" (click)="instalarPwa()">
+          Instalar
+        </button>
+        <!-- X discreta para cerrar el aviso si le estorba -->
+        <button class="btn-close-pwa" (click)="cerrarBannerInstalacion()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+    </div>
+  }
+
+</div>

@@ -1,25 +1,28 @@
 <div class="modal-content-wrapper">
-        
+
   <!-- Botón superior derecho de cerrar X -->
-  <div class="modal-close-header">
-    <ion-icon name="close-circle" (click)="notificarCierre()"></ion-icon>
+  <div class="panel-top-bar">
+    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
   </div>
 
-  <h2 class="modal-title">Agregar Familiar</h2>
+  <h2 class="modal-title">{{ familiarAEditar() ? 'Actualizar Familiar' : 'Guardar Familiar' }}</h2>
 
   <!-- Tarjeta de Previsualización en vivo -->
+   @if (familiarAEditar() && familiarAEditar().nombre) {
   <div class="familiar-preview-card">
     <div class="preview-left">
       <div class="preview-avatar">
         <ion-icon name="person"></ion-icon>
       </div>
       <div class="preview-info">
-        <h4>Familiar Usuario</h4>
-        <p>Esposa</p>
+        <!-- Usamos el operador de navegación segura (?) por si acaso -->
+        <h4>{{ familiarAEditar()?.nombre }} {{ familiarAEditar()?.apellido }}</h4>
+        <p>{{ familiarAEditar()?.parentesco }}</p>
       </div>
     </div>
-    <ion-icon name="close" class="icon-remove-orange"></ion-icon>
   </div>
+}
+  
 
   <!-- Botón Elegir Foto -->
   <ion-button expand="block" class="btn-modal-blue">
@@ -28,7 +31,7 @@
 
   <!-- Formulario del Familiar -->
   <form [formGroup]="familiarForm" (ngSubmit)="guardarFamiliar()">
-    
+
     <div class="input-group">
       <label>Nombre</label>
       <ion-input class="custom-input" type="text" formControlName="nombre"></ion-input>
@@ -39,25 +42,28 @@
       <ion-input class="custom-input" type="text" formControlName="apellido"></ion-input>
     </div>
 
-    <div class="input-group">
-      <label>Parentezco</label>
-      <ion-select class="custom-select" formControlName="parentezco" interface="popover" placeholder="Seleccione">
-        <ion-select-option value="ESPOSA">Esposa / Esposo</ion-select-option>
-        <ion-select-option value="HIJO">Hijo / Hija</ion-select-option>
-        <ion-select-option value="PADRE">Padre / Madre</ion-select-option>
-        <ion-select-option value="HERMANO">Hermano / Hermana</ion-select-option>
-      </ion-select>
+    <!-- 🎈 SECCIÓN DE GLOBOS (Imagen de referencia) -->
+    <label class="section-title">Parentesco *</label>
+    <div class="globos-container">
+      @for (opcion of opcionesParentesco; track opcion) {
+      <button type="button" class="globo-btn" [class.activo]="parentescoSeleccionado() === opcion"
+        (click)="seleccionarParentesco(opcion)">
+        {{ opcion }}
+      </button>
+      }
     </div>
 
     <!-- Botón Guardar -->
-    <ion-button expand="block" class="btn-modal-save" type="submit" [disabled]="familiarForm.invalid">
-      Guardar
-    </ion-button>
 
-    <!-- Botón Entendido de Cierre -->
+
+    <ion-button expand="block" class="btn-modal-blue" [disabled]="familiarForm.invalid" (click)="guardarFamiliar()">
+      <!-- 🎛️ Texto dinámico reactivo -->
+      {{ familiarAEditar() ? 'Actualizar Familiar' : 'Guardar Familiar' }}
+    </ion-button>
+    <!-- Botón Entendido de Cierre
     <ion-button expand="block" class="btn-modal-understood" (click)="notificarCierre()">
       Entendido
-    </ion-button>
+    </ion-button> -->
 
   </form>
 

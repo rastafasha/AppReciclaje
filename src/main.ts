@@ -10,7 +10,8 @@ import { environment } from './environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AuthService } from './app/services/auth';
 import { provideAppInitializer } from '@angular/core'; // 🚀 LA SOLUCIÓN MODERNA PARA ANGULAR 22
-
+import { provideServiceWorker } from '@angular/service-worker';
+import { isDevMode } from '@angular/core';
 const socketConfig: SocketIoConfig = { url: environment.sockets, options: {} };
 
 bootstrapApplication(AppComponent, {
@@ -29,7 +30,14 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
     // ⚡ Inicializa el motor de Ionic y sus estados globales (Como los Menús Raíz)
     provideIonicAngular({
-      mode: 'ios' // O 'md' según prefieras
+      mode: 'ios', // O 'md' según prefieras
+      // 🚀 BLINDAJE DE TECLADO: Evita que empuje de forma violenta los modales hacia arriba
+      scrollPadding: false,
+      scrollAssist: true,
+    }),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(), // Se activa automáticamente al compilar para producción (--prod)
+      registrationStrategy: 'registerWhenStable:3000' // Espera 3 segundos a que la app esté estable
     })
   ],
 });

@@ -1,57 +1,90 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content >
+<ion-content>
   <div class="cuenta-container">
-    
-    <h2 class="page-title">Mi Cuenta</h2>
 
+    <h2 class="page-title">Mi Cuenta</h2>
+    @if (isLoading()) {
+    <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
+    }@else {
     <!-- Tarjeta Resumen de Credenciales Maestras NoSQL -->
     <div class="profile-summary-card">
       <div class="avatar-box">
-        <img src="assets/icon/avatar-placeholder.png" alt="Avatar">
+        <img src="assets/images/default.jpeg" alt="Avatar">
       </div>
       <div class="user-info">
-        <h3>Nombre de Usuario</h3>
-        <p>usuario&#64;correo.com</p>
-        <span>1234567899</span>
+        <h3>{{ nombreUsuario() }}</h3>
+        <p>{{ email() }}</p>
+        <p class="phone-text">{{ identificacion() }}</p>
       </div>
     </div>
 
     <!-- Banner de Alerta Cerrable para Familiares -->
     <div class="alert-banner">
       <ion-icon name="close" class="close-icon"></ion-icon>
-      <p>Hola de nuevo, Usuario!,<br>Agradecemos que Hallas completado tu perfil. Ahora aqui puedes agregar familiares que viven contigo.</p>
+      <p>¡Hola de nuevo, {{ nombreUsuario() }}! 👋</p>
+      <p>Agradecemos que hayas completado tu perfil. Ahora aquí puedes agregar familiares que viven contigo.</p>
     </div>
+    }
+
 
     <!-- Sección Mis Familiares -->
     <h3 class="section-subtitle">Mis Familiares</h3>
 
     <!-- Fila del Familiar Registrado -->
-    <div class="familiar-card">
-      <div class="familiar-left">
-        <div class="familiar-avatar">
-          <ion-icon name="person"></ion-icon>
+    <!-- Sección Contenedora de la Lista en mi-cuenta.page.html -->
+    <div class="familiares-lista-container">
+      @if (isLoading()) {
+      <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
+      }@else {
+      <!-- 🔄 Bucle reactivo de Angular 22: Renderiza un bloque por cada familiar en Atlas -->
+        @for (familiar of familiares(); track familiar.id) {
+        <div class="familiar-card">
+          <div class="familiar-left">
+            <div class="familiar-avatar">
+              <ion-icon name="person"></ion-icon>
+            </div>
+            <div class="familiar-info">
+              <!-- Interpolamos nombre y apellido unificados -->
+              <h4>{{ familiar.nombre }} {{ familiar.apellido }}</h4>
+              <p>{{ familiar.parentesco }}</p>
+            </div>
+          </div>
+
+          <!-- Panel de Acciones Derecho -->
+          <div class="familiar-actions">
+            <!-- ✏️ Botón Lápiz Amarillo para Editar -->
+            <button class="btn-edit-yellow" (click)="abrirEdicionFamiliar(familiar)">
+              <ion-icon name="pencil"></ion-icon>
+            </button>
+
+            <!-- 🗑️ Botón Opcional para Borrar de una sola vez -->
+            <button class="btn-delete-red" (click)="eliminarFamiliar(familiar.id)">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </div>
         </div>
-        <div class="familiar-info">
-          <h4>Nombre de Familiar</h4>
-          <p>parentezco</p>
+        } @empty {
+        <!-- 🎈 Estado Vacío: Si el usuario de Mercadona no ha registrado familiares aún -->
+        <div class="empty-state">
+          <p>No tienes familiares registrados todavía.</p>
         </div>
-      </div>
-      <button class="btn-edit-yellow">
-        <ion-icon name="pencil"></ion-icon>
-      </button>
+        }
+      <!-- Botón Agregar Familiar -->
+      <ion-button expand="block" class="btn-add-familiar" id="open-add-familiar">
+        Agregar Familiar
+      </ion-button>
+      }
+
     </div>
 
-    <!-- Botón Agregar Familiar -->
-    <ion-button expand="block" class="btn-add-familiar" id="open-add-familiar">
-  Agregar Familiar
-</ion-button>
+
 
 
     <!-- Menú de Listas de Acciones Inferiores -->
     <div class="options-list">
-      
+
       <!-- Activar Notificaciones (Toggle) -->
       <div class="option-item-row">
         <span style="color: #1e2267;">Activar Notificaciones</span>
@@ -83,13 +116,14 @@
 <app-menufooter [tabActiva]="'perfil'"></app-menufooter>
 
 <!-- 🔼 OFFCANVAS SHEET MODAL (Llamando al componente modular hijo) -->
-<ion-modal trigger="open-add-familiar" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85" style="--height: 85%; --border-radius: 30px 30px 0 0;">
+<ion-modal trigger="open-add-familiar" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.6" class="binance-sheet-modal">
   <ng-template>
     <ion-content>
-      
+
       <!-- 🚀 Invocamos tu componente standalone e interceptamos el Output para cerrar -->
-      <app-agregar-familiar (onCerrarModal)="modal.dismiss()"></app-agregar-familiar>
-      
+      <app-agregar-familiar (onCerrarModal)="modal.dismiss()" [familiarAEditar]="familiarSeleccionado()"
+        (familiarAgregado)="onFamiliarProcesado()"></app-agregar-familiar>
+
     </ion-content>
   </ng-template>
 </ion-modal>

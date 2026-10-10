@@ -7,17 +7,21 @@ import { IonContent,  IonBadge } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
+import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
 
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.page.html',
   styleUrls: ['./historial.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonBadge, RouterModule, MenufooterComponent, HeaderComponent]
+  imports: [CommonModule, IonContent, IonBadge, RouterModule, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent, BackbuttonComponent]
 })
 export class HistorialPage implements OnInit{
   private router = inject(Router);
   public materialesService = inject(MaterialesService);
+
+  public isLoading = signal<boolean>(false);
 
   // Exponemos las Signals reactivas del servicio global
   public historial = this.materialesService.historial;
@@ -30,13 +34,16 @@ export class HistorialPage implements OnInit{
   }
 
   ngOnInit() {
+    this.isLoading.set(true);
     // ⚡ CONEXIÓN REAL: Al cargar la pantalla, consultamos los datos reales del seeder en Atlas
     this.materialesService.getHistorial().subscribe({
       next: (resp) => {
         console.log('✅ Historial real cargado desde MongoDB Atlas:', resp);
+        this.isLoading.set(false);
       },
       error: (err) => {
         console.error('❌ Error consultando el historial en Node.js:', err);
+        this.isLoading.set(false);
       }
     });
   }

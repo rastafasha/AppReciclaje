@@ -3,7 +3,7 @@
   <!-- Pestaña superior decorativa y botón de cierre X -->
   <div class="panel-top-bar">
     <div class="decor-line"></div>
-    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
+    <!-- <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon> -->
   </div>
 
   <h2 class="form-title">Formulario de Participación</h2>
@@ -26,26 +26,39 @@
   <!-- Formulario de Entrada de Datos Conectado -->
   <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
     
-    <!-- 🚀 NUEVO INPUT: Bloque de Comida del Día -->
-    <div class="input-group">
-      <label>Momento del Hábito</label>
-      <ion-select class="custom-select" formControlName="comida" interface="popover">
-        <ion-select-option value="DESAYUNO">🍳 Desayuno</ion-select-option>
-        <ion-select-option value="ALMUERZO">🍽️ Almuerzo</ion-select-option>
-        <ion-select-option value="CENA">🌙 Cena</ion-select-option>
-      </ion-select>
+    <!-- 🍳 GLOBOS DE MOMENTO DEL HÁBITO -->
+    <label class="globos-label">Momento del Hábito *</label>
+    <div class="globos-horizontal-scroll">
+      @for (comida of opcionesComida; track comida) {
+        <button 
+          type="button"
+          class="globo-item-btn"
+          [class.activo]="comidaSeleccionada() === comida"
+          (click)="seleccionarComida(comida)">
+          <!-- Fallbacks visuales según el momento -->
+          @if (comida === 'DESAYUNO') { 🍳 }
+          @else if (comida === 'ALMUERZO') { 🍽 }
+          @else { 🌙 }
+          {{ comida | titlecase }}
+        </button>
+      }
     </div>
 
-    <!-- Selector Desplegable de Categoría Alimentos -->
-    <div class="input-group">
-      <label>Alimentos</label>
-      <ion-select class="custom-select" formControlName="categoria" interface="popover" placeholder="Seleccione">
-        <ion-select-option value="PROTEINAS">Proteínas</ion-select-option>
-        <ion-select-option value="CARBOHIDRATOS">Carbohidratos</ion-select-option>
-        <ion-select-option value="VEGETALES_FRUTAS">Vegetales / Frutas</ion-select-option>
-      </ion-select>
+    <!-- 🥦 GLOBOS DE CATEGORÍA DE ALIMENTOS -->
+    <label class="globos-label">Categoría de Alimento *</label>
+    <div class="globos-horizontal-scroll">
+      @for (cat of opcionesCategoria; track cat) {
+        <button 
+          type="button"
+          class="globo-item-btn"
+          [class.activo]="categoriaSeleccionada() === cat"
+          (click)="seleccionarCategoria(cat)">
+          {{ cat }}
+        </button>
+      }
     </div>
 
+    
     <!-- Input Nombre Ítem -->
     <div class="input-group">
       <label>Nombre Item</label>
@@ -58,16 +71,22 @@
       <ion-textarea class="custom-textarea" formControlName="descripcion" placeholder="Detalla cómo reciclaste los desperdicios..."></ion-textarea>
     </div>
 
-    <!-- Alerta de Bloqueo Duplicado emitido por Node.js -->
+     <!-- MENSAJE DE ERROR DEL INDEX COMPUESTO DE ATLAS -->
     @if (errorMessage) {
-      <div style="color: #ea4444; font-size: 14px; font-weight: 600; text-align: left; margin-bottom: 15px; padding-left: 4px;">
-        ⚠️ {{ errorMessage }}
+      <div class="error-banner">
+        <ion-icon name="close-circle" color="danger"></ion-icon>
+        <p>{{ errorMessage }}</p>
       </div>
     }
 
-    <!-- Botón Agregar -->
-    <ion-button expand="block" class="btn-add" type="submit" [disabled]="avanceForm.invalid">
-      Agregar
+    <!-- BOTÓN PRINCIPAL CON LOADING INTEGRADO -->
+    <ion-button expand="block" lass="btn-add" type="submit" [disabled]="isLoading()" style="margin-bottom: 70px;">
+      @if (isLoading()) {
+        <ion-spinner name="crescent" slot="start"></ion-spinner>
+        Guardando hábito...
+      } @else {
+        Agregar Avance
+      }
     </ion-button>
 
   </form>

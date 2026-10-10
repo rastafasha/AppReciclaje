@@ -5,10 +5,8 @@
   <div class="editar-container">
     
     <!-- Botón de Retroceso Figma -->
-    <div class="back-row" (click)="volverAtras()">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-      Editar Perfil
-    </div>
+    <app-backbutton pageTitle="Editar Perfil"></app-backbutton>
+
 
     <!-- Tarjeta Resumen con Previsualización Dinámica -->
     <div class="profile-preview-card">
@@ -18,8 +16,8 @@
       <div class="user-info">
         <h3>{{ username() }}</h3>
         <p>{{ email() }}</p>
-        <span [ngClass]="{ 'placeholder-style': phone() === 'Sin teléfono registrado' }">
-          {{ phone() }}
+        <span [ngClass]="{ 'placeholder-style': identificacion() }">
+          {{ identificacion() }}
         </span>
       </div>
     </div>

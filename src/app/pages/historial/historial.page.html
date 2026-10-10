@@ -1,37 +1,42 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content >
+<ion-content>
   <div class="historial-container">
-    
-    <h2 class="page-title">Mi Historial</h2>
 
-    <!-- Tarjeta Resumen de racha -->
-    <div class="summary-card">
-      <h2>Entregas Totales</h2>
-      <h1>{{ total() }}</h1>
-    </div>
+    <app-backbutton pageTitle="Mi Historial"></app-backbutton>
 
-    <!-- Listado Reactivo Moderno del Concurso -->
-    @for (item of historial(); track item.id || $index) {
+    @if (isLoading()) {
+    <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
+    }@else {
+      <!-- Tarjeta Resumen de racha -->
+      <div class="summary-card">
+        <h2>Entregas Totales</h2>
+        <h1>{{ total() }}</h1>
+      </div>
+
+      <!-- Listado Reactivo Moderno del Concurso -->
+      @for (item of historial(); track item.id || $index) {
       <div class="history-item-card">
         <div class="card-left">
           <h3>{{ item.nombreItem }}</h3>
           <p>Categoría: {{ item.categoria | titlecase }}</p>
           <span>{{ item.createdAt | date:'shortDate' }}</span>
         </div>
-        
+
         <div class="card-right">
           <!-- 🚀 AQUÍ ES EL CAMBIO EXACTO: Invocamos la función adaptada a alimentos -->
           <ion-badge [color]="getCategoryColor(item.categoria)">{{ item.comida }}</ion-badge>
           <h4>+1 pts</h4>
         </div>
       </div>
-    } @empty {
+      } @empty {
       <div class="ion-text-center ion-padding" style="color: #a6a6a6; margin-top: 30px;">
         <p>Aún no tienes entregas registradas. ¡Empieza a reciclar hoy! ♻️</p>
       </div>
+      }
     }
+
 
   </div>
 </ion-content>

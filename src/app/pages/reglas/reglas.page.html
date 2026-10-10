@@ -3,12 +3,11 @@
 
 <ion-content >
   <div class="reglas-container">
-    
+    <app-backbutton pageTitle="Reglas del Concurso"></app-backbutton>
     <!-- Bloque Operativo de Reglas, Saludo y Logos -->
     <div class="intro-reglas-box">
       <div class="text-side">
-        <h2>Reglas</h2>
-        <p>Hola Usuario!,<br>Gracias por participar!<br>UCC Premia tu reciclaje</p>
+        <p>Hola, {{ nombreUsuario() }}!,<br>Gracias por participar!<br>UCC Premia tu reciclaje</p>
         <!-- Logotipo UCC Consumidors de Catalunya -->
         <img src="assets/svg/ucclogo.svg" class="ucc-brand-image" alt="UCC Catalunya">
       </div>
