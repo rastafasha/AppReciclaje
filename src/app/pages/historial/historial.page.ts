@@ -8,19 +8,21 @@ import { MaterialesService } from '../../services/materiales';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.page.html',
   styleUrls: ['./historial.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonBadge, RouterModule,  HeaderComponent, SkeletonLoaderComponent, BackbuttonComponent]
+  imports: [CommonModule, IonContent, IonBadge, RouterModule, HeaderComponent, SkeletonLoaderComponent, BackbuttonComponent, HojaAnimadaComponent]
 })
 export class HistorialPage implements OnInit{
   private router = inject(Router);
   public materialesService = inject(MaterialesService);
 
   public isLoading = signal<boolean>(false);
+  public estadoActual = signal<any>('normal');
 
   // Exponemos las Signals reactivas del servicio global
   public historial = this.materialesService.historial;

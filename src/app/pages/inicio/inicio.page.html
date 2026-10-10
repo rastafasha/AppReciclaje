@@ -21,7 +21,9 @@
 
       <!-- Lado del Personaje Estático Leyendo/Saludando -->
       <div class="character-side">
-        <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos">
+        <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos"> -->
+        <app-hoja-animada [ancho]="160" [estado]="estadoActual()">
+        </app-hoja-animada>
       </div>
 
       <!-- Lista de Íconos del Figma -->
@@ -99,14 +101,10 @@
 </ion-modal>
 
 <!-- 👋 Modal de Bienvenida reutilizable -->
-<app-modal-bienvenida 
-  [isOpen]="mostrarModalBienvenida()"
-  [nombreUsuario]="nombreUsuario()"
+<app-modal-bienvenida [isOpen]="mostrarModalBienvenida()" [nombreUsuario]="nombreUsuario()"
   (cerrar)="mostrarModalBienvenida.set(false)">
 </app-modal-bienvenida>
 
 <!-- ℹ️ Modal de Instrucciones reutilizable -->
-<app-modal-instrucciones 
-  [isOpen]="mostrarModalInstrucciones()"
-  (cerrar)="mostrarModalInstrucciones.set(false)">
+<app-modal-instrucciones [isOpen]="mostrarModalInstrucciones()" (cerrar)="mostrarModalInstrucciones.set(false)">
 </app-modal-instrucciones>

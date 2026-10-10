@@ -11,7 +11,9 @@
   <!-- Tarjeta Informativa de Puntos y Rangos -->
   <div class="info-points-card">
     <div class="character-box">
-      <img src="assets/images/img_12.png" alt="Hoja Verde Pensando">
+      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Pensando"> -->
+       <app-hoja-animada [ancho]="200" [estado]="estadoActual()">
+        </app-hoja-animada>
     </div>
     <div class="points-text">
       <p>Es requerido que llenes este formulario de avance diario para obtener puntos</p>

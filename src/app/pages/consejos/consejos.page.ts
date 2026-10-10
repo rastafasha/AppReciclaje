@@ -7,13 +7,14 @@ import { IonContent,  IonModal } from '@ionic/angular';
 import { IConsejoData, DetalleConsejoComponent } from '../../components/consejo-detalle/consejo-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-consejos',
   templateUrl: './consejos.page.html',
   styleUrls: ['./consejos.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, BackbuttonComponent]
+  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, BackbuttonComponent, HojaAnimadaComponent]
 })
 export class ConsejosPage {
   private router = inject(Router);
@@ -21,6 +22,7 @@ export class ConsejosPage {
 
   // 🚦 Signal para almacenar el consejo activo seleccionado en la lista
   public consejoSeleccionado = signal<IConsejoData>({ titulo: '', contenido: '' });
+  public estadoActual = signal<any>('saludando');
 
 // Lista mockeada idéntica a tus bloques del Figma
   public listaConsejos: IConsejoData[] = [

@@ -8,7 +8,7 @@ import {
   pencil, createOutline, powerOutline, refreshCircleOutline,
   documentTextOutline, personCircleOutline
 } from 'ionicons/icons';
-import { IonContent, IonIcon, IonToggle, IonButton, IonModal, ToastController, IonSpinner } from '@ionic/angular';
+import { IonContent, IonIcon, IonToggle, IonButton, IonModal, ToastController } from '@ionic/angular';
 import { AgregarFamiliarComponent } from '../../components/agregar-familiar/agregar-familiar.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -25,7 +25,7 @@ import { NotificationService } from '../../services/notificacion-service';
   standalone: true,
   imports: [CommonModule, IonContent,
     IonIcon, IonToggle, IonButton,
-    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent, IonSpinner]
+    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent]
 })
 export class MiCuentaPage implements OnInit {
   private router = inject(Router);

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -8,17 +8,20 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
 import { AuthService } from '../../services/auth';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-reglas',
   templateUrl: './reglas.page.html',
   styleUrls: ['./reglas.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, BackbuttonComponent]
+  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, BackbuttonComponent, HojaAnimadaComponent]
 })
 export class ReglasPage {
   private router = inject(Router);
   private authService = inject(AuthService);
+
+  public estadoActual = signal<any>('saludando');
 
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();

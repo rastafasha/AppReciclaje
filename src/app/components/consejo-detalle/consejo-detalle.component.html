@@ -13,15 +13,16 @@
 
     <!-- Personaje de la Hoja Verde en el Detalle -->
     <div class="character-row">
-      <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida">
+      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida"> -->
+       <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
     </div>
 
     <p>{{ consejo().contenido }}</p>
   </div>
 
   <!-- Botón de Cierre Secundario -->
-  <ion-button expand="block" class="btn-understood" style="margin-bottom: 70px;" (click)="notificarCierre()">
+  <!-- <ion-button expand="block" class="btn-understood" style="margin-bottom: 70px;" (click)="notificarCierre()">
     Entendido
-  </ion-button>
+  </ion-button> -->
 
 </div>

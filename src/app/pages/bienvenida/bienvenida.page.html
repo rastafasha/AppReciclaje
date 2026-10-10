@@ -19,7 +19,9 @@
 
     <!-- 🍃 Render Temporal del Personaje Estático antes de meterle el Lottie JSON -->
     <div class="character-placeholder">
-      <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida">
+      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida"> -->
+       <app-hoja-animada [ancho]="300" [estado]="estadoActual()">
+        </app-hoja-animada>
     </div>
 
   </div>

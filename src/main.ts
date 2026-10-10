@@ -12,6 +12,9 @@ import { AuthService } from './app/services/auth';
 import { provideAppInitializer } from '@angular/core'; // 🚀 LA SOLUCIÓN MODERNA PARA ANGULAR 22
 import { provideServiceWorker } from '@angular/service-worker';
 import { isDevMode } from '@angular/core';
+import { provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web'; // 🚀 IMPORTACIÓN DIRECTA: Asegura que el Service Worker lo empaquete en el bundle core
+
 
 const socketConfig: SocketIoConfig = { url: environment.sockets, options: {} };
 
@@ -39,6 +42,10 @@ bootstrapApplication(AppComponent, {
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(), // Se activa automáticamente al compilar para producción (--prod)
       registrationStrategy: 'registerWhenStable:3000' // Espera 3 segundos a que la app esté estable
+    }),
+    // 🪙 Registramos al reproductor de forma nativa y segura para la PWA
+    provideLottieOptions({
+      player: () => player
     }),
   ],
 });

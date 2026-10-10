@@ -5,6 +5,7 @@ import { addIcons } from 'ionicons';
 import { closeCircle, pizza, refreshCircleOutline, restaurant, ribbon } from 'ionicons/icons';
 import { IonButton, IonIcon, IonInput, IonTextarea, IonSpinner } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
+import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-formulario-avance',
@@ -14,7 +15,8 @@ import { MaterialesService } from '../../services/materiales';
   imports: [
     CommonModule, ReactiveFormsModule,
     IonButton, IonIcon, IonInput, IonTextarea,
-    IonSpinner
+    IonSpinner,
+    HojaAnimadaComponent
 ]
 })
 export class FormularioAvanceComponent {
@@ -24,6 +26,8 @@ export class FormularioAvanceComponent {
   
   // 🚦 Signals de Estado de Carga y Feedback Visual
   public isLoading = signal<boolean>(false);
+
+  public estadoActual = signal<any>('apuntando');
   
   // Opciones y Signals para la fila de Momento del Hábito
   public opcionesComida = ['DESAYUNO', 'ALMUERZO', 'CENA'];
@@ -32,6 +36,7 @@ export class FormularioAvanceComponent {
   // Opciones y Signals para la fila de Categorías de Alimentos
   public opcionesCategoria = ['Proteínas', 'Carbohidratos', 'Vegetales / Frutas'];
   public categoriaSeleccionada = signal<string>('');
+  
 
   // ⚡ Estándar de Angular 22: Nueva función output() y nombre limpio sin el prefijo "on"
   public cerrarModal = output<void>();

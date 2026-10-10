@@ -19,6 +19,7 @@ import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-l
 import { ModalBienvenidaComponent } from '../../components/modal-bienvenida/modal-bienvenida.component';
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 import { NotificationService } from '../../services/notificacion-service';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-inicio',
@@ -29,7 +30,7 @@ import { NotificationService } from '../../services/notificacion-service';
     IonButton, IonIcon, RouterModule,
     FormularioAvanceComponent, MiPuntajeComponent, IonModal,
     HeaderComponent, MenufooterComponent, SkeletonLoaderComponent,
-    ModalBienvenidaComponent, ModalInstruccionesComponent
+    ModalBienvenidaComponent, ModalInstruccionesComponent, HojaAnimadaComponent
   ]
 })
 export class InicioPage implements OnInit {
@@ -72,6 +73,8 @@ export class InicioPage implements OnInit {
   // 🚦 Signals Reactivos para controlar la visibilidad de los modales
   public mostrarModalBienvenida = signal<boolean>(false);
   public mostrarModalInstrucciones = signal<boolean>(false);
+
+  public estadoActual = signal<any>('normal');
 
   constructor() {
     addIcons({ 
@@ -158,6 +161,11 @@ export class InicioPage implements OnInit {
     this.mostrarModalBienvenida.set(false);
     localStorage.setItem('onboarding_visto', 'true'); // Guardamos para que no le vuelva a saltar
   }
+
+  cambiarEstado(nuevoEstado: any) {
+  console.log(`🎬 Cambiando la hojita verde al estado: ${nuevoEstado}`);
+  this.estadoActual.set(nuevoEstado); // Actualiza al hijo en un milisegundo
+}
 
   irAFormulario() {
     this.router.navigateByUrl('/formulario-avance'); //
