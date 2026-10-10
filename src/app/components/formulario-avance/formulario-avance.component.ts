@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { addIcons } from 'ionicons';
@@ -19,7 +19,7 @@ import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
     HojaAnimadaComponent
 ]
 })
-export class FormularioAvanceComponent {
+export class FormularioAvanceComponent implements OnInit{
   private fb = inject(FormBuilder);
   private materialesService = inject(MaterialesService);
   public errorMessage: string | null = null;
@@ -34,7 +34,11 @@ export class FormularioAvanceComponent {
   public comidaSeleccionada = signal<string>('DESAYUNO'); // Por defecto según tu seeder
 
   // Opciones y Signals para la fila de Categorías de Alimentos
-  public opcionesCategoria = ['Proteínas', 'Carbohidratos', 'Vegetales / Frutas'];
+ public opcionesCategoria = [
+    { label: 'Proteínas', valor: 'PROTEINAS' },
+    { label: 'Carbohidratos', valor: 'CARBOHIDRATOS' },
+    { label: 'Vegetales / Frutas', valor: 'VEGETALES_FRUTAS' } // Exactamente igual a tu .isIn()
+  ];
   public categoriaSeleccionada = signal<string>('');
   
 
@@ -48,9 +52,56 @@ export class FormularioAvanceComponent {
     descripcion: ['', [Validators.required, Validators.minLength(5)]]
   });
 
+  /**
+   * 🧠 REGLA DE NEGOCIO COMPUTADA:
+   * Filtra el historial de Atlas y extrae un arreglo con las comidas registradas HOY.
+   */
+  public comidasRegistradasHoy = computed<string[]>(() => {
+    // 🚀 AJUSTE: Accedemos al historial a través de la señal reactiva que expone tu servicio
+    // (Asegúrate de cambiar '.historial()' por el nombre exacto de la señal de tu arreglo en tu MaterialesService, por ejemplo: '.materiales()')
+    const registros = this.materialesService.historial?.() || []; 
+    const hoyStr = new Date().toISOString().split('T')[0]; // Formato exacto "YYYY-MM-DD"
+
+    return registros
+      .filter((reg: any) => {
+        if (!reg.createdAt) return false;
+        const fechaReg = new Date(reg.createdAt).toISOString().split('T')[0];
+        return fechaReg === hoyStr;
+      })
+      .map((reg: any) => reg.comida.toUpperCase()); // Retorna ej: ['DESAYUNO']
+  });
+
+  /**
+   * 🏆 REGLA DE NEGOCIO: ¿Ya completó las 3 comidas del día?
+   */
+  public retoDelDiaCompletado = computed<boolean>(() => {
+    return this.comidasRegistradasHoy().length >= 3;
+  });
+
   constructor() {
-    addIcons({ closeCircle, pizza, restaurant, ribbon, refreshCircleOutline });
+    addIcons({ closeCircle, pizza, restaurant, ribbon });
   }
+
+  ngOnInit() {
+    // ⚡ Al abrir el formulario, buscamos cuál es la primera comida libre del día para pre-seleccionarla
+    this.seleccionarPrimerBloqueLibre();
+  }
+
+  /**
+   * ⚙️ Lógica de asistencia: Pre-selecciona automáticamente el globo disponible
+   */
+  seleccionarPrimerBloqueLibre() {
+    const registradas = this.comidasRegistradasHoy();
+    
+    // Buscamos el primer bloque que no esté en el arreglo de hoy
+    const proximaComidaLibre = this.opcionesComida.find(comida => !registradas.includes(comida));
+    
+    if (proximaComidaLibre) {
+      this.comidaSeleccionada.set(proximaComidaLibre);
+      this.avanceForm.patchValue({ comida: proximaComidaLibre });
+    }
+  }
+
 
   // Asigna de forma reactiva la comida elegida en los globos
   seleccionarComida(opcion: string) {
@@ -59,9 +110,9 @@ export class FormularioAvanceComponent {
   }
 
   // Asigna de forma reactiva la categoría elegida en los globos
-  seleccionarCategoria(opcion: string) {
-    this.categoriaSeleccionada.set(opcion);
-    this.avanceForm.patchValue({ categoria: opcion });
+  seleccionarCategoria(valor: string) {
+    this.categoriaSeleccionada.set(valor);
+    this.avanceForm.patchValue({ categoria: valor });
   }
 
  onAgregarAvance() {
@@ -71,26 +122,21 @@ export class FormularioAvanceComponent {
     }
 
     this.errorMessage = null;
-    this.isLoading.set(true); // 🚀 Encendemos el spinner del botón
-
-    console.log('🚀 Enviando registro diario a Node.js:', this.avanceForm.value);
+    this.isLoading.set(true);
 
     this.materialesService.crearEntrega(this.avanceForm.value).subscribe({
       next: (resp) => {
         console.log('✅ Hábito guardado con éxito en MongoDB Atlas:', resp);
         
-        // Limpiamos el formulario y reseteamos los globos
-        this.avanceForm.reset({ comida: 'DESAYUNO', categoria: '' });
-        this.comidaSeleccionada.set('DESAYUNO');
-        this.categoriaSeleccionada.set('');
-        
-        this.isLoading.set(false); // Apagamos el loading
-        this.cerrarModal.emit();
+        // Recargamos el historial global del servicio para que se actualicen los computados
+        this.materialesService.getHistorial().subscribe(() => {
+          this.isLoading.set(false);
+          this.cerrarModal.emit();
+        });
       },
       error: (err) => {
-        // Captura el error 400 del índice único si el usuario intenta duplicar comida hoy
         this.errorMessage = err.error?.msg || 'Error al conectar con el servidor ecológico';
-        this.isLoading.set(false); // 🛡️ Apagamos el loading para permitir corregir
+        this.isLoading.set(false);
       }
     });
   }

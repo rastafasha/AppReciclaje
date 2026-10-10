@@ -1,5 +1,5 @@
 <div class="form-panel">
-    
+
   <!-- Pestaña superior decorativa y botón de cierre X -->
   <div class="panel-top-bar">
     <div class="decor-line"></div>
@@ -11,9 +11,8 @@
   <!-- Tarjeta Informativa de Puntos y Rangos -->
   <div class="info-points-card">
     <div class="character-box">
-      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Pensando"> -->
-       <app-hoja-animada [ancho]="200" [estado]="estadoActual()">
-        </app-hoja-animada>
+      <app-hoja-animada [ancho]="200" [estado]="estadoActual()">
+      </app-hoja-animada>
     </div>
     <div class="points-text">
       <p>Es requerido que llenes este formulario de avance diario para obtener puntos</p>
@@ -25,72 +24,95 @@
     </div>
   </div>
 
-  <!-- Formulario de Entrada de Datos Conectado -->
-  <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
-    
-    <!-- 🍳 GLOBOS DE MOMENTO DEL HÁBITO -->
-    <label class="globos-label">Momento del Hábito *</label>
-    <div class="globos-horizontal-scroll">
-      @for (comida of opcionesComida; track comida) {
-        <button 
-          type="button"
-          class="globo-item-btn"
-          [class.activo]="comidaSeleccionada() === comida"
-          (click)="seleccionarComida(comida)">
-          <!-- Fallbacks visuales según el momento -->
-          @if (comida === 'DESAYUNO') { 🍳 }
-          @else if (comida === 'ALMUERZO') { 🍽 }
-          @else { 🌙 }
-          {{ comida | titlecase }}
+  <div class="avance-form-container">
+
+    <!-- 👋 BANNER DE RETO DIARIO COMPLETADO -->
+    @if (retoDelDiaCompletado()) {
+    <div class="reto-completo-card">
+      <span class="emoji-hero">🎉🏆</span>
+      <h4>¡Reto del Día Completado!</h4>
+      <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha UCC!</p>
+      <ion-button expand="block" fill="clear" color="medium" (click)="notificarCierre()">
+        Cerrar Ventana
+      </ion-button>
+    </div>
+    } @else {
+    <!-- Formulario de Entrada de Datos Conectado -->
+    <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
+
+      <!-- 🍳 GLOBOS DE MOMENTO DEL HÁBITO -->
+      <label class="globos-label">Momento del Hábito *</label>
+      <div class="globos-horizontal-scroll">
+        @for (comida of opcionesComida; track comida) {
+          <button 
+            type="button"
+            class="globo-item-btn"
+            [class.activo]="comidaSeleccionada() === comida"
+            [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
+            [disabled]="comidasRegistradasHoy().includes(comida)"
+            (click)="seleccionarComida(comida)">
+            
+            @if (comida === 'DESAYUNO') { 🍳 }
+            @else if (comida === 'ALMUERZO') { 🍽 }
+            @else { 🌙 }
+            
+            {{ comida | titlecase }}
+            
+            @if (comidasRegistradasHoy().includes(comida)) { 
+              <span class="mini-check">✓</span> 
+            }
+          </button>
+        }
+      </div>
+
+      <!-- 🥦 GLOBOS DE CATEGORÍA DE ALIMENTOS -->
+      <label class="globos-label">Categoría de Alimento *</label>
+      <div class="globos-horizontal-scroll">
+        @for (cat of opcionesCategoria; track cat.valor) {
+        <button type="button" class="globo-item-btn" [class.activo]="categoriaSeleccionada() === cat.valor"
+          (click)="seleccionarCategoria(cat.valor)">
+          {{ cat.label }}
         </button>
-      }
-    </div>
+        }
+      </div>
 
-    <!-- 🥦 GLOBOS DE CATEGORÍA DE ALIMENTOS -->
-    <label class="globos-label">Categoría de Alimento *</label>
-    <div class="globos-horizontal-scroll">
-      @for (cat of opcionesCategoria; track cat) {
-        <button 
-          type="button"
-          class="globo-item-btn"
-          [class.activo]="categoriaSeleccionada() === cat"
-          (click)="seleccionarCategoria(cat)">
-          {{ cat }}
-        </button>
-      }
-    </div>
 
-    
-    <!-- Input Nombre Ítem -->
-    <div class="input-group">
-      <label>Nombre Item</label>
-      <ion-input class="custom-input" type="text" formControlName="nombreItem" placeholder="Ej: Tortilla de espinacas"></ion-input>
-    </div>
+      <!-- Input Nombre Ítem -->
+      <div class="input-group">
+        <label>Nombre Item</label>
+        <ion-input class="custom-input" type="text" formControlName="nombreItem"
+          placeholder="Ej: Tortilla de espinacas"></ion-input>
+      </div>
 
-    <!-- Textarea Descripción Corta -->
-    <div class="input-group">
-      <label>Descripción Corta</label>
-      <ion-textarea class="custom-textarea" formControlName="descripcion" placeholder="Detalla cómo reciclaste los desperdicios..."></ion-textarea>
-    </div>
+      <!-- Textarea Descripción Corta -->
+      <div class="input-group">
+        <label>Descripción Corta</label>
+        <ion-textarea class="custom-textarea" formControlName="descripcion"
+          placeholder="Detalla cómo reciclaste los desperdicios..."></ion-textarea>
+      </div>
 
-     <!-- MENSAJE DE ERROR DEL INDEX COMPUESTO DE ATLAS -->
-    @if (errorMessage) {
+      <!-- MENSAJE DE ERROR DEL INDEX COMPUESTO DE ATLAS -->
+      @if (errorMessage) {
       <div class="error-banner">
         <ion-icon name="close-circle" color="danger"></ion-icon>
         <p>{{ errorMessage }}</p>
       </div>
-    }
+      }
 
-    <!-- BOTÓN PRINCIPAL CON LOADING INTEGRADO -->
-    <ion-button expand="block" lass="btn-add" type="submit" [disabled]="isLoading()" style="margin-bottom: 70px;">
-      @if (isLoading()) {
+      <!-- BOTÓN PRINCIPAL CON LOADING INTEGRADO -->
+      <ion-button expand="block" lass="btn-add" type="submit" [disabled]="isLoading()" style="margin-bottom: 70px;">
+        @if (isLoading()) {
         <ion-spinner name="crescent" slot="start"></ion-spinner>
         Guardando hábito...
-      } @else {
+        } @else {
         Agregar Avance
-      }
-    </ion-button>
+        }
+      </ion-button>
 
-  </form>
+    </form>
+    }
+  </div>
+
+
 
 </div>

@@ -5,19 +5,22 @@ import { addIcons } from 'ionicons';
 import { trophyOutline, documentTextOutline, powerOutline } from 'ionicons/icons';
 import { AuthService } from './services/auth';
 import { PwaNotifInstallerComponent } from './shared/pwa-notif-installer/pwa-notif-installer.component';
+import { ImagenPipe } from './pipes/imagen.pipe';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonIcon, PwaNotifInstallerComponent]
+  imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonIcon, PwaNotifInstallerComponent, ImagenPipe]
 })
 export class AppComponent {
   private router = inject(Router);
   private menuCtrl = inject(MenuController);
 
   private authService = inject(AuthService);
-  public avatarPreview = signal<string>('assets/images/default.jpeg');
+  // public avatarPreview = signal<string>('assets/images/default.jpeg');
+  public imgTemp = signal<string | ArrayBuffer | null>(null);
+  public avatarUrl = signal<string>('');
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
 

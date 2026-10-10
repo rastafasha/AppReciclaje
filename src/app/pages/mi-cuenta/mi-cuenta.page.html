@@ -11,7 +11,13 @@
     <!-- Tarjeta Resumen de Credenciales Maestras NoSQL -->
     <div class="profile-summary-card">
       <div class="avatar-box">
-        <img src="assets/images/default.jpeg" alt="Avatar">
+        <!-- <img src="assets/images/default.jpeg" alt="Avatar" (click)="irACompletarPerfil()"> -->
+
+         @if (imgTemp()) {
+          <img [src]="imgTemp()" class="img-preview-crop" (click)="irACompletarPerfil()" />
+        } @else {
+          <img [src]="avatarUrl() | imagenPipe:'usuarios'" class="img-preview-crop" (click)="irACompletarPerfil()" />
+        }
       </div>
       <div class="user-info">
         <h3>{{ nombreUsuario() }}</h3>

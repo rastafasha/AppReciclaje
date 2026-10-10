@@ -17,6 +17,7 @@ import { FamiliarService } from '../../services/familiar-service';
 import { IFamiliar } from '../../models/familiar.model';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
 import { NotificationService } from '../../services/notificacion-service';
+import { ImagenPipe } from '../../pipes/imagen.pipe';
 
 @Component({
   selector: 'app-mi-cuenta',
@@ -25,7 +26,8 @@ import { NotificationService } from '../../services/notificacion-service';
   standalone: true,
   imports: [CommonModule, IonContent,
     IonIcon, IonToggle, IonButton,
-    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent]
+    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, 
+    SkeletonLoaderComponent, ImagenPipe]
 })
 export class MiCuentaPage implements OnInit {
   private router = inject(Router);
@@ -44,6 +46,9 @@ export class MiCuentaPage implements OnInit {
   public isLoading = signal<boolean>(false);
     // 🚦 Signal independiente para controlar el estado de carga del botón Push
   public isPushLoading = signal<boolean>(false);
+
+  public imgTemp = signal<string | ArrayBuffer | null>(null);
+  public avatarUrl = signal<string>('');
 
   // 🚦 Signals computados reactivos para pintar la tarjeta superior del Figma
   public nombreUsuario = computed(() => {
@@ -223,11 +228,7 @@ export class MiCuentaPage implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-  irAlInicio() {
-    this.router.navigateByUrl('/inicio');
-  }
-
-  irAConsejos() {
-    this.router.navigateByUrl('/consejos');
+ irACompletarPerfil() {
+    this.router.navigateByUrl('/perfil-editar');
   }
 }

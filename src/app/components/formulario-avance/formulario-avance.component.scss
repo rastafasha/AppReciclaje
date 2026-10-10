@@ -244,3 +244,50 @@
 ion-button {
   margin-top: 15px;
 }
+
+// Globos bloqueados porque ya se consumieron hoy
+.globo-item-btn {
+  &.registrado-hoy {
+    background: #e9ecef !important;
+    color: #adb5bd !important;
+    border-color: #dee2e6 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+    text-decoration: line-through; // Tachado sutil estético de tarea completada
+
+    .mini-check {
+      display: inline-block;
+      margin-left: 4px;
+      font-weight: 700;
+      color: #2dd36f; // Check verde de éxito Mercadona
+    }
+  }
+}
+
+// Tarjeta Premium del Reto Diario Completado
+.reto-completo-card {
+  text-align: center;
+  padding: 30px 20px;
+  background: #ffffff;
+  border-radius: 20px;
+
+  .emoji-hero {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ion-color-primary, #00539b);
+    margin: 0 0 10px 0;
+  }
+
+  p {
+    font-size: 13.5px;
+    color: #6c757d;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+  }
+}
