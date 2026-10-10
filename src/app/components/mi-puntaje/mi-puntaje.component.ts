@@ -1,7 +1,7 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { closeCircle, pizza, restaurant, ribbon } from 'ionicons/icons';
+import { checkmarkCircleOutline, closeCircle, pizza, restaurant, ribbon, trophyOutline } from 'ionicons/icons';
 import { IonButton, IonIcon } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MaterialesService } from '../../services/materiales';
@@ -24,9 +24,17 @@ export class MiPuntajeComponent {
   public totalComidas = this.materialesService.totalRegistros;
   public rango = this.materialesService.rangoActual;
 
+  /**
+   * 🏆 REGLA DE NEGOCIO COMPUTADA: 
+   * Evalúa instantáneamente si el usuario tiene 55 o más puntos para habilitar el sorteo
+   */
+  public esElegibleSorteo = computed(() => {
+    return this.totalComidas() >= 55;
+  });
+
   constructor() {
-    // Registramos los íconos del Figma requeridos por las filas del panel
-    addIcons({ closeCircle, pizza, restaurant, ribbon });
+    // Agregamos iconos para el banner del sorteo final
+    addIcons({ closeCircle, pizza, restaurant, ribbon, trophyOutline, checkmarkCircleOutline });
   }
 
   notificarCierre() {

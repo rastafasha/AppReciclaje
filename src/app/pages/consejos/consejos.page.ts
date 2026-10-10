@@ -6,7 +6,6 @@ import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOu
 import { IonContent,  IonModal } from '@ionic/angular';
 import { IConsejoData, DetalleConsejoComponent } from '../../components/consejo-detalle/consejo-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
-import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
 
 @Component({
@@ -14,7 +13,7 @@ import { BackbuttonComponent } from '../../shared/backbutton/backbutton.componen
   templateUrl: './consejos.page.html',
   styleUrls: ['./consejos.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, MenufooterComponent, BackbuttonComponent]
+  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, BackbuttonComponent]
 })
 export class ConsejosPage {
   private router = inject(Router);

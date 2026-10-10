@@ -214,3 +214,77 @@
     color: #252876 !important;
   }
 }
+
+.score-hero-card {
+  background: linear-gradient(135deg, #00539b 0%, #003d73 100%);
+  color: #ffffff;
+  padding: 24px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0, 83, 155, 0.15);
+
+  .score-big {
+    font-size: 42px;
+    font-weight: 800;
+    margin: 8px 0;
+    .pts { font-size: 20px; font-weight: 400; }
+  }
+}
+
+// Banner Éxito Sorteo
+.sorteo-banner-success {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ebfbee;
+  border: 1px solid #c3fae8;
+  padding: 14px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+
+  h4 { margin: 0; color: #2b8a3e; font-weight: 700; font-size: 14px; }
+  p { margin: 4px 0 0 0; color: #40c057; font-size: 12px; line-height: 1.4; }
+  .trophy-icon { font-size: 28px; color: #fab005; }
+  .check-icon { font-size: 22px; margin-left: auto; }
+}
+
+// Banner Pendiente Sorteo
+.sorteo-banner-pending {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  padding: 14px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  p { margin: 0 0 8px 0; font-size: 12.5px; color: #495057; }
+  
+  .progress-bar-mini {
+    width: 100%; height: 6px; background: #e9ecef; border-radius: 3px; overflow: hidden;
+    .progress-fill { height: 100%; background: #ffc107; transition: width 0.3s ease; }
+  }
+}
+
+// Control de Opacidad de Filas
+.rango-row {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #f1f3f5;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+
+  &.bloqueado {
+    opacity: 0.45;
+    background: #fafafa;
+    filter: grayscale(40%);
+  }
+
+  &.activo {
+    border-color: #00539b;
+    background: rgba(0, 83, 155, 0.02);
+    box-shadow: 0 4px 12px rgba(0, 83, 155, 0.05);
+    h4 { color: #00539b; font-weight: 700; }
+  }
+}

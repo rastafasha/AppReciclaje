@@ -1,0 +1,26 @@
+<ion-modal 
+  [isOpen]="isOpen()" 
+  [initialBreakpoint]="0.5" 
+  [breakpoints]="[0, 0.5]"
+  (didDismiss)="notificarCierre()"
+  class="binance-sheet-modal">
+  <ng-template>
+    <div class="modal-sheet-content ion-padding">
+      <div class="modal-handle-bar"></div>
+      
+      <div class="modal-body-center">
+        <span class="emoji-hero">🎉</span>
+        <h3>¡Hola, {{ nombreUsuario() }}!</h3>
+        <p>
+          Bienvenido oficialmente al concurso <strong>"Premia tu reciclaje"</strong>. 
+          A partir de hoy, tienes <strong>21 días</strong> para registrar tus hábitos saludables. 
+          ¡Suma un mínimo de <strong>55 puntos</strong> y entra directo al sorteo final!
+        </p>
+        
+        <ion-button expand="block" (click)="notificarCierre()">
+          ¡Empezar el Reto!
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

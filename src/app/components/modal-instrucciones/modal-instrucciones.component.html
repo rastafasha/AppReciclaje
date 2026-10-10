@@ -1,0 +1,43 @@
+<ion-modal 
+  [isOpen]="isOpen()" 
+  [initialBreakpoint]="0.65" 
+  [breakpoints]="[0, 0.65, 0.9]"
+  (didDismiss)="notificarCierre()"
+  class="binance-sheet-modal">
+  <ng-template>
+    <div class="modal-sheet-content ion-padding">
+      <div class="modal-handle-bar"></div>
+      
+      <div class="modal-instructions-scroll">
+        <h3>¿Cómo funciona el concurso? 🍽️ ♻️</h3>
+        <p class="intro">Es muy fácil ganar puntos adoptando hábitos responsables cada día:</p>
+        
+        <ul class="steps-list">
+          <li>
+            <strong>1. Registra 3 comidas:</strong> Cada día debes ingresar lo que consumiste en el 
+            <em>Desayuno, Almuerzo y Cena</em>.
+          </li>
+          <li>
+            <strong>2. Gana puntos:</strong> Sumarás 1 punto por cada bloque registrado correctamente 
+            (Máximo 3 puntos por día).
+          </li>
+          <li>
+            <strong>3. Sin duplicados:</strong> El sistema bloquea los registros repetidos del mismo bloque en el mismo día.
+          </li>
+          <li>
+            <strong>4. Clasifica al sorteo:</strong> Llega a los <strong>55 puntos</strong> o más antes de que terminen tus 21 días.
+          </li>
+        </ul>
+
+        <div class="medallas-preview">
+          <p><strong>Evolución de Rangos:</strong></p>
+          <p>🐥 1-9 pts: Pollito | ⏳ 9-18 pts: Aprendiz | 🛡️ 18-30 pts: Soldado</p>
+        </div>
+
+        <ion-button expand="block" fill="clear" color="medium" (click)="notificarCierre()">
+          Entendido, cerrar
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

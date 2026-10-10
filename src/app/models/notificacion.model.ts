@@ -7,5 +7,13 @@ export interface INotificacion {
   mensaje: string;
   tipo: TipoNotificacion;
   leido: boolean;
+   urlDestino?: string;
   createdAt: string;
+}
+
+
+export interface NotificationResponse {
+  ok: boolean;
+  msg?: string;
+  alertas?: INotificacion[];
 }

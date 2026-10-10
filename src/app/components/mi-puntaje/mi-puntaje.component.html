@@ -9,10 +9,29 @@
   <h2 class="form-title">Mi Puntaje</h2>
 
   <!-- Tarjeta de Agradecimiento/Saludo -->
-  <div class="saludo-card">
+  <!-- <div class="saludo-card">
     <h4>Hola Usuario!.</h4>
     <p>Valoramos tu Esfuerzo y dedicación!</p>
-  </div>
+  </div> -->
+
+  <!-- 🎁 BANNER DE ELEGIBILIDAD AL SORTEO (REGLA CORE) -->
+  @if (esElegibleSorteo()) {
+    <div class="sorteo-banner-success">
+      <ion-icon name="trophy-outline" class="trophy-icon"></ion-icon>
+      <div class="banner-text">
+        <h4>¡Clasificado al Sorteo! 🎉</h4>
+        <p>Has superado los 55 puntos reglamentarios. Ya participas por el premio final de Mercadona.</p>
+      </div>
+      <ion-icon name="checkmark-circle-outline" color="success" class="check-icon"></ion-icon>
+    </div>
+  } @else {
+    <div class="sorteo-banner-pending">
+      <p>Te faltan <strong>{{ 55 - totalComidas() }} pts</strong> para clasificar al sorteo final ⏳</p>
+      <div class="progress-bar-mini">
+        <div class="progress-fill" [style.width.%]="(totalComidas() / 55) * 100"></div>
+      </div>
+    </div>
+  }
 
   <!-- Desglose de Niveles del Figma con iluminación condicional reactiva -->
   <div class="niveles-box">

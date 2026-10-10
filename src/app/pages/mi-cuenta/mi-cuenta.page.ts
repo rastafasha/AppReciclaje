@@ -82,6 +82,7 @@ export class MiCuentaPage implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.cargarFamiliares();
   }
 

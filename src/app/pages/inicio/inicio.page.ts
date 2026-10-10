@@ -16,6 +16,8 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { AuthService } from '../../services/auth';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component'; // 🚀 Inyectamos tu autenticación
+import { ModalBienvenidaComponent } from '../../components/modal-bienvenida/modal-bienvenida.component';
+import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 
 @Component({
   selector: 'app-inicio',
@@ -25,7 +27,9 @@ import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-l
   imports: [CommonModule, IonContent,
     IonButton, IonIcon, RouterModule,
     FormularioAvanceComponent, MiPuntajeComponent, IonModal,
-    HeaderComponent, MenufooterComponent, SkeletonLoaderComponent]
+    HeaderComponent, MenufooterComponent, SkeletonLoaderComponent,
+    ModalBienvenidaComponent, ModalInstruccionesComponent
+  ]
 })
 export class InicioPage implements OnInit {
   private router = inject(Router);
@@ -62,6 +66,10 @@ export class InicioPage implements OnInit {
   @ViewChild('modalAvance') modalAvance!: IonModal;
   @ViewChild('modalPuntaje') modalPuntaje!: IonModal;
 
+  // 🚦 Signals Reactivos para controlar la visibilidad de los modales
+  public mostrarModalBienvenida = signal<boolean>(false);
+  public mostrarModalInstrucciones = signal<boolean>(false);
+
   constructor() {
     addIcons({ 
       notificationsOutline, menuOutline, helpCircleOutline, 
@@ -71,12 +79,37 @@ export class InicioPage implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.isLoading.set(true);
     console.log('🏠 Tablero de Inicio cargado para el usuario:', this.nombreUsuario());
     
     // ⚡ Mandamos a pedir la data real del historial de reciclaje en Atlas al inicializar
     this.materialesService.getHistorial().subscribe(); //
     this.isLoading.set(false);
+
+    // 💡 REGLA DE NEGOCIO: Si es la primera vez que entra a Inicio tras registrarse,
+    // le encendemos el modal de bienvenida automáticamente para felicitarlo
+    const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
+    if (!yaVioBienvenida) {
+      setTimeout(() => {
+        this.mostrarModalBienvenida.set(true);
+      }, 800); // Pequeño delay elegante para que cargue la interfaz
+    }
+  }
+
+  // ℹ️ Métodos para el control del Modal de Instrucciones (Botón de ayuda)
+  abrirInstrucciones() {
+    this.mostrarModalInstrucciones.set(true);
+  }
+
+  cerrarInstrucciones() {
+    this.mostrarModalInstrucciones.set(false);
+  }
+
+  // 👋 Métodos para el control del Modal de Bienvenida
+  cerrarBienvenida() {
+    this.mostrarModalBienvenida.set(false);
+    localStorage.setItem('onboarding_visto', 'true'); // Guardamos para que no le vuelva a saltar
   }
 
   irAFormulario() {

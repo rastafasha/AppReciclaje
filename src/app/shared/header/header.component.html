@@ -12,8 +12,17 @@
       <div class="header-actions">
         
         <!-- 🔔 1. Icono de la Campana (Con su clase asignada) -->
-        <ion-icon name="notifications-outline" class="icon-bell" (click)="irANotificaciones()"></ion-icon>
-        
+        <div slot="end" class="notification-bell-wrapper" (click)="irANotificaciones()">
+          <ion-icon name="notifications-outline" class="icon-bell" ></ion-icon>
+          
+          
+          <!-- 🛑 Globo de Alerta Reactivo: Solo aparece si hay mensajes en Atlas -->
+          @if (contadorAlertas() > 0) {
+            <ion-badge color="danger" class="campana-badge">
+              {{ contadorAlertas() }}
+            </ion-badge>
+          }
+        </div>
         <!-- 🍔 2. Menú Hamburguesa (Con la clase icon-menu para que aparezca en pantalla) -->
         <ion-menu-toggle menu="main-menu">
           <ion-icon name="menu-outline" class="icon-menu"></ion-icon>

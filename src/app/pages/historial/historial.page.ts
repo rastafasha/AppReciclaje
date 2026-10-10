@@ -5,7 +5,6 @@ import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
 import { IonContent,  IonBadge } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
-import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
@@ -15,7 +14,7 @@ import { BackbuttonComponent } from '../../shared/backbutton/backbutton.componen
   templateUrl: './historial.page.html',
   styleUrls: ['./historial.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonBadge, RouterModule, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent, BackbuttonComponent]
+  imports: [CommonModule, IonContent, IonBadge, RouterModule,  HeaderComponent, SkeletonLoaderComponent, BackbuttonComponent]
 })
 export class HistorialPage implements OnInit{
   private router = inject(Router);

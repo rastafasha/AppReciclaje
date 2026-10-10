@@ -3,11 +3,10 @@
 
 <ion-content >
   <div class="notificaciones-container">
-    
+    <app-backbutton pageTitle="Notificaciones"></app-backbutton>
     <!-- Bloque Superior Operativo -->
     <div class="top-actions-box">
       <div class="text-side">
-        <h2>Notificaciones</h2>
         <button class="btn-read-all" (click)="marcarTodasComoLeidas()">
           Marcar Todas como leidas
         </button>
@@ -61,13 +60,11 @@
   </div>
 </ion-content>
 
-<!-- Menú de Pestañas Inferior (Tabs Bar Fija) -->
-<app-menufooter></app-menufooter>
 
 <!-- ========================================================================= -->
 <!-- 🔼 SUB-OFFCANVAS: DETALLE DE NOTIFICACIÓN (Emerge superpuesto estilo Binance) -->
 <!-- ========================================================================= -->
-<ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" style="--height: 70%; --border-radius: 30px 30px 0 0;">
+<ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" style="--height: 80vh; --border-radius: 30px 30px 0 0;">
   <ng-template>
     <ion-content>
       
