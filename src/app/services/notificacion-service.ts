@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { NotificationResponse } from '../models/notificacion.model';
 
 const apiUrl = environment.apiUrl;
+const vapiKey = environment.VAPI_KEY_PUBLIC;
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class NotificationService {
   private swPush = inject(SwPush);
 
   // 🧪 Llave Pública VAPID de tu archivo .env (¡Pégala aquí exactamente igual!)
-  private readonly VAPID_PUBLIC_KEY = 'TU_LLAVE_PUBLICA_VAPID_AQUI';
+  private readonly VAPID_PUBLIC_KEY = vapiKey;
 
   private get headers() {
     return {
@@ -58,7 +59,7 @@ export class NotificationService {
         
         // Enviamos el objeto completo (endpoint, keys) hacia tu controlador POST
         return this.http.post<any>(
-          `${apiUrl}/notificaciones/guardar-suscripcion`, 
+          `${apiUrl}/notificaciones/suscribir`, 
           suscripcionObj.toJSON(), 
           this.headers
         );
