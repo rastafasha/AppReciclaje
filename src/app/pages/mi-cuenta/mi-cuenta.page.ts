@@ -8,7 +8,7 @@ import {
   pencil, createOutline, powerOutline, refreshCircleOutline,
   documentTextOutline, personCircleOutline
 } from 'ionicons/icons';
-import { IonContent, IonIcon, IonToggle, IonButton, IonModal } from '@ionic/angular';
+import { IonContent, IonIcon, IonToggle, IonButton, IonModal, ToastController, IonSpinner } from '@ionic/angular';
 import { AgregarFamiliarComponent } from '../../components/agregar-familiar/agregar-familiar.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -16,6 +16,7 @@ import { AuthService } from '../../services/auth'; // 🚀 Inyectamos tu servici
 import { FamiliarService } from '../../services/familiar-service';
 import { IFamiliar } from '../../models/familiar.model';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
+import { NotificationService } from '../../services/notificacion-service';
 
 @Component({
   selector: 'app-mi-cuenta',
@@ -24,12 +25,15 @@ import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-l
   standalone: true,
   imports: [CommonModule, IonContent,
     IonIcon, IonToggle, IonButton,
-    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent]
+    AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent, SkeletonLoaderComponent, IonSpinner]
 })
 export class MiCuentaPage implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService); // ⚙️ Instanciamos la sesión global
   private familiarService = inject(FamiliarService);
+  private notificationService = inject(NotificationService); // ⚙️ Instanciamos el servicio Push
+  private toastController = inject(ToastController); // ⚙️ Instanciamos el manejador de alertas
+
 
   @ViewChild(IonModal) modal!: IonModal;
 
@@ -38,6 +42,8 @@ export class MiCuentaPage implements OnInit {
   public familiarSeleccionado = signal<IFamiliar | null>(null);
 
   public isLoading = signal<boolean>(false);
+    // 🚦 Signal independiente para controlar el estado de carga del botón Push
+  public isPushLoading = signal<boolean>(false);
 
   // 🚦 Signals computados reactivos para pintar la tarjeta superior del Figma
   public nombreUsuario = computed(() => {
@@ -142,6 +148,57 @@ export class MiCuentaPage implements OnInit {
     this.modal.dismiss(); // Cerramos el modal de forma limpia
     this.familiarSeleccionado.set(null); // Limpiamos el puente
     this.cargarFamiliares(); // ⚡ Recargamos la lista en caliente desde MongoDB
+  }
+
+  /**
+   * 📲 CORE WEBPUSH: Disparador manual desde el botón de la vista Mi Cuenta
+   */
+  onToggleNotificaciones(event: any) {
+    const estaActivado = event.detail.checked;
+
+    // Si el usuario encendió el interruptor, ejecutamos el motor WebPush
+    if (estaActivado) {
+      this.isPushLoading.set(true);
+      console.log('🕵️‍♂️ ion-toggle encendido. Suscribiendo terminal a MongoDB Atlas...');
+
+      this.notificationService.solicitarPermisoYRegistrarDispositivo().subscribe({
+        next: async (resp) => {
+          if (resp.ok) {
+            console.log('♻️ [WEBPUSH]: Dispositivo enlazado con éxito.');
+            
+            // Toast nativo de éxito
+            const toast = await this.toastController.create({
+              message: '¡Notificaciones activadas con éxito! ♻️',
+              duration: 3000,
+              position: 'bottom',
+              color: 'success',
+              icon: 'checkmark-circle-outline'
+            });
+            await toast.present();
+          }
+          this.isPushLoading.set(false);
+        },
+        error: async (err) => {
+          console.warn('⚠️ Permiso denegado por el usuario o navegador incompatible.', err);
+          this.isPushLoading.set(false);
+          
+          // Forzamos el apagado del toggle visualmente si el permiso falló
+          event.target.checked = false;
+
+          const toastWarning = await this.toastController.create({
+            message: 'Permiso denegado. Actívalo en los ajustes de tu navegador.',
+            duration: 3500,
+            position: 'bottom',
+            color: 'warning',
+            icon: 'notifications-off-outline'
+          });
+          await toastWarning.present();
+        }
+      });
+    } else {
+      console.log('🔕 ion-toggle apagado. El usuario desactivó las alertas de forma manual.');
+      // Aquí opcionalmente podrías llamar a un endpoint de des-suscripción si el negocio lo requiere
+    }
   }
 
 

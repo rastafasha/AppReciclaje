@@ -39,38 +39,38 @@
       <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
       }@else {
       <!-- 🔄 Bucle reactivo de Angular 22: Renderiza un bloque por cada familiar en Atlas -->
-        @for (familiar of familiares(); track familiar.id) {
-        <div class="familiar-card">
-          <div class="familiar-left">
-            <div class="familiar-avatar">
-              <ion-icon name="person"></ion-icon>
-            </div>
-            <div class="familiar-info">
-              <!-- Interpolamos nombre y apellido unificados -->
-              <h4>{{ familiar.nombre }} {{ familiar.apellido }}</h4>
-              <p>{{ familiar.parentesco }}</p>
-            </div>
+      @for (familiar of familiares(); track familiar.id) {
+      <div class="familiar-card">
+        <div class="familiar-left">
+          <div class="familiar-avatar">
+            <ion-icon name="person"></ion-icon>
           </div>
-
-          <!-- Panel de Acciones Derecho -->
-          <div class="familiar-actions">
-            <!-- ✏️ Botón Lápiz Amarillo para Editar -->
-            <button class="btn-edit-yellow" (click)="abrirEdicionFamiliar(familiar)">
-              <ion-icon name="pencil"></ion-icon>
-            </button>
-
-            <!-- 🗑️ Botón Opcional para Borrar de una sola vez -->
-            <button class="btn-delete-red" (click)="eliminarFamiliar(familiar.id)">
-              <ion-icon name="close"></ion-icon>
-            </button>
+          <div class="familiar-info">
+            <!-- Interpolamos nombre y apellido unificados -->
+            <h4>{{ familiar.nombre }} {{ familiar.apellido }}</h4>
+            <p>{{ familiar.parentesco }}</p>
           </div>
         </div>
-        } @empty {
-        <!-- 🎈 Estado Vacío: Si el usuario de Mercadona no ha registrado familiares aún -->
-        <div class="empty-state">
-          <p>No tienes familiares registrados todavía.</p>
+
+        <!-- Panel de Acciones Derecho -->
+        <div class="familiar-actions">
+          <!-- ✏️ Botón Lápiz Amarillo para Editar -->
+          <button class="btn-edit-yellow" (click)="abrirEdicionFamiliar(familiar)">
+            <ion-icon name="pencil"></ion-icon>
+          </button>
+
+          <!-- 🗑️ Botón Opcional para Borrar de una sola vez -->
+          <button class="btn-delete-red" (click)="eliminarFamiliar(familiar.id)">
+            <ion-icon name="close"></ion-icon>
+          </button>
         </div>
-        }
+      </div>
+      } @empty {
+      <!-- 🎈 Estado Vacío: Si el usuario de Mercadona no ha registrado familiares aún -->
+      <div class="empty-state">
+        <p>No tienes familiares registrados todavía.</p>
+      </div>
+      }
       <!-- Botón Agregar Familiar -->
       <ion-button expand="block" class="btn-add-familiar" id="open-add-familiar">
         Agregar Familiar
@@ -87,8 +87,22 @@
 
       <!-- Activar Notificaciones (Toggle) -->
       <div class="option-item-row">
-        <span style="color: #1e2267;">Activar Notificaciones</span>
-        <ion-toggle [checked]="true"></ion-toggle>
+        <div class="opcion-toggle-container">
+
+          <div class="toggle-left-info">
+            <ion-icon name="notifications-outline" class="icon-lead"></ion-icon>
+            <div class="textos">
+              <span>Activar Notificaciones</span>
+              <!-- Pequeño texto opcional descriptivo estilo Binance -->
+              <p class="desc-text">Alertas de hábitos saludables</p>
+            </div>
+          </div>
+
+          <!-- 🎛️ Tu ion-toggle Real conectado de forma reactiva -->
+          <ion-toggle [disabled]="isPushLoading()" (ionChange)="onToggleNotificaciones($event)">
+          </ion-toggle>
+
+        </div>
       </div>
 
       <!-- Editar Perfil Link -->

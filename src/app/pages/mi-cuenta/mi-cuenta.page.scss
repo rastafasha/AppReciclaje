@@ -288,3 +288,46 @@
   }
 }
 
+
+.opcion-toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 14px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  margin-top: 15px;
+}
+
+.toggle-left-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .icon-lead {
+    font-size: 22px;
+    color: var(--ion-color-primary, #00539b);
+  }
+
+  .textos {
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #212529;
+    }
+    .desc-text {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      color: #868e96;
+    }
+  }
+}
+
+// Estilo limpio del interruptor de Ionic
+ion-toggle {
+  --handle-background: #ffffff;
+  --handle-background-checked: #ffffff;
+  --background-checked: #2dd36f; // Verde Mercadona éxito al encenderse
+}
+
