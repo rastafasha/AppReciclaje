@@ -1,11 +1,33 @@
-<div class="custom-tabs-bar">
-  <button class="tab-button " [class.active]="tabActiva() === 'inicio'">
-    <ion-icon name="refresh-circle-outline" (click)="irAInicio()"></ion-icon> <!-- Icono Reciclaje Izq -->
+<div class="menu-footer">
+  <ul>
+    <!-- 🏠 Pestaña: Tablero de Inicio -->
+    <li>
+      <a routerLink="/inicio" routerLinkActive="active">
+        <ion-icon name="home-outline"></ion-icon>
+      </a>
+    </li>
+
+    <!-- 🟢 BOTÓN CENTRAL CRÍTICO: Registrar Acción Ecológica -->
+    <!-- <li>
+  <button type="button" class="action-button-center" (click)="abrirFormularioAvance()">
+    <ion-icon name="add"></ion-icon>
   </button>
-  <button class="tab-button" [class.active]="tabActiva() === 'reglas'" (click)="irAReglas()">
-    <ion-icon name="document-text-outline"></ion-icon> <!-- Icono Historial Centro -->
-  </button>
-  <button class="tab-button" [class.active]="tabActiva() === 'perfil'" (click)="irAlPerfil()">
-    <ion-icon name="person-circle-outline"></ion-icon> <!-- Icono Perfil Der -->
-  </button>
+</li> -->
+
+    <!-- 🏆 Pestaña: Concurso / Historial / Sorteo -->
+    <li>
+      <a routerLink="/historial" routerLinkActive="active" style="position: relative;">
+        <ion-icon name="trophy-outline"></ion-icon>
+        <!-- Badge dinámico: Si quieres pintar los puntos del sorteo o alertas -->
+        <span class="points-count-badge">+10</span>
+      </a>
+    </li>
+
+    <!-- 👤 Pestaña: Mi Cuenta / Perfil -->
+    <li>
+      <a routerLink="/mi-cuenta" routerLinkActive="active">
+        <ion-icon name="person-outline"></ion-icon>
+      </a>
+    </li>
+  </ul>
 </div>
