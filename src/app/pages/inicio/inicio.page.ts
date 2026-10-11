@@ -85,27 +85,43 @@ export class InicioPage implements OnInit {
   }
 
   ngOnInit() {
-    window.scrollTo(0, 0);
-    this.isLoading.set(true);
-    console.log('🏠 Tablero de Inicio cargado para el usuario:', this.nombreUsuario());
-    
-    // ⚡ Mandamos a pedir la data real del historial de reciclaje en Atlas al inicializar
-    this.materialesService.getHistorial().subscribe(); //
-    this.isLoading.set(false);
+  window.scrollTo(0, 0);
+  this.isLoading.set(true);
+  console.log('🏠 Tablero de Inicio cargado para el usuario:', this.nombreUsuario());
+  
+  // ⚡ Mandamos a pedir la data real del historial de reciclaje en Atlas al inicializar
+  this.materialesService.getHistorial().subscribe({
+    next: () => {
+      // 1. Apagamos el esqueleto de carga una vez que Atlas responde con datos reales
+      this.isLoading.set(false);
 
-    // 💡 REGLA DE NEGOCIO: Si es la primera vez que entra a Inicio tras registrarse,
-    // le encendemos el modal de bienvenida automáticamente para felicitarlo
-    const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
-    if (!yaVioBienvenida) {
-      setTimeout(() => {
-        this.mostrarModalBienvenida.set(true);
-      }, 800); // Pequeño delay elegante para que cargue la interfaz
+      // 🔍 VALIDACIÓN INTELIGENTE DE REGLA DE NEGOCIO:
+      // Leemos el valor en tiempo real de la Signal después de que se actualizó con los datos del servidor
+      const totalRegistrosActuales = this.totalComidas();
+      const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
+
+      console.log(`📊 Sincronización Atlas: El usuario tiene [${totalRegistrosActuales}] comidas registradas.`);
+
+      // El modal SOLO debe activarse si tiene exactamente 0 comidas registradas Y no ha marcado el onboarding
+      if (totalRegistrosActuales === 0 && !yaVioBienvenida) {
+        setTimeout(() => {
+          console.log('👋 Activando modal de bienvenida para nuevo usuario sin registros.');
+          this.mostrarModalBienvenida.set(true);
+        }, 800); // Mantenemos tu delay elegante para la animación
+      } else {
+        console.log('⏭️ Saltando modal de bienvenida: El usuario ya tiene historial o ya completó el onboarding.');
+        this.mostrarModalBienvenida.set(false);
+      }
+    },
+    error: (err) => {
+      console.error('❌ Error al recuperar el historial desde Atlas:', err);
+      this.isLoading.set(false);
     }
+  });
 
-    // 🚀 Activación automática al pisar el Tablero de Inicio por primera vez
-    this.activarNotificacionesPushDelReto();
-  }
-
+  // 🚀 Activación automática al pisar el Tablero de Inicio por primera vez
+  this.activarNotificacionesPushDelReto();
+}
   activarNotificacionesPushDelReto() {
     console.log('🕵️‍♂️ Negociando suscripción criptográfica WebPush con el navegador...');
     
