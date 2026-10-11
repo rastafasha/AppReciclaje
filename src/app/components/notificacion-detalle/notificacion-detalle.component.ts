@@ -1,16 +1,17 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { INotificacion } from '../../models/notificacion.model';
 import { addIcons } from 'ionicons';
 import { closeCircle } from 'ionicons/icons';
-import { IonButton} from '@ionic/angular';
+import {  IonIcon } from '@ionic/angular';
+import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-notificacion-detalle',
   templateUrl: './notificacion-detalle.component.html',
   styleUrls: ['./notificacion-detalle.component.scss'],
   standalone: true, // 🚀 Nos aseguramos de que declare formalmente que es Standalone
-  imports: [CommonModule, IonButton]
+  imports: [CommonModule,  IonIcon, HojaAnimadaComponent]
 })
 export class NotificacionDetalleComponent {
 
@@ -19,6 +20,7 @@ export class NotificacionDetalleComponent {
 
   // ⚡ Estándar Estricto: Nueva función de salida output() nativa libre de prefijos prohibidos
   public cerrarModal = output<void>();
+  public estadoActual = signal<any>('saludando');
 
   constructor() {
     addIcons({ closeCircle });

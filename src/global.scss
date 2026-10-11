@@ -35,6 +35,20 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+html, body {
+  /* Evita que el sistema operativo amplíe el texto automáticamente si el usuario gira el celular */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  
+  /* Desactiva los menús emergentes molestos de "copiar/seleccionar" al mantener presionado un botón del juego */
+  -webkit-touch-callout: none;
+  
+  /* Fuerza al scroll a ser elástico y suave estilo app nativa */
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
 
 ion-toast {
   --border-radius: 12px; // Bordes redondeados sutiles estilo Binance

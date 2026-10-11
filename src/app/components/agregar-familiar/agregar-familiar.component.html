@@ -1,70 +1,69 @@
-<div class="modal-content-wrapper">
-
-  <!-- Botón superior derecho de cerrar X -->
-  <div class="panel-top-bar">
-    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
-  </div>
-
-  <h2 class="modal-title">{{ familiarAEditar() ? 'Actualizar Familiar' : 'Guardar Familiar' }}</h2>
-
-  <!-- Tarjeta de Previsualización en vivo -->
-   @if (familiarAEditar() && familiarAEditar().nombre) {
-  <div class="familiar-preview-card">
-    <div class="preview-left">
-      <div class="preview-avatar">
-        <ion-icon name="person"></ion-icon>
-      </div>
-      <div class="preview-info">
-        <!-- Usamos el operador de navegación segura (?) por si acaso -->
-        <h4>{{ familiarAEditar()?.nombre }} {{ familiarAEditar()?.apellido }}</h4>
-        <p>{{ familiarAEditar()?.parentesco }}</p>
-      </div>
-    </div>
-  </div>
-}
+<div class="modal-content-wrapper-duo animate__animated animate__fadeInUp">
   
-
-  <!-- Botón Elegir Foto -->
-  <ion-button expand="block" class="btn-modal-blue">
-    Elegir Foto
-  </ion-button>
-
-  <!-- Formulario del Familiar -->
-  <form [formGroup]="familiarForm" (ngSubmit)="guardarFamiliar()">
-
-    <div class="input-group">
-      <label>Nombre</label>
-      <ion-input class="custom-input" type="text" formControlName="nombre"></ion-input>
-    </div>
-
-    <div class="input-group">
-      <label>Apellido</label>
-      <ion-input class="custom-input" type="text" formControlName="apellido"></ion-input>
-    </div>
-
-    <!-- 🎈 SECCIÓN DE GLOBOS (Imagen de referencia) -->
-    <label class="section-title">Parentesco *</label>
-    <div class="globos-container">
-      @for (opcion of opcionesParentesco; track opcion) {
-      <button type="button" class="globo-btn" [class.activo]="parentescoSeleccionado() === opcion"
-        (click)="seleccionarParentesco(opcion)">
-        {{ opcion }}
+  <!-- 🔝 ZONA FIJA SUPERIOR (CABECERA) -->
+  <header class="modal-header-fixed-zone">
+    <div class="panel-top-bar-duo">
+      <div class="decor-line-duo"></div>
+      <button type="button" class="close-btn-duo" (click)="notificarCierre()">
+        <ion-icon name="close"></ion-icon>
       </button>
-      }
     </div>
 
-    <!-- Botón Guardar -->
+    <h2 class="modal-title-duo">
+      {{ familiarAEditar() ? 'Actualizar Familiar' : 'Registrar Familiar' }}
+    </h2>
 
+    <!-- 👀 LA TARJETA PREVIO: Ahora vive fija en la cabecera sin romper el scroll del formulario -->
+    @if (familiarAEditar() && familiarAEditar().nombre) {
+      <div class="familiar-preview-card-duo animate__animated animate__zoomIn">
+        <div class="preview-left-duo">
+          <div class="preview-avatar-duo">👤</div>
+          <div class="preview-info-duo">
+            <h4>{{ familiarAEditar()?.nombre }} {{ familiarAEditar()?.apellido }}</h4>
+            <p>Misión: Compartir Hábitos</p>
+          </div>
+        </div>
+        <span class="preview-tag-duo">{{ familiarAEditar()?.parentesco }}</span>
+      </div>
+    }
+  </header>
 
-    <ion-button expand="block" class="btn-modal-blue" [disabled]="familiarForm.invalid" (click)="guardarFamiliar()">
-      <!-- 🎛️ Texto dinámico reactivo -->
-      {{ familiarAEditar() ? 'Actualizar Familiar' : 'Guardar Familiar' }}
-    </ion-button>
-    <!-- Botón Entendido de Cierre
-    <ion-button expand="block" class="btn-modal-understood" (click)="notificarCierre()">
-      Entendido
-    </ion-button> -->
+  <!-- 📜 ZONA ELÁSTICA CON SCROLL INFINITO (FORMULARIO) -->
+  <div class="form-scrollable-body">
+    <form [formGroup]="familiarForm" id="familiarFormId" (ngSubmit)="guardarFamiliar()">
+      
+      <div class="input-group-duo">
+        <label for="fNombre" class="group-label-duo">Nombre *</label>
+        <input id="fNombre" type="text" formControlName="nombre" class="custom-input-duo" placeholder="Ej. Carlos">
+      </div>
 
-  </form>
+      <div class="input-group-duo">
+        <label for="fApellido" class="group-label-duo">Apellido *</label>
+        <input id="fApellido" type="text" formControlName="apellido" class="custom-input-duo" placeholder="Ej. Pérez">
+      </div>
+
+      <div class="input-group-duo">
+        <label class="group-label-duo">Parentesco *</label>
+        <div class="globos-container-duo">
+          @for (opcion of opcionesParentesco; track opcion) {
+            <button type="button" 
+                    class="globo-btn-duo"
+                    [class.activo]="parentescoSeleccionado() === opcion"
+                    (click)="seleccionarParentesco(opcion)">
+              {{ opcion }}
+            </button>
+          }
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- 🟢 ZONA FIJA INFERIOR (PIE DE PÁGINA) -->
+  <footer class="form-actions-duo">
+    <button type="submit" form="familiarFormId" class="btn-modal-save-duo">
+      {{ familiarAEditar() ? 'Guardar Cambios' : 'Unir Retador' }}
+    </button>
+  </footer>
 
 </div>

@@ -2,8 +2,7 @@ import { Component, computed, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline, closeCircle, pizza, restaurant, ribbon, trophyOutline } from 'ionicons/icons';
-import { IonButton, IonIcon } from '@ionic/angular';
-import { Router } from '@angular/router';
+import {  IonIcon } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
 
 @Component({
@@ -11,7 +10,7 @@ import { MaterialesService } from '../../services/materiales';
   templateUrl: './mi-puntaje.component.html',
   styleUrls: ['./mi-puntaje.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonButton, IonIcon,]
+  imports: [CommonModule,  IonIcon,]
 })
 export class MiPuntajeComponent {
   private materialesService = inject(MaterialesService); // 🚀 Acceso al estado de MongoDB Atlas

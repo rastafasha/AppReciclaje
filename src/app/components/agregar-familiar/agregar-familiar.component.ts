@@ -2,7 +2,7 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonButton, IonIcon, IonInput } from '@ionic/angular';
+import {  IonIcon, } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { closeCircle } from 'ionicons/icons';
 import { FamiliarService } from '../../services/familiar-service';
@@ -12,7 +12,7 @@ import { FamiliarService } from '../../services/familiar-service';
   templateUrl: './agregar-familiar.component.html',
   styleUrls: ['./agregar-familiar.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonInput, IonButton, IonIcon]
+  imports: [CommonModule, ReactiveFormsModule,  IonIcon]
 })
 export class AgregarFamiliarComponent {
   private fb = inject(FormBuilder);
@@ -126,12 +126,13 @@ export class AgregarFamiliarComponent {
     }
   }
 
-  private finalizarFlujo() {
-    this.familiarForm.reset();
-    this.parentescoSeleccionado.set('');
-    this.familiarAgregado.emit();
-    this.cerrarModal.emit();
-  }
+ private finalizarFlujo() {
+  this.familiarForm.reset();
+  this.parentescoSeleccionado.set('');
+  
+  // ⚡ Esto le avisa al padre que limpie los estados y refresque la lista de Atlas
+  this.familiarAgregado.emit(); 
+}
   
 
   notificarCierre() {

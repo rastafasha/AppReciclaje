@@ -1,64 +1,55 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content >
-  <div class="notificaciones-container">
-    <app-backbutton pageTitle="Notificaciones"></app-backbutton>
-    <!-- Bloque Superior Operativo -->
-    <div class="top-actions-box">
-      <div class="text-side">
-        <button class="btn-read-all" (click)="marcarTodasComoLeidas()">
-          Marcar Todas como leidas
+<ion-content [fullscreen]="true">
+  <div class="notificaciones-container-duo animate__animated animate__fadeIn">
+  <app-backbutton pageTitle="Notificaciones"></app-backbutton>
+    
+    <!-- 🧳 SECCIÓN DE ACCIONES Y PERSONAJE SUPERIOR -->
+    <header class="top-actions-box-duo">
+      <div class="text-side-duo">
+        <h2>Mis Alertas 🔔</h2>
+        <button type="button" class="btn-read-all-duo" (click)="marcarTodasComoLeidas()">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+          Marcar leídas
         </button>
       </div>
-      <div class="character-side">
-        <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos">
+
+      <div class="character-side-duo">
+        <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
       </div>
-    </div>
+    </header>
 
-    <!-- Listado Dinámico con Fallback Estático del Figma -->
-    <div style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
-      
-      @for (alerta of alertasInApp(); track alerta.id) {
-        <!-- ⚡ Si la base de datos distribuida tiene alertas reales, les asigna el clic de apertura -->
-        <div class="notificacion-item-card" (click)="abrirDetalle(alerta)">
-          <h3>{{ alerta.titulo }}</h3>
-          <p>{{ alerta.mensaje.substring(0, 50) }}...</p>
-        </div>
+    <!-- ✉️ LISTADO DE MENSAJES DE MISIÓN -->
+    <section class="notificaciones-list-duo">
+      @for (alerta of alertasInApp(); track alerta.id || $index) {
+        <article class="notificacion-item-card-duo animate__animated animate__fadeInUp" 
+                 [class.no-leida]="!alerta.leido">
+          
+          <!-- Indicador visual sutil en caliente de mensaje nuevo -->
+          @if (!alerta.leido) {
+            <div class="unread-dot-duo"></div>
+          }
+
+          <div class="card-content-duo">
+            <h3>{{ alerta.titulo }}</h3>
+            <p>{{ alerta.mensaje.substring(0, 75) }}...</p>
+          </div>
+          
+        </article>
       } @empty {
-        
-        <!-- 🎨 Las 5 Tarjetas originales de tu Figma que actúan como mocks de prueba clickeables -->
-        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f1', titulo: 'Notificación Concurso 🏆', mensaje: 'Al completar los 21 días requeridos de tu racha alimenticia saludable, estarás participando de manera automática por fabulosos premios del sorteo final de Mercadona.', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
-          <h3>Notificación</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
+        <!-- PANTALLA VACÍA DE ALERTAS GAMIFICADA -->
+        <div class="empty-notifications-duo animate__animated animate__zoomIn">
+          <div class="empty-icon-duo">🔕</div>
+          <h4>Tu bandeja está al día</h4>
+          <p>Te avisaremos por aquí cuando haya actualizaciones del sorteo UCC o Mercadona. ¡Sigue recolectando racha!</p>
         </div>
-
-        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f2', titulo: '¡Hábito Completado! 🎉', mensaje: 'Has registrado exitosamente tu comida del día de hoy en la base de datos NoSQL. ¡Sigue así para mantener tu acumulado impecable!', tipo: 'LOGRO_DESBLOQUEADO', leido: false, createdAt: '' })">
-          <h3>Notificación</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-        </div>
-
-        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f3', titulo: 'Alerta de Racha ⚠️', mensaje: 'No olvides abrir tu formulario deslizable y registrar tu cena de hoy antes de que termine el día para no romper tus días consecutivos.', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
-          <h3>Notificación</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-        </div>
-
-        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f4', titulo: 'Consejo del Día 💡', mensaje: '¿Sabías que las cáscaras de zanahoria y patata sirven para preparar caldos vegetales súper nutritivos antes de gestionarlas en el desecho?', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' })">
-          <h3>Notificación</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-        </div>
-
-        <div class="notificacion-item-card" (click)="abrirDetalle({ id: 'f5', titulo: '¡Rango Alcanzado! 🐥', mensaje: 'Felicidades, tu balance transaccional de puntos te ha otorgado la medalla de Pollito en la plataforma de Mercadona Premia tu reciclaje.', tipo: 'LOGRO_DESBLOQUEADO', leido: false, createdAt: '' })">
-          <h3>Notificación</h3>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-        </div>
-
       }
-      
-    </div>
+    </section>
 
   </div>
 </ion-content>
+
 
 
 <!-- ========================================================================= -->

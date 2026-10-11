@@ -10,77 +10,157 @@
   padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
   background-color: #ffffff;
 }
+/* 🏠 Contenedor Principal */
+.consejos-container-duo {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 100px 20px; /* Espacio libre para que las Tabs no tapen nada */
+  background-color: #ffffff;
+  min-height: 100vh;
+}
 
-/* 🫵 Sección Informativa Superior */
-.intro-consejos-box {
+/* 🫵 CABECERA INTERACTIVA CON PERSONAJE */
+.intro-consejos-box-duo {
   display: flex;
   align-items: center;
-  margin-bottom: 25px;
+  gap: 16px;
+  margin-bottom: 28px;
   width: 100%;
 
-  .character-box {
-    flex: 1;
+  .character-side-duo {
+    flex: 0.8;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    img {
-      width: 85px;
-      height: auto;
-    }
-  }
-
-  .intro-text {
-    flex: 2.2;
-    text-align: left;
-    padding-left: 12px;
-    
-    h2 {
-      color: #252876;
-      font-size: 20px;
-      font-weight: 700;
-      margin: 0 0 6px 0;
-    }
-
-    p {
-      color: #a6a6a6;
-      font-size: 14px;
-      line-height: 1.4;
-      margin: 0;
-      font-weight: 500;
-    }
+    height: 90px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 8px;
   }
 }
 
-/* 📝 Tarjetas de Consejo Repetitivas del Figma */
-.consejo-item-card {
-  border: 1px solid #252876; // Borde azul corporativo fino de tu captura
-  border-radius: 20px;
-  padding: 18px 20px;
-  text-align: left;
-  width: 100%;
-  margin-bottom: 16px;
+/* ✉️ Bocadillo de Diálogo Estilo Cómic Tecnológico */
+.dialog-bubble-duo {
+  position: relative;
+  flex: 2.2;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1; /* Relieve sólido fino */
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 
-  h3 {
-    color: #252876;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
+  h2 {
+    margin: 0 0 4px 0;
+    color: #252876; /* Tu azul de marca */
+    font-size: 16px;
+    font-weight: 800;
   }
 
   p {
-    color: #a6a6a6;
-    font-size: 14px;
+    color: #475569;
+    font-size: 13px;
     line-height: 1.4;
-    margin: 0 0 6px 0;
-  }
-
-  .read-more-btn {
-    text-align: right;
-    color: #252876;
-    font-size: 16px;
+    margin: 0;
     font-weight: 600;
-    cursor: pointer;
   }
 }
+
+/* 📐 Flecha del Bocadillo apuntando a la izquierda (hacia el personaje) */
+.bubble-arrow-left {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  border-left: 1px solid #cbd5e1;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+/* 📝 TARJETAS DE CONSEJOS (LOOK ECO-TECH PREMIUM) */
+.consejo-item-card-duo {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1; /* Relieve tridimensional sutil */
+  border-radius: 14px;
+  padding: 16px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+  position: relative;
+
+  .card-badge-info {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ff9600;
+    background: #fff4e5;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid #ff9600;
+    letter-spacing: 0.3px;
+  }
+
+  h3 {
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    padding-right: 50px; /* Evita que el título tape la píldora de arriba */
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 0 0 14px 0;
+    font-weight: 500;
+  }
+}
+
+.card-footer-duo {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* 🔵 Botón de Acción con Relieve Fino */
+.btn-read-more-duo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: #252876; /* Azul Corporativo */
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  ion-icon {
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+
+  /* Microinteracción de hundimiento al pulsar con el dedo */
+  &:active {
+    border-bottom-width: 1px;
+    transform: translateY(2px);
+  }
+
+  &:hover ion-icon {
+    transform: translateX(3px); /* Pequeño desplazamiento sutil del icono */
+  }
+}
+
 

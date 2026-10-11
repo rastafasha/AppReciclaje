@@ -1,91 +1,171 @@
-:host {
-  --background: #ffffff;
-}
-
 /* 🏠 Contenedor Principal */
-.notificaciones-container {
+.notificaciones-container-duo {
   display: flex;
   flex-direction: column;
-  padding: 16px 20px 80px 20px;
+  padding: 20px 20px 100px 20px; /* Margen de seguridad para que las Tabs no tapen */
   background-color: #ffffff;
   min-height: 100vh;
 }
 
-/* 🧳 Sección de Título e Interacción Superior */
-.top-actions-box {
+/* 🧳 SECCIÓN SUPERIOR ACCIONES */
+.top-actions-box-duo {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 14px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 16px;
 
-  .text-side {
+  .text-side-duo {
     text-align: left;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
 
     h2 {
-      color: #252876;
+      color: #3c3c3c;
       font-size: 24px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
     }
 
-    .btn-read-all {
-      background: transparent;
-      border: 1px solid #b3b3b3;
-      color: #7f8c8d;
-      border-radius: 12px;
-      padding: 6px 14px;
-      font-size: 14px;
-      font-weight: 500;
-      text-transform: none;
+    /* Botón 3D Fino de Marcar Leídas */
+    .btn-read-all-duo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-bottom: 3px solid #cbd5e1; /* Relieve fino pro */
+      color: #64748b;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.1s ease;
 
       &:active {
-        background-color: #f2f2f2;
+        border-bottom-width: 1px;
+        transform: translateY(2px);
       }
+      
+      ion-icon { font-size: 14px; color: #2dd36f; } /* Check doble en verde Mercadona */
     }
   }
 
-  .character-side {
+  .character-side-duo {
     display: flex;
     justify-content: center;
     align-items: center;
+    // background: #f8fafc;
+    // border: 1px solid #e2e8f0;
+    // border-radius: 14px;
+    width: 125px;
+    height: 75px;
+    padding: 4px;
+  }
 
-    img {
-      width: 75px;
-      height: auto;
+  // .character-side {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+
+  //   img {
+  //     width: 75px;
+  //     height: auto;
+  //   }
+  // }
+}
+
+/* ✉️ TARJETAS DE NOTIFICACIÓN ECO-TECH PREMIUM */
+.notificacion-item-card-duo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1; /* Relieve sólido sutil */
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  position: relative;
+  box-sizing: border-box;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  /* Estado Destacado para mensajes Nuevos/No leídos */
+  &.no-leida {
+    background: #f0f4ff; /* Tinte azul UCC sutil de novedad */
+    border-color: #252876;
+    border-bottom-color: #1a1c53;
+  }
+
+  /* 🔵 PUNTITO FLOTANTE EN CALIENTE DE MENSAJE NUEVO */
+  .unread-dot-duo {
+    width: 10px;
+    height: 10px;
+    background-color: #252876; /* El azul rey de tu marca UCC */
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(37, 40, 118, 0.4);
+  }
+
+  .card-content-duo {
+    text-align: left;
+    flex: 1;
+
+    h3 {
+      color: #1e293b;
+      font-size: 15px;
+      font-weight: 800;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.3px;
+    }
+
+    p {
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+      font-weight: 500;
     }
   }
 }
 
-/* ✉️ Tarjetas de Alerta del Figma */
-.notificacion-item-card {
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 16px 20px;
-  text-align: left;
-  width: 100%;
-  margin-bottom: 14px;
-  background-color: #ffffff;
+/* 🔕 PANTALLA VACÍA DE ALERTAS GAMIFICADA */
+.empty-notifications-duo {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  margin-top: 10px;
 
-  h3 {
-    color: #252876;
-    font-size: 18px;
-    font-weight: 600;
+  .empty-icon-duo {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #475569;
     margin: 0 0 6px 0;
   }
 
   p {
-    color: #a6a6a6;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
     margin: 0;
+    font-weight: 600;
   }
 }
-

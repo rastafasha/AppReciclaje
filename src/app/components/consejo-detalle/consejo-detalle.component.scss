@@ -1,90 +1,126 @@
-.consejo-detail-panel {
+/* Contenedor del Panel Deslizable */
+.consejo-detail-panel-duo {
   display: flex;
   flex-direction: column;
-  padding: 12px 20px 40px 20px;
-  background-color: #f4f5f7;
+  padding: 16px 20px 30px 20px;
+  background-color: #ffffff;
   height: 100%;
+  box-sizing: border-box;
 }
 
-/* Barra Decorativa Superior Naranja y Botón Cerrar X */
-.panel-top-bar {
+/* 🔝 BARRA SUPERIOR */
+.panel-top-bar-duo {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  height: 24px;
   margin-bottom: 20px;
 
-  .decor-line {
-    width: 60px;
-    height: 5px;
-    background-color: #f3a91b;
+  .decor-line-duo {
+    width: 44px;
+    height: 4px;
+    background-color: #e2e8f0;
     border-radius: 10px;
   }
 
-  .close-icon {
+  .close-btn-duo {
     position: absolute;
     right: -4px;
-    top: -4px;
-    font-size: 28px;
-    color: #f3a91b;
+    top: -6px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 }
 
-/* Contenido del Consejo */
-.detail-body {
+/* 📜 CONTENIDO DEL CONSEJO */
+.detail-body-duo {
   text-align: left;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 
-  .detail-tag {
+  .detail-tag-duo {
     display: inline-block;
-    background-color: rgba(37, 40, 118, 0.1);
-    color: #252876;
+    background-color: #f0f4ff;
+    color: #252876; /* Tu azul de marca UCC */
     padding: 6px 14px;
-    border-radius: 12px;
-    font-size: 13px;
+    border-radius: 10px;
+    font-size: 11px;
     font-weight: 700;
     margin-bottom: 14px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #e0e7ff;
+    align-self: flex-start;
   }
 
   h2 {
-    color: #252876;
-    font-size: 22px;
-    font-weight: 700;
+    color: #1e293b;
+    font-size: 20px;
+    font-weight: 800;
     margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
   }
 
-  .character-row {
+  .character-row-duo {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
-    
-    img {
-      width: 100px;
-      height: auto;
-    }
+    // background: #f8fafc;
+    // border-radius: 14px;
+    padding: 16px;
+    // border: 1px solid #e2e8f0;
+    height: 110px;
   }
 
-  p {
-    color: #4a5568;
-    font-size: 15px;
-    line-height: 1.6;
-    margin: 0 0 25px 0;
-    font-weight: 500;
+  .content-scroll-box {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+
+    p {
+      color: #475569;
+      font-size: 14.5px;
+      line-height: 1.6;
+      margin: 0 0 16px 0;
+      font-weight: 500;
+    }
   }
 }
 
-/* Botón Entendido */
-.btn-understood {
-  --background: #a6a6a6;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  height: 50px;
-  text-transform: none;
+/* 🟢 BOTÓN FÍSICO CON RELIEVE 3D SECUNDARIO */
+.form-actions-duo {
+  margin-top: 14px;
+  padding-bottom: 10px;
+}
+
+.btn-duo-understood {
   width: 100%;
-  margin: 0;
+  background: #ffffff;
+  color: #252876; /* El azul rey de tus botones originales */
+  border: 1px solid #cbd5e1;
+  border-bottom: 4px solid #cbd5e1; /* Relieve sólido sutil */
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  margin-bottom: 30px;
+
+  &:active {
+    border-bottom-width: 1px;
+    transform: translateY(3px);
+  }
 }

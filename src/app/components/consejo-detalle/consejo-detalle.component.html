@@ -1,28 +1,36 @@
-<div class="consejo-detail-panel">
-    
-  <!-- Pestaña decorativa superior naranja y botón de cierre X -->
-  <div class="panel-top-bar">
-    <div class="decor-line"></div>
-    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
-  </div>
+<div class="consejo-detail-panel-duo animate__animated animate__fadeInUp">
+  
+  <!-- 🔝 BARRA DE CIERRE SUPERIOR ECO-TECH -->
+  <header class="panel-top-bar-duo">
+    <div class="decor-line-duo"></div>
+    <button type="button" class="close-btn-duo" (click)="notificarCierre()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </header>
 
-  <!-- Cuerpo Detallado del Tip Ecológico -->
-  <div class="detail-body">
-    <span class="detail-tag">Tip Saludable y Responsable</span>
+  <!-- 📜 CUERPO DEL DETALLE CON HISTORIA -->
+  <article class="detail-body-duo">
+    <span class="detail-tag-duo">💡 Tip Ecológico</span>
+    
     <h2>{{ consejo().titulo }}</h2>
 
-    <!-- Personaje de la Hoja Verde en el Detalle -->
-    <div class="character-row">
-      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida"> -->
-       <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
+    <!-- 🍃 El personaje acompaña la lectura del tip en un marco limpio -->
+    <div class="character-row-duo">
+      <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
     </div>
 
-    <p>{{ consejo().contenido }}</p>
-  </div>
+    <div class="content-scroll-box">
+      <p>{{ consejo().contenido }}</p>
+    </div>
+  </article>
 
-  <!-- Botón de Cierre Secundario -->
-  <!-- <ion-button expand="block" class="btn-understood" style="margin-bottom: 70px;" (click)="notificarCierre()">
-    Entendido
-  </ion-button> -->
+  <!-- 🟢 BOTÓN INTERACTIVO 3D DE CONFIRMACIÓN -->
+  <footer class="form-actions-duo">
+    <button type="button" class="btn-duo-understood" (click)="notificarCierre()">
+      ¡Entendido, gracias!
+    </button>
+  </footer>
 
 </div>
+
+

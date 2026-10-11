@@ -1,51 +1,71 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content >
-  <div class="reglas-container">
+
+<ion-content [fullscreen]="true">
+  <div class="reglas-container-duo animate__animated animate__fadeIn">
     <app-backbutton pageTitle="Reglas del Concurso"></app-backbutton>
-    <!-- Bloque Operativo de Reglas, Saludo y Logos -->
-    <div class="intro-reglas-box">
-      <div class="text-side">
-        <p>Hola, {{ nombreUsuario() }}!,<br>Gracias por participar!<br>UCC Premia tu reciclaje</p>
-        <!-- Logotipo UCC Consumidors de Catalunya -->
+    
+    <!-- 🧳 BLOQUE SUPERIOR DE INTRODUCCIÓN Y MARCA UCC -->
+    <header class="intro-reglas-box-duo">
+      <div class="text-side-duo">
         <img src="assets/svg/ucclogo.svg" class="ucc-brand-image" alt="UCC Catalunya">
+        <h2>¡Hola, {{ nombreUsuario() }}! 👋</h2>
+        <p>Gracias por sumarte al cambio sostenible con <strong>UCC Catalunya</strong>.</p>
       </div>
-      <div class="character-side">
-        <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Estrellada"> -->
-         <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
+
+      <div class="character-side-duo">
+        <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
       </div>
-    </div>
+    </header>
 
-    <!-- Frase del Concurso -->
-    <div class="prizes-subtitle">
-      Al Completar los 21 dias requeridos, estarás participando por fabulosos premios!
-    </div>
+    <!-- 🎯 SUBTÍTULO MOTIVACIONAL -->
+    <p class="prizes-subtitle-duo">
+      Al completar los <strong>21 días requeridos</strong> acumulando tus hábitos de reciclaje, ¡estarás participando por fabulosos premios! 🎁✨
+    </p>
 
-    <!-- Tarjetas de Clasificación de Premios -->
-    <div class="premio-item-card">
-      <h3>Primer Lugar</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-    </div>
+    <!-- 🏆 PODIO DE PREMIOS (TARJETAS 3D CON MEDALLAS) -->
+    <section class="prizes-list-duo">
+      
+      <article class="premio-item-card-duo rank-1 animate__animated animate__fadeInUp">
+        <div class="medal-badge-duo">🥇</div>
+        <div class="premio-info-duo">
+          <h3>Primer Lugar</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+        </div>
+      </article>
 
-    <div class="premio-item-card">
-      <h3>Segundo Lugar</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-    </div>
+      <article class="premio-item-card-duo rank-2 animate__animated animate__fadeInUp">
+        <div class="medal-badge-duo">🥈</div>
+        <div class="premio-info-duo">
+          <h3>Segundo Lugar</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+        </div>
+      </article>
 
-    <div class="premio-item-card">
-      <h3>Tercer Lugar</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-    </div>
+      <article class="premio-item-card-duo rank-3 animate__animated animate__fadeInUp">
+        <div class="medal-badge-duo">🥉</div>
+        <div class="premio-info-duo">
+          <h3>Tercer Lugar</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+        </div>
+      </article>
 
-    <!-- Tarjeta Histórica de Ganadores -->
-    <div class="premio-item-card">
-      <h3>Ultimos Ganadores</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed ...</p>
-    </div>
+      <!-- 👥 SECCIÓN HISTÓRICA: ÚLTIMOS GANADORES -->
+      <h3 class="section-title-duo">🗓️ Últimos Ganadores</h3>
+      <article class="premio-item-card-duo rank-past animate__animated animate__fadeInUp">
+        <div class="medal-badge-duo">🎉</div>
+        <div class="premio-info-duo">
+          <h3>Sorteo Anterior</h3>
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy UCC...</p>
+        </div>
+      </article>
+
+    </section>
 
   </div>
 </ion-content>
+
 
 <!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Tabs Bar) -->
 <app-menufooter [tabActiva]="'reglas'"></app-menufooter>

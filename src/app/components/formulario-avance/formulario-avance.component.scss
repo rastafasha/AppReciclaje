@@ -1,293 +1,301 @@
 /* Contenedor del Panel Deslizable */
-.form-panel {
+.form-panel-duo {
   display: flex;
   flex-direction: column;
-  padding: 12px 20px 40px 20px;
-  background-color: #f4f5f7;
+  padding: 16px 20px 30px 20px;
+  background-color: #ffffff;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-/* Barra Decorativa Superior Naranja y Botón Cerrar X */
-.panel-top-bar {
+/* 🔝 BARRA DE CIERRE SUPERIOR */
+.panel-top-bar-duo {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  height: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 
-  .decor-line {
-    width: 60px;
-    height: 5px;
-    background-color: #f3a91b; // El naranja/amarillo decorativo del Figma
+  .decor-line-duo {
+    width: 44px;
+    height: 4px;
+    background-color: #e2e8f0;
     border-radius: 10px;
   }
 
-  .close-icon {
+  .close-btn-duo {
     position: absolute;
     right: -4px;
-    top: -4px;
-    font-size: 28px;
-    color: #f3a91b; // La X amarilla exacta del Figma
+    top: -6px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 }
 
-.form-title {
-  color: #252876;
+.form-title-duo {
+  color: #1e293b;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0 0 20px 0;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
-/* Tarjeta del Personaje e Información de Puntos */
-.info-points-card {
-  display: flex;
-  align-items: center;
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 20px;
-  background-color: transparent;
+.form-scrollable-body {
   width: 100%;
-
-  .character-box {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      width: 90px;
-      height: auto;
-    }
-  }
-
-  .points-text {
-    flex: 1.8;
-    text-align: left;
-    padding-left: 8px;
-    p {
-      color: #1e2267;
-      font-size: 13px;
-      line-height: 1.4;
-      margin: 0 0 6px 0;
-      font-weight: 500;
-    }
-    ul {
-      margin: 0;
-      padding-left: 0;
-      list-style: none;
-      color: #7f8c8d;
-      font-size: 13px;
-      font-weight: 600;
-      li { margin-bottom: 2px; }
-    }
-  }
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 2px;
 }
 
-/* Sección Hábitos Diarios */
-.habitos-selection-box {
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 16px;
+/* 🧱 GRUPOS DE INPUTS Y ETIQUETAS */
+.input-group-duo {
   margin-bottom: 20px;
-  width: 100%;
   text-align: left;
-
-  .box-label {
+  
+  .group-label-duo {
     display: block;
-    color: #7f8c8d;
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 12px;
-  }
-
-  .habito-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 4px;
-    color: #1e2267;
-    font-size: 16px;
-    font-weight: 500;
-    border-bottom: 1px solid #e6e6e6;
-    cursor: pointer;
-
-    &:last-child { border-bottom: none; }
-    ion-icon { font-size: 24px; }
-    .icon-desayuno { color: #f3a91b; }
-    .icon-almuerzo { color: #a6a6a6; }
-    .icon-cena { color: #999999; }
-  }
-}
-
-/* Inputs y Selectores Redondeados */
-.input-group {
-  margin-bottom: 18px;
-  text-align: left;
-  label {
-    display: block;
-    color: #1e2267;
-    font-weight: 600;
-    font-size: 16px;
+    color: #475569;
+    font-weight: 700;
+    font-size: 14px;
     margin-bottom: 8px;
-    padding-left: 4px;
+    padding-left: 2px;
   }
 }
 
-.custom-select {
-  --background: #e6e6e6;
-  --placeholder-color: #a6a6a6;
-  --color: #333333;
-  border-radius: 25px;
-  font-size: 16px;
-  height: 48px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: #e6e6e6;
-}
-
-.custom-input {
-  --background: #e6e6e6;
-  --color: #333333;
-  --border-radius: 25px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  font-size: 16px;
-  height: 48px;
-}
-
-.custom-textarea {
-  --background: #e6e6e6;
-  --color: #333333;
-  --border-radius: 20px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  --padding-top: 14px;
-  font-size: 16px;
-  min-height: 120px;
-}
-
-.btn-add {
-  --background: #252876;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
-  height: 50px;
-  text-transform: none;
-  margin-top: 15px;
-  width: 100%;
-}
-
-.globos-label {
-  display: block;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ion-color-primary, #00539b);
-}
-
+/* 🍳 SCROLL DE MOMENTOS (PÍLDORAS 3D) */
 .globos-horizontal-scroll {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 6px;
-  margin-bottom: 14px;
   scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  &::-webkit-scrollbar { display: none; }
 }
 
-.globo-item-btn {
-  background: #f4f5f7;
-  color: #495057;
-  border: 1px solid #e9ecef;
-  border-radius: 24px;
-  padding: 10px 18px;
+.globo-item-btn-duo {
+  background: #ffffff;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1; /* Relieve fino */
+  border-radius: 12px;
+  padding: 10px 16px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease;
+
+  &:active:not(:disabled) {
+    border-bottom-width: 1px;
+    transform: translateY(2px);
+  }
 
   &.activo {
-    background: var(--ion-color-primary, #00539b);
-    color: #ffffff;
-    border-color: var(--ion-color-primary, #00539b);
-    box-shadow: 0 4px 8px rgba(0, 83, 155, 0.2);
+    background: #f0f4ff;
+    color: #252876; /* Tu azul corporativo */
+    border-color: #252876;
+    border-bottom-color: #1a1c53;
+  }
+
+  &.registrado-hoy {
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
+    border-bottom-width: 1px !important;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    opacity: 0.7;
+
+    .mini-check { color: #2dd36f; font-weight: 800; margin-left: 4px; }
   }
 }
 
-.error-banner {
+/* 📦 CUADRÍCULA DE SELECCIÓN DE CATEGORÍAS */
+.categories-grid-duo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-tile-duo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.1s ease;
+
+  .tile-check {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  &:active {
+    border-bottom-width: 1px;
+    transform: translateY(2px);
+  }
+
+  &.selected {
+    border-color: #2dd36f; /* Verde ecológico */
+    border-bottom-color: #24aa5a;
+    background: #f0fdf4;
+
+    .tile-check {
+      border-color: #2dd36f;
+      background: #2dd36f;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 2px; left: 5px;
+        width: 4px; height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+    span { color: #166534; font-weight: 700; }
+  }
+}
+
+/* 📝 INPUTS MODERNOS ECO-TECH */
+.custom-input-duo, .custom-textarea-duo {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+  font-weight: 500;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #252876;
+    background: #ffffff;
+  }
+}
+
+.custom-textarea-duo {
+  min-height: 100px;
+  resize: none;
+}
+
+/* 🟢 BOTÓN DE ACCIÓN PRINCIPAL 3D */
+.form-actions-duo {
+  margin-top: 10px;
+  padding-bottom: 20px;
+}
+
+.btn-duo-submit {
+  width: 100%;
+  background: #252876; /* Tu color de marca UCC */
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  border-bottom: 4px solid #1a1c53; /* Relieve tridimensional pro */
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.1s ease;
+  margin-bottom: 100px;
+
+  &:active:not(:disabled) {
+    border-bottom-width: 1px;
+    transform: translateY(3px);
+  }
+
+  &.loading {
+    background: #64748b;
+    border-bottom-color: #475569;
+    cursor: not-allowed;
+  }
+}
+
+/* 🚨 BANNER DE ERROR COMPACTO */
+.error-banner-duo {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #fff5f5;
-  border: 1px solid #ffe3e3;
-  padding: 10px;
-  border-radius: 12px;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  color: #ef4444;
+  font-size: 16px;
 
-  p {
-    margin: 0;
-    font-size: 13px;
-    color: #e03131;
-  }
+  p { margin: 0; font-size: 12px; font-weight: 600; color: #991b1b; text-align: left;}
 }
 
-ion-button {
-  margin-top: 15px;
-}
-
-// Globos bloqueados porque ya se consumieron hoy
-.globo-item-btn {
-  &.registrado-hoy {
-    background: #e9ecef !important;
-    color: #adb5bd !important;
-    border-color: #dee2e6 !important;
-    cursor: not-allowed;
-    opacity: 0.6;
-    text-decoration: line-through; // Tachado sutil estético de tarea completada
-
-    .mini-check {
-      display: inline-block;
-      margin-left: 4px;
-      font-weight: 700;
-      color: #2dd36f; // Check verde de éxito Mercadona
-    }
-  }
-}
-
-// Tarjeta Premium del Reto Diario Completado
-.reto-completo-card {
+/* 🏆 TARJETA DE RECOMPENSA FINAL COMPLETADO */
+.reto-completo-card-duo {
   text-align: center;
-  padding: 30px 20px;
+  padding: 24px 16px;
   background: #ffffff;
-  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  .emoji-hero {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 15px;
+  .success-badge-duo {
+    font-size: 44px;
+    margin-bottom: 12px;
   }
 
   h4 {
     font-size: 18px;
-    font-weight: 700;
-    color: var(--ion-color-primary, #00539b);
-    margin: 0 0 10px 0;
+    font-weight: 800;
+    color: #2dd36f;
+    margin: 0 0 8px 0;
   }
 
   p {
-    font-size: 13.5px;
-    color: #6c757d;
+    font-size: 13px;
+    color: #475569;
     line-height: 1.5;
-    margin: 0 0 25px 0;
+    margin: 0 0 20px 0;
+    font-weight: 600;
   }
+}
+
+.btn-duo-secondary {
+  background: white;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-bottom: 4px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  &:active { border-bottom-width: 1px; transform: translateY(3px); }
 }

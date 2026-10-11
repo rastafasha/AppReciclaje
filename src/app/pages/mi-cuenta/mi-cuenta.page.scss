@@ -258,16 +258,20 @@
 }
 
 .binance-sheet-modal {
-  // Asegura que mantenga las esquinas redondeadas superiores del Figma
-  --border-radius: 24px 24px 0 0;
-  
-  // Forzamos a que el viewport asimile el teclado de forma interna
+  // 1. Mantenemos el control elástico de la altura por breakpoints de Ionic
+  --height: 100%; 
+
+  // 2. 🚀 EL TRUCO CLÁSICO: Atacamos la parte interna del Shadow DOM de Ionic
   &::part(content) {
-    position: absolute;
-    bottom: 0 !important;
-    left: 0;
-    right: 0;
+    height: 100%;
+    // Forzamos el radio de curvatura superior exacto del Figma directamente en la caja real
+    border-radius: 24px 24px 0 0 !important;
+    // Cortamos cualquier fondo o borde cuadrado del componente hijo que intente salirse
+    overflow: hidden !important; 
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
   }
+
+  --keyboard-offset: env(safe-area-inset-bottom, 20px);
 }
 
 
@@ -432,6 +436,41 @@ ion-toggle {
 
   ion-icon {
     font-size: 14px;
+  }
+}
+
+
+.btn-duo-action {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  ion-icon { font-size: 20px; }
+
+  &.btn-blue-duo {
+    background: #1cb0f6;
+    color: white;
+    border-bottom: 5px solid #1094d4;
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
+
+  &.btn-gray-duo {
+    background: white;
+    color: #afafaf;
+    border: 2px solid #e5e5e5;
+    border-bottom: 5px solid #e5e5e5;
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
   }
 }
 
