@@ -1,5 +1,5 @@
 // src/app/pages/inicio/inicio.page.ts
-import { Component, inject, OnInit, ViewChild, computed, signal } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, computed, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -20,6 +20,7 @@ import { ModalBienvenidaComponent } from '../../components/modal-bienvenida/moda
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 import { NotificationService } from '../../services/notificacion-service';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
+import { UiModalService } from '../../services/ui-modal-service';
 
 @Component({
   selector: 'app-inicio',
@@ -39,6 +40,7 @@ export class InicioPage implements OnInit {
   private authService = inject(AuthService); // ⚙️ Instanciamos el servicio de sesión
   private notificationService = inject(NotificationService);
   private toastController = inject(ToastController);
+  private uiModalService = inject(UiModalService);
   
   // 🚦 Signal computado para extraer el nombre personalizado del saludo
   // Prioriza el first_name del perfil extendido y usa el username como fallback
@@ -77,14 +79,34 @@ export class InicioPage implements OnInit {
   public estadoActual = signal<any>('normal');
 
   constructor() {
-    addIcons({ 
-      notificationsOutline, menuOutline, helpCircleOutline, 
-      pizza, restaurant, ribbon, refreshCircleOutline, 
-      documentTextOutline, personCircleOutline 
-    }); //
-  }
+  addIcons({ 
+    notificationsOutline, menuOutline, helpCircleOutline, 
+    pizza, restaurant, ribbon, refreshCircleOutline, 
+    documentTextOutline, personCircleOutline 
+  });
 
-  ngOnInit() {
+  // 👁️ OBSERVADOR DE APERTURA DE MODAL (CORREGIDO Y BLINDADO)
+  effect(() => {
+    const debeAbrirse = this.uiModalService.abrirFormularioAvanceSignal();
+
+    // 🛡️ FILTRO CRÍTICO: Si la señal es false (como en el arranque en frío), 
+    // salimos de inmediato sin tocar los circuitos de Angular
+    if (!debeAbrirse) return; 
+
+    // Solo si es TRUE y el componente visual existe en el DOM, procedemos
+    if (this.modalAvance) {
+      console.log('🚀 Levantando el modal Offcanvas desde el efecto del Footer!');
+      this.modalAvance.present();
+      
+      // Limpiamos la señal de forma segura en un hilo secundario para evitar bucles de ciclo
+      setTimeout(() => {
+        this.uiModalService.resetearDisparador();
+      }, 50);
+    }
+  });
+}
+
+ngOnInit() {
   window.scrollTo(0, 0);
   this.isLoading.set(true);
   console.log('🏠 Tablero de Inicio cargado para el usuario:', this.nombreUsuario());
@@ -92,26 +114,25 @@ export class InicioPage implements OnInit {
   // ⚡ Mandamos a pedir la data real del historial de reciclaje en Atlas al inicializar
   this.materialesService.getHistorial().subscribe({
     next: () => {
-      // 1. Apagamos el esqueleto de carga una vez que Atlas responde con datos reales
+      // 1. 🛑 APAGAMOS EL CARGADOR PRIMERO para forzar a Angular a pintar los modales en el DOM
       this.isLoading.set(false);
 
-      // 🔍 VALIDACIÓN INTELIGENTE DE REGLA DE NEGOCIO:
-      // Leemos el valor en tiempo real de la Signal después de que se actualizó con los datos del servidor
+      // 🔍 REGLA DE NEGOCIO INTELIGENTE:
       const totalRegistrosActuales = this.totalComidas();
       const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
 
       console.log(`📊 Sincronización Atlas: El usuario tiene [${totalRegistrosActuales}] comidas registradas.`);
 
-      // El modal SOLO debe activarse si tiene exactamente 0 comidas registradas Y no ha marcado el onboarding
-      if (totalRegistrosActuales === 0 && !yaVioBienvenida) {
-        setTimeout(() => {
-          console.log('👋 Activando modal de bienvenida para nuevo usuario sin registros.');
+      // 2. ⏳ RETRASO DE CICLO: Esperamos a que Angular termine de procesar el @if(isLoading())
+      setTimeout(() => {
+        if (totalRegistrosActuales === 0 && !yaVioBienvenida) {
+          console.log('👋 Activando modal de bienvenida con el DOM listo.');
           this.mostrarModalBienvenida.set(true);
-        }, 800); // Mantenemos tu delay elegante para la animación
-      } else {
-        console.log('⏭️ Saltando modal de bienvenida: El usuario ya tiene historial o ya completó el onboarding.');
-        this.mostrarModalBienvenida.set(false);
-      }
+        } else {
+          console.log('⏭️ Saltando modal de bienvenida.');
+          this.mostrarModalBienvenida.set(false);
+        }
+      }, 150); // 👈 150ms son suficientes para que el DOM se hidrate por completo
     },
     error: (err) => {
       console.error('❌ Error al recuperar el historial desde Atlas:', err);
@@ -165,8 +186,16 @@ export class InicioPage implements OnInit {
 
   // ℹ️ Métodos para el control del Modal de Instrucciones (Botón de ayuda)
   abrirInstrucciones() {
-    this.mostrarModalInstrucciones.set(true);
+  // Aseguramos que el cargador esté completamente apagado antes de forzar la apertura
+  if (this.isLoading()) {
+    this.isLoading.set(false);
   }
+  
+  setTimeout(() => {
+    console.log('ℹ️ Levantando modal de instrucciones de reciclaje.');
+    this.mostrarModalInstrucciones.set(true);
+  }, 50);
+}
 
   cerrarInstrucciones() {
     this.mostrarModalInstrucciones.set(false);
