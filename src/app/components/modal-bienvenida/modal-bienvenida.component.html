@@ -4,23 +4,47 @@
   [breakpoints]="[0, 0.5]"
   (didDismiss)="notificarCierre()"
   class="binance-sheet-modal">
+  
   <ng-template>
-    <div class="modal-sheet-content ion-padding">
-      <div class="modal-handle-bar"></div>
+    <!-- 🎴 Contenedor Interno Estilo Duolingo Adaptado a Sheet Modal -->
+    <div class="modal-duo-card-sheet">
       
-      <div class="modal-body-center">
-        <span class="emoji-hero">🎉</span>
-        <h3>¡Hola, {{ nombreUsuario() }}!</h3>
-        <p>
-          Bienvenido oficialmente al concurso <strong>"Premia tu reciclaje"</strong>. 
-          A partir de hoy, tienes <strong>21 días</strong> para registrar tus hábitos saludables. 
-          ¡Suma un mínimo de <strong>55 puntos</strong> y entra directo al sorteo final!
-        </p>
+      <!-- 🎴 Cabecera de Celebración -->
+      <header class="modal-header-gamified">
+        <div class="badge-fire-duo">
+          <span>🎉</span>
+        </div>
+        <h2>¡Reto Desbloqueado!</h2>
+      </header>
+
+      <!-- 📝 Contenido del Diálogo Estilo Cómic -->
+      <div class="modal-body-gamified">
+        <h3>¡Hola, {{ nombreUsuario() }}! 👋</h3>
+        <p>Bienvenido oficialmente al concurso <strong>"Premia tu reciclaje"</strong> de <strong>Mercadona / UCC</strong>.</p>
         
-        <ion-button expand="block" (click)="notificarCierre()">
-          ¡Empezar el Reto!
-        </ion-button>
+        <!-- Cajas de Misión de la PWA -->
+        <div class="mission-box-duo">
+          <div class="mission-icon">📅</div>
+          <div class="mission-text">
+            <strong>Duración:</strong> 21 Días de impacto
+          </div>
+        </div>
+
+        <div class="mission-box-duo box-target">
+          <div class="mission-icon">🎯</div>
+          <div class="mission-text">
+            <strong>Meta:</strong> Suma <span class="highlight-points">≥ 55 puntos</span> para clasificar directo al sorteo final.
+          </div>
+        </div>
       </div>
+
+      <!-- 🟢 Botón de Acción Principal Verde 3D -->
+      <footer class="modal-footer-gamified">
+        <button type="button" class="btn-duo-success" (click)="notificarCierre()">
+          ¡Empezar el Reto!
+        </button>
+      </footer>
+
     </div>
   </ng-template>
 </ion-modal>

@@ -7,96 +7,186 @@
 .historial-container {
   display: flex;
   flex-direction: column;
-  padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
+  padding: 16px 20px 100px 20px; // Espacio inferior para las pestañas
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+/* 🏠 Contenedor Principal */
+.historial-container-duo {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0px 0px 0px; /* Margen inferior para que las Tabs no tapen */
   background-color: #ffffff;
   min-height: 100vh;
 }
 
-.page-title {
+.page-title-duo {
   align-self: flex-start;
-  color: #252876;
-  font-size: 22px;
-  font-weight: 700;
+  color: #3c3c3c;
+  font-size: 24px;
+  font-weight: 800;
   margin: 10px 0 20px 0;
+  letter-spacing: -0.5px;
 }
 
-/* 📊 Tarjeta Resumen de Entregas Totales */
-.summary-card {
-  background-color: #f4f5f7; // Gris claro corporativo
-  border-radius: 20px;
+/* 📊 MARCADOR PREMIUM TRIDIMENSIONAL */
+.summary-card-duo {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 4px solid #cbd5e1; /* Relieve fino pro */
+  border-radius: 14px;
   padding: 20px 16px;
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   text-align: center;
-  border: 1px solid #dcdcdc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 
   h2 {
-    color: #7f8c8d;
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 6px 0;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0;
   }
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0;
-    color: #252876; // Azul rey exacto
+  .counter-box-duo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 0;
+      color: #252876; /* Tu azul corporativo */
+      letter-spacing: -1px;
+    }
+
+    .eco-badge-duo {
+      background: #e8f9f0;
+      color: #2dd36f;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 8px;
+      border: 1px solid #2dd36f;
+    }
   }
 }
 
-/* ♻️ Tarjetas del Listado del Historial */
-.history-item-card {
+/* ♻️ TARJETAS DEL LISTADO DE LOGROS */
+.history-item-card-duo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 14px;
+  border: 1px solid #e2e8f0;
+  border-bottom: 3px solid #e2e8f0; /* Relieve fino en cada registro */
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
   background-color: #ffffff;
+  transition: transform 0.2s;
 
-  .card-left {
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .card-left-duo {
     text-align: left;
+    flex: 1.3;
     
     h3 {
-      color: #252876;
-      font-weight: 700;
-      font-size: 17px;
+      color: #1e293b;
+      font-weight: 800;
+      font-size: 16px;
       margin: 0 0 4px 0;
     }
-    p {
-      color: #a6a6a6;
-      font-size: 14px;
-      margin: 0 0 4px 0;
-    }
-    span {
-      color: #8fa0b5;
+    
+    .category-text-duo {
+      color: #475569;
       font-size: 13px;
+      margin: 0 0 6px 0;
+      font-weight: 600;
+      
+      span { color: #94a3b8; font-weight: 500; }
+    }
+    
+    .date-text-duo {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
     }
   }
 
-  .card-right {
+  .card-right-duo {
     text-align: right;
+    flex: 0.9;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 8px;
 
-    ion-badge {
-      --border-radius: 12px;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 600;
+    /* Píldoras de Momento Estilizadas */
+    .moment-badge-duo {
+      border-radius: 10px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+
+      &.desayuno { background: #fff4e5; color: #ff9600; border-color: #ffe3e3; }
+      &.almuerzo { background: #f0f4ff; color: #252876; border-color: #e0e7ff; }
+      &.cena { background: #fae8ff; color: #c549da; border-color: #f5d0fe; }
     }
 
-    h4 {
-      color: #252876; // Puntos en azul rey para combinar con tus botones
-      font-weight: 700;
-      font-size: 16px;
-      margin: 0;
+    /* Puntos Ganados Estilo Videojuego */
+    .points-earned-duo {
+      h4 {
+        color: #2dd36f; /* Verde Mercadona brillante de éxito */
+        font-weight: 800;
+        font-size: 15px;
+        margin: 0;
+        text-shadow: 0 1px 0px rgba(255, 255, 255, 1);
+      }
     }
+  }
+}
+
+/* 🍃 PANTALLA VACÍA GAMIFICADA */
+.empty-history-duo {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  margin-top: 10px;
+
+  .empty-icon-duo {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #475569;
+    margin: 0 0 6px 0;
+  }
+
+  p {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 600;
   }
 }
 

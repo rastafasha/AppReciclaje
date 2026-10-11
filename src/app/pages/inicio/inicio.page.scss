@@ -2,172 +2,295 @@
   --background: #ffffff;
 }
 
+/* ======================================================================= */
+/* 🛡️ BLINDAJE ULTRA-PREMIUM PARA ESQUINAS DE MODALES SLIDERS (BINANCE LOOK) */
+/* ======================================================================= */
+.binance-sheet-modal {
+  // Forzamos el control elástico al 100% para que los breakpoints respondan
+  --height: 100%;
 
-/* 🏠 Contenedor Principal */
-.inicio-container {
+  &::part(content) {
+    height: 100%;
+    // 🚀 LA SOLUCIÓN MAESTRA: Forzamos el redondeado superior exacto del Figma
+    border-radius: 24px 24px 0 0 !important;
+    
+    // Cortamos los fondos rígidos cuadrados del componente hijo que intenten desbordarse
+    overflow: hidden !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  --keyboard-offset: env(safe-area-inset-bottom, 20px);
+}
+
+
+.inicio-container-duo {
   display: flex;
   flex-direction: column;
-  padding: 16px 20px 80px 20px; // Espacio inferior extra para que las Tabs no tapen el contenido
+  padding: 20px 20px 100px 20px; /* Margen para que tu menú flotante animado no tape nada */
   background-color: #ffffff;
+  min-height: 100%;
 }
 
-/* 👤 Saludo e Info de Nivel */
-.welcome-section {
-  text-align: left;
-  margin-bottom: 20px;
-  position: relative;
+/* 👤 HEADER DEL PERFIL */
+.welcome-section-duo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 
   h2 {
-    color: #252876;
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
+    color: #3c3c3c;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
   }
 
-  p {
-    color: #1e2267;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 2px 0;
-    display: flex;
+  .badge-rango-duo {
+    display: inline-flex;
     align-items: center;
     gap: 6px;
+    background: #f1f7ff;
+    border: 2px solid #84d8ff;
+    border-radius: 12px;
+    padding: 4px 10px;
+    color: #1cb0f6;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
   }
 
-  span {
-    color: #8fa0b5;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .info-help {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    font-size: 20px;
-    color: #dcdcdc;
+  .btn-help-duo {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #afafaf;
+    cursor: pointer;
+    transition: color 0.2s;
+    &:active { transform: scale(0.9); }
   }
 }
 
-/* 🪺 Tarjeta de Hábitos Diarios */
-.habitos-card {
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 20px 16px;
+/* 📊 BARRA DE PROGRESO 3D */
+.progress-section-duo {
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 0 #e5e5e5;
+
+  .progress-text-duo {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4b4b4b;
+    margin-bottom: 8px;
+    strong { color: #58cc02; }
+  }
+
+  .progress-track-duo {
+    width: 100%;
+    height: 16px;
+    background: #e5e5e5;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar-duo {
+    height: 100%;
+    background: #58cc02; /* Verde Duolingo */
+    border-radius: 20px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+
+    .progress-shine-duo {
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      right: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+    }
+  }
+}
+
+/* 🪺 MAPA DE MISIONES (DISEÑO DE LECCIONES) */
+.section-title-duo {
+  color: #3c3c3c;
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+}
+
+.habitos-layout-duo {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.character-side-duo {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  // background: #fdfdfd;
+  // border-radius: 14px; /* Menos redondo, más pro */
+  padding: 12px 8px;
+  // border: 1px solid #e2e8f0;
+  height: 165px;
+  // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.habitos-nodes-duo {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+/* NODOS COLECTORES (BOTONES 3D INTERACTIVOS) */
+.node-item-duo {
   display: flex;
   align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 10px 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.1s ease;
   width: 100%;
-  margin-bottom: 20px;
-  position: relative;
 
-  .card-title {
-    position: absolute;
-    top: 12px;
-    left: 20px;
-    color: #7f8c8d;
-    font-weight: 600;
-    font-size: 15px;
-  }
-
-  .character-side {
-    flex: 1;
+  .node-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+  }
 
-    img {
-      width: 105px;
-      height: auto;
+  .node-info {
+    h4 {
+      margin: 0 0 2px 0;
+      font-weight: 800;
+      color: #3c3c3c;
+      font-size: 15px;
+    }
+    span {
+      font-size: 11px;
+      color: #afafaf;
+      font-weight: 600;
+      text-transform: uppercase;
     }
   }
 
-  .habitos-list {
-    flex: 1.2;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-    padding-left: 10px;
+  /* Variaciones de Color de Misiones Estilo Duolingo */
+  &.node-desayuno {
+    border-bottom: 5px solid #d78700;
+    .node-icon-box { background: #ff9600; box-shadow: 0 2px 0 #d78700; }
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
 
-    .habito-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #1e2267;
-      font-size: 16px;
-      font-weight: 500;
+  &.node-almuerzo {
+    border-bottom: 5px solid #1094d4;
+    .node-icon-box { background: #1cb0f6; box-shadow: 0 2px 0 #1094d4; }
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
 
-      ion-icon {
-        font-size: 24px;
-      }
-      
-      .icon-pan { color: #f3a91b; }
-      .icon-pollo { color: #a6a6a6; }
-      .icon-cena { color: #999999; }
-    }
+  &.node-cena {
+    border-bottom: 5px solid #a43bb5;
+    .node-icon-box { background: #c549da; box-shadow: 0 2px 0 #a43bb5; }
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
   }
 }
 
-/* 📊 Barra de Días Completados */
-.progress-banner {
-  background-color: #e6e6e6;
-  border-radius: 25px;
+/* 🔵 BOTONERA PRINCIPAL */
+.rewards-actions-duo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.btn-duo-action {
   width: 100%;
-  height: 44px;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555555;
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 25px;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  ion-icon { font-size: 20px; }
+
+  &.btn-blue-duo {
+    background: #1cb0f6;
+    color: white;
+    border-bottom: 5px solid #1094d4;
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
+
+  &.btn-gray-duo {
+    background: white;
+    color: #afafaf;
+    border: 2px solid #e5e5e5;
+    border-bottom: 5px solid #e5e5e5;
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
 }
 
-/* 🔵 Botonera Principal */
-.btn-action {
-  --background: #252876;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
-  height: 48px;
-  text-transform: none;
-  margin: 0 0 14px 0;
-  width: 100%;
-}
+/* 📝 TARJETA DE CONSEJO INFERIOR */
+.consejo-card-duo {
+  background: #fffaf0;
+  border: 2px solid #ffc97a;
+  border-bottom: 5px solid #ffc97a;
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
 
-/* 📝 Tarjeta de Consejo Inferior */
-.consejo-card {
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 18px;
-  text-align: left;
-  width: 100%;
-  margin-top: 10px;
-
-  h3 {
-    color: #7f8c8d;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 6px 0;
+  .consejo-header {
+    font-size: 11px;
+    font-weight: 800;
+    color: #ff9600;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
   }
 
   p {
-    color: #a6a6a6;
+    margin: 0;
     font-size: 13px;
-    line-height: 1.4;
-    margin: 0 0 8px 0;
+    color: #615645;
+    line-height: 1.5;
+    font-weight: 600;
+    padding-right: 45px;
   }
 
-  .read-more {
-    text-align: right;
-    color: #7f8c8d;
-    font-size: 14px;
-    font-weight: 600;
+  .read-more-duo {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    color: #ff9600;
+    font-weight: 800;
+    font-size: 13px;
     cursor: pointer;
+    &:active { transform: scale(0.95); }
   }
 }
-
-
-

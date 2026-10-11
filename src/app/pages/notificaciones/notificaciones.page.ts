@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
-import { IonContent,  IonModal } from '@ionic/angular';
+import { IonContent, IonModal, IonIcon } from '@ionic/angular';
 import { INotificacion } from '../../models/notificacion.model';
 import { NotificacionDetalleComponent } from '../../components/notificacion-detalle/notificacion-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { NotificationService } from '../../services/notificacion-service';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-notificaciones',
@@ -16,7 +17,7 @@ import { BackbuttonComponent } from '../../shared/backbutton/backbutton.componen
   styleUrls: ['./notificaciones.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent, RouterModule, IonModal,
-    NotificacionDetalleComponent, HeaderComponent,  BackbuttonComponent]
+    NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, IonIcon, HojaAnimadaComponent]
 })
 export class NotificacionesPage implements OnInit{
   private router = inject(Router);
@@ -24,6 +25,7 @@ export class NotificacionesPage implements OnInit{
 
   // ⚡ Referencia física para controlar por código la apertura del segundo Offcanvas deslizable
   @ViewChild('modalDetalleAlerta') modalDetalleAlerta!: IonModal;
+  public estadoActual = signal<any>('saludando');
 
   public isLoading = signal<boolean>(false);
   public alertasInApp = signal<INotificacion[]>([]); // 🚦 Comienza vacío hasta que responda Atlas

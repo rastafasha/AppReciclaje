@@ -1,86 +1,101 @@
-<div class="puntaje-panel">
+<div class="puntaje-panel-duo animate__animated animate__fadeInUp">
+  
+  <!-- 🔝 BARRA DE CIERRE SUPERIOR ECO-TECH -->
+  <header class="panel-top-bar-duo">
+    <div class="decor-line-duo"></div>
+    <button type="button" class="close-btn-duo" (click)="notificarCierre()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </header>
+
+  <h2 class="form-title-duo">Estatus del Retador</h2>
+
+  <div class="form-scrollable-body">
     
-  <!-- Pestaña decorativa superior naranja y botón de cierre X -->
-  <div class="panel-top-bar">
-    <div class="decor-line"></div>
-    <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon>
+    <!-- 📊 TARJETA DE RECOMPENSA HERO CARD (LÍNEA PREMIUM UCC) -->
+    <div class="score-hero-card-duo">
+      <h2>Mi Puntaje Actual</h2>
+      <div class="score-big-duo">
+        {{ totalComidas() }} <span class="pts-duo">PTS</span>
+      </div>
+      <p>Progreso acumulado: <strong>{{ totalComidas() }} / 63</strong> registros 🍽️</p>
+    </div>
+
+    <!-- 🎯 CONDICIONAL EN CALIENTE: STATUS DEL ALGORITMO DEL SORTEO (≥ 55 PTS) -->
+    @if (esElegibleSorteo()) {
+      <div class="sorteo-banner-success-duo animate__animated animate__zoomIn">
+        <div class="trophy-icon-duo">🏆</div>
+        <div class="banner-text-duo">
+          <h4>¡Clasificado al Sorteo! 🎉</h4>
+          <p>Superaste los 55 puntos reglamentarios. Ya participas de forma oficial por los premios de Mercadona / UCC.</p>
+        </div>
+      </div>
+    } @else {
+      <div class="sorteo-banner-pending-duo">
+        <p>Te faltan <strong>{{ 55 - totalComidas() }} pts</strong> para clasificar al sorteo final ⏳</p>
+        <div class="progress-bar-mini-duo">
+          <div class="progress-fill-duo" [style.width.%]="(totalComidas() / 55) * 100"></div>
+        </div>
+      </div>
+    }
+
+    <!-- 🦅 SECCIÓN RANGOS: EVOLUCIÓN COMPACTA ECO-TECH -->
+    <div class="niveles-box-duo">
+      <span class="box-label-duo">🏆 Rangos del Concurso</span>
+      
+      <div class="ranks-list-wrapper-duo">
+        
+        <!-- Fila Rango 1 -->
+        <div class="rango-row-duo" [class.activo]="rango() === 'pollito'">
+          <div class="rango-left-duo">
+            <span class="rango-emoji-duo">🐥</span>
+            <div class="rango-meta-duo">
+              <h4>Pollito</h4>
+              <p>Rango inicial de reciclaje</p>
+            </div>
+          </div>
+          <span class="rango-pts-tag-duo">1 - 9 pts</span>
+        </div>
+
+        <!-- Fila Rango 2 -->
+        <div class="rango-row-duo" [class.activo]="rango() === 'aprendiz'">
+          <div class="rango-left-duo">
+            <span class="rango-emoji-duo">🦅</span>
+            <div class="rango-meta-duo">
+              <h4>Aprendiz</h4>
+              <p>Dominio intermedio UCC</p>
+            </div>
+          </div>
+          <span class="rango-pts-tag-duo">9 - 18 pts</span>
+        </div>
+
+        <!-- Fila Rango 3 -->
+        <div class="rango-row-duo" [class.activo]="rango() === 'soldado'">
+          <div class="rango-left-duo">
+            <span class="rango-emoji-duo">🎖️</span>
+            <div class="rango-meta-duo">
+              <h4>Soldado</h4>
+              <p>Protector ambiental avanzado</p>
+            </div>
+          </div>
+          <span class="rango-pts-tag-duo">18 - 30 pts</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 📝 IMPULSO MOTIVACIONAL -->
+    <p class="motivation-text-duo">
+      ¡Tu rango actual es <strong>{{ rango() }}</strong>! Sigue sumando puntos diarios, UCC Premia tu reciclaje. ✨
+    </p>
+
   </div>
 
-  <h2 class="form-title">Mi Puntaje</h2>
-
-  <!-- Tarjeta de Agradecimiento/Saludo -->
-  <!-- <div class="saludo-card">
-    <h4>Hola Usuario!.</h4>
-    <p>Valoramos tu Esfuerzo y dedicación!</p>
-  </div> -->
-
-  <!-- 🎁 BANNER DE ELEGIBILIDAD AL SORTEO (REGLA CORE) -->
-  @if (esElegibleSorteo()) {
-    <div class="sorteo-banner-success">
-      <ion-icon name="trophy-outline" class="trophy-icon"></ion-icon>
-      <div class="banner-text">
-        <h4>¡Clasificado al Sorteo! 🎉</h4>
-        <p>Has superado los 55 puntos reglamentarios. Ya participas por el premio final de Mercadona.</p>
-      </div>
-      <ion-icon name="checkmark-circle-outline" color="success" class="check-icon"></ion-icon>
-    </div>
-  } @else {
-    <div class="sorteo-banner-pending">
-      <p>Te faltan <strong>{{ 55 - totalComidas() }} pts</strong> para clasificar al sorteo final ⏳</p>
-      <div class="progress-bar-mini">
-        <div class="progress-fill" [style.width.%]="(totalComidas() / 55) * 100"></div>
-      </div>
-    </div>
-  }
-
-  <!-- Desglose de Niveles del Figma con iluminación condicional reactiva -->
-  <div class="niveles-box">
-    <span class="box-label">Rangos del Concurso</span>
-    
-    <!-- Fila Pollito: Se ilumina si tiene entre 1 y 8 puntos -->
-    <div class="nivel-row" [class.active-row]="totalComidas() < 9">
-      <div class="nivel-info">
-        <ion-icon name="pizza" class="icon-pollo"></ion-icon> Pollito 🐥
-      </div>
-      <div class="nivel-pts">1-9 pts</div>
-    </div>
-
-    <!-- Fila Aprendiz: Se ilumina si tiene entre 9 y 17 puntos -->
-    <div class="nivel-row" [class.active-row]="totalComidas() >= 9 && totalComidas() < 18">
-      <div class="nivel-info">
-        <ion-icon name="restaurant" class="icon-aprendiz"></ion-icon> Aprendiz 🦅
-      </div>
-      <div class="nivel-pts">9-18 pts</div>
-    </div>
-
-    <!-- Fila Soldado: Se ilumina si tiene entre 18 y 54 puntos -->
-    <div class="nivel-row" [class.active-row]="totalComidas() >= 18 && totalComidas() < 55">
-      <div class="nivel-info">
-        <ion-icon name="ribbon" class="icon-soldado"></ion-icon> Soldado 🎖️
-      </div>
-      <div class="nivel-pts">18-30 pts</div>
-    </div>
-  </div>
-
-  <!-- Banner de Progreso Calculado -->
-  <div class="progress-banner">
-    Total acumulado: {{ totalComidas() }} / 63 registros 🍽️
-  </div>
-
-  <!-- Botón Central Informativo mostrando el Puntaje en Tiempo Real -->
-  <ion-button expand="block" class="btn-score-display" fill="solid">
-    Mi Puntaje Actual: {{ totalComidas() }} pts
-  </ion-button>
-
-  <!-- Frase Motivacional Inferior -->
-  <div class="motivation-text" style="margin-bottom: 70px;">
-    ¡Tu rango actual es <strong style="color: #f3a91b;">{{ rango() }}</strong>!<br>
-    Sigue sumando puntos, UCC Premia tu reciclaje.
-  </div>
-
-  <!-- Botón de Cierre Secundario "Entendido" -->
-  <!-- <ion-button expand="block" class="btn-understood" (click)="notificarCierre()">
-    Entendido
-  </ion-button> -->
+  <!-- 🔘 BOTÓN INFERIOR DE RETORNO -->
+  <footer class="form-actions-duo">
+    <button type="button" class="btn-duo-understood" (click)="notificarCierre()">
+      Volver al Tablero
+    </button>
+  </footer>
 
 </div>

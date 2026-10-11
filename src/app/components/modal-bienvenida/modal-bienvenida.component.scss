@@ -1,0 +1,141 @@
+/* 🌌 Fondo oscurecido del modal */
+.modal-duo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Sombra suave para que resalte la tarjeta */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 24px;
+}
+
+/* 🎴 Tarjeta del Contenedor */
+.modal-duo-card {
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 6px solid #e5e5e5; /* Relieve sólido inferior */
+  border-radius: 24px;
+  width: 100%;
+  max-width: 340px;
+  padding: 24px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 🎉 Icono de Celebración Flotante */
+.badge-fire-duo {
+  font-size: 36px;
+  background: #fff4e5;
+  border: 2px solid #ff9600;
+  box-shadow: 0 3px 0 #ff9600;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+}
+
+.modal-header-gamified {
+  h2 {
+    color: #ff9600; /* Naranja fuego de logros */
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+}
+
+/* 📝 Cuerpo del Mensaje */
+.modal-body-gamified {
+  margin-top: 16px;
+  width: 100%;
+
+  h3 {
+    margin: 0 0 8px 0;
+    color: #3c3c3c;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  p {
+    color: #4b4b4b;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+  }
+}
+
+/* 📅 Cajas de Misión / Objetivos */
+.mission-box-duo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f7f7f7;
+  border: 2px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  text-align: left;
+
+  .mission-icon {
+    font-size: 20px;
+  }
+
+  .mission-text {
+    font-size: 13px;
+    color: #4b4b4b;
+    font-weight: 600;
+    
+    .highlight-points {
+      color: #58cc02;
+      font-weight: 800;
+    }
+  }
+
+  &.box-target {
+    background: #f1f7ff;
+    border-color: #84d8ff;
+    
+    .mission-text {
+      color: #1cb0f6;
+    }
+  }
+}
+
+/* 🟢 Botón de Éxito 3D Verde Duolingo */
+.modal-footer-gamified {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-duo-success {
+  width: 100%;
+  background-color: #58cc02; /* Verde Duolingo */
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  border-bottom: 5px solid #46a302; /* Relieve tridimensional */
+  font-size: 15px;
+  font-weight: 800;
+  height: 48px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  /* 🛎️ Efecto físico de hundimiento */
+  &:active {
+    border-bottom-width: 2px;
+    transform: translateY(3px);
+  }
+}

@@ -1,223 +1,201 @@
-/* 🔼 Contenedor del Offcanvas Deslizable (Estilo Binance) */
-.modal-content-wrapper {
-  padding: 30px 20px 80px 20px;
-  background-color: #f4f5f7;
-  height: 100%;
-  overflow-y: auto;
-  text-align: center;
-  border-radius: 12px 12px 0px 0;
-}
-
-.modal-close-header {
+/* 🔼 Contenedor Principal (Estilo Caja Fija) */
+.modal-content-wrapper-duo {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  padding: 16px 20px 0px 20px;
+  background-color: #ffffff;
+  height: 100%; /* Toma el 65vh del padre de Ionic */
+  position: relative; /* 🚀 CLAVE 1: Base de posicionamiento para el botón fijo abajo */
+  box-sizing: border-box;
+}
+
+/* 🔝 ZONA FIJA SUPERIOR */
+.modal-header-fixed-zone {
+  flex-shrink: 0;
   width: 100%;
-  margin-bottom: 5px;
-
-  ion-icon {
-    font-size: 28px;
-    color: #f3a91b; // La X naranja exacta de cierre
-    cursor: pointer;
-  }
+  margin-bottom: 12px;
 }
 
-.modal-title {
-  color: #252876;
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0 0 25px 0;
-}
-
-/* Barra Decorativa Superior Naranja y Botón Cerrar X */
-.panel-top-bar {
+.panel-top-bar-duo {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  height: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 
-  .decor-line {
-    width: 60px;
-    height: 5px;
-    background-color: #f3a91b; // El naranja/amarillo decorativo del Figma
+  .decor-line-duo {
+    width: 44px;
+    height: 4px;
+    background-color: #e2e8f0;
     border-radius: 10px;
   }
 
-  .close-icon {
+  .close-btn-duo {
     position: absolute;
     right: -4px;
-    top: -4px;
-    font-size: 28px;
-    color: #f3a91b; // La X amarilla exacta del Figma
+    top: -6px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 }
 
-/* 🪪 Tarjeta Previsualización del Familiar */
-.familiar-preview-card {
+.modal-title-duo {
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 14px 0;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+/* 🪪 TARJETA PREVISUALIZACIÓN */
+.familiar-preview-card-duo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #dcdcdc;
-  border-radius: 20px;
-  padding: 14px 16px;
-  margin-bottom: 25px;
+  border: 1px solid #e2e8f0;
+  border-bottom: 3px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
   background-color: #ffffff;
   width: 100%;
+  box-sizing: border-box;
 
-  .preview-left {
+  .preview-left-duo {
     display: flex;
     align-items: center;
+    gap: 12px;
 
-    .preview-avatar {
-      width: 52px;
-      height: 52px;
-      border: 1px solid #b3b3b3;
-      border-radius: 12px;
+    .preview-avatar-duo {
+      width: 40px;
+      height: 40px;
+      background-color: #f1f5f9;
+      border-radius: 10px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background-color: #f2f2f2;
-      margin-right: 14px;
-      color: #a6a6a6;
-      font-size: 24px;
+      justify-content: center;
+      font-size: 18px;
     }
 
-    .preview-info {
+    .preview-info-duo {
       text-align: left;
-      h4 {
-        color: #252876;
-        font-size: 17px;
-        font-weight: 600;
-        margin: 0 0 2px 0;
-      }
-      p {
-        color: #a6a6a6;
-        font-size: 14px;
-        margin: 0;
-      }
+      h4 { color: #1e293b; font-size: 14px; font-weight: 700; margin: 0 0 2px 0; }
+      p { color: #94a3b8; font-size: 11px; margin: 0; font-weight: 500; }
     }
   }
 
-  .icon-remove-orange {
-    font-size: 26px;
-    color: #f3a91b; // El icono X naranja dentro de la tarjeta
-    cursor: pointer;
+  .preview-tag-duo {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2dd36f;
+    background: #e8f9f0;
+    padding: 3px 6px;
+    border-radius: 6px;
+    border: 1px solid #2dd36f;
   }
 }
 
-/* 🔵 Botonera y Campos del Formulario */
-.btn-modal-blue {
-  --background: #252876;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
-  height: 48px;
-  text-transform: none;
-  margin: 0 0 25px 0;
+/* 📜 CUERPO DEL CONTENEDOR CON MARGEN DE SEGURIDAD */
+/* 📜 CUERPO DEL CONTENEDOR (Reducimos el flex para dar más aire) */
+.form-scrollable-body {
   width: 100%;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 4px;
+  /* 🚀 CLAVE 1: Aumentamos el colchón a 90px para alejar los inputs del botón fijo */
+  margin-bottom: 60px; 
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 }
 
-.input-group {
-  margin-bottom: 18px;
+/* 🧱 GRUPOS DE INPUTS */
+.input-group-duo {
+  margin-bottom: 16px;
   text-align: left;
 
-  label {
+  .group-label-duo {
     display: block;
-    color: #1e2267;
-    font-weight: 600;
-    font-size: 16px;
+    color: #475569;
+    font-weight: 700;
+    font-size: 14px;
     margin-bottom: 8px;
-    padding-left: 4px;
+    padding-left: 2px;
   }
 }
 
-.custom-input {
-  --background: #e6e6e6;
-  --color: #333333;
-  --border-radius: 25px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  font-size: 16px;
-  height: 48px;
-}
-
-.custom-select {
-  --background: #e6e6e6;
-  --placeholder-color: #a6a6a6;
-  --color: #333333;
-  border-radius: 25px;
-  font-size: 16px;
-  height: 48px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: #e6e6e6;
-}
-
-.btn-modal-save {
-  --background: #252876;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  height: 50px;
-  text-transform: none;
-  margin: 20px 0 14px 0;
+.custom-input-duo {
   width: 100%;
-}
-
-.btn-modal-understood {
-  --background: #a6a6a6;
-  --border-radius: 25px;
-  --color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  height: 50px;
-  text-transform: none;
-  margin: 0;
-  width: 100%;
-}
-
-.section-title {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: var(--ion-color-primary, #00539b);
-}
-
-.globos-container {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  margin-bottom: 15px;
-  scrollbar-width: none; /* Esconde scroll en Firefox */
-  
-  &::-webkit-scrollbar {
-    display: none; /* Esconde scroll en Chrome/Safari */
-  }
-}
-
-.globo-btn {
-  background: #f1f3f5;
-  color: #343a40;
-  border: 1px solid #dee2e6;
-  border-radius: 20px; /* Bordes ovalados perfectos */
-  padding: 8px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
   font-size: 14px;
-  white-space: nowrap; /* Evita que el texto salte de línea */
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+  font-weight: 500;
+}
 
-  // Estilo activo cuando el usuario lo presiona
-  &.activo {
-    background: var(--ion-color-primary, #00539b);
-    color: #ffffff;
-    border-color: var(--ion-color-primary, #00539b);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+/* 👥 SCROLL DE GLOBOS DE PARENTESCO */
+.globos-container-duo {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.globo-btn-duo {
+  background: #ffffff;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* 🟢 PIE DE PÁGINA SOLDADO AL SUELO (INDASTRIBILITI) */
+.form-actions-duo {
+  position: absolute;
+  /* 🚀 CLAVE 2: En vez de 0, lo elevamos a 16px del suelo real del modal 
+     para rescatar la mitad del botón que se está tragando el borde de la pantalla */
+  bottom: 16px; 
+  left: 0;
+  right: 0;
+  padding: 0 20px; /* Quitamos paddings verticales extra que sumen altura */
+  background-color: #ffffff;
+  z-index: 100;
+  flex-shrink: 0;
+}
+.btn-modal-save-duo {
+  width: 100%;
+  background: #252876;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  border-bottom: 4px solid #1a1c53;
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  &:active {
+    border-bottom-width: 1px;
+    transform: translateY(3px);
   }
 }

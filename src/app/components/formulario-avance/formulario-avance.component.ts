@@ -2,10 +2,9 @@ import { Component, computed, inject, OnInit, output, signal } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { addIcons } from 'ionicons';
-import { closeCircle, pizza, refreshCircleOutline, restaurant, ribbon } from 'ionicons/icons';
-import { IonButton, IonIcon, IonInput, IonTextarea, IonSpinner } from '@ionic/angular';
+import { closeCircle, pizza,  restaurant, ribbon } from 'ionicons/icons';
+import {  IonIcon,  IonSpinner } from '@ionic/angular';
 import { MaterialesService } from '../../services/materiales';
-import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-formulario-avance',
@@ -13,10 +12,8 @@ import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
   styleUrls: ['./formulario-avance.component.scss'],
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule,
-    IonButton, IonIcon, IonInput, IonTextarea,
+    CommonModule, ReactiveFormsModule, IonIcon, 
     IonSpinner,
-    HojaAnimadaComponent
 ]
 })
 export class FormularioAvanceComponent implements OnInit{

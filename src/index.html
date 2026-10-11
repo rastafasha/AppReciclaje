@@ -8,7 +8,7 @@
   <base href="/" />
 
   <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
@@ -44,11 +44,102 @@
   <link href="/images/favicon/1242x2208.png" media="(device-width: 414px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" /> -->
 
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#00539b">
+  <meta name="theme-color" content="#1e2267">
+
+  <style>
+    /* 🎨 VARIABLES DE COLOR CONFIGURADAS (Soporte Light Mode por defecto) */
+    :root {
+      --splash-bg: #ffffff;
+      --splash-text: #1e2267; /* El azul corporativo exacto de tu bolsa */
+      --splash-spinner: #2dd36f; /* Verde ecológico Mercadona */
+    }
+
+    /* 🌙 DETECCIÓN AUTOMÁTICA DE DARK MODE DEL CELULAR */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --splash-bg: #121212; /* Negro premium para que no te queme los ojos al abrirla */
+        --splash-text: #f1f5f9;
+        --splash-spinner: #2dd36f;
+      }
+    }
+
+    /* 🏗️ LAYOUT DE LA PANTALLA DE CARGA GIGANTE */
+    .app-global-loader {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--splash-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      transition: background-color 0.3s ease;
+    }
+
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .loader-logo {
+      font-size: 48px;
+      animation: latidoEco 1.5s ease-in-out infinite;
+    }
+
+    .loader-logo img{
+      height: 100px;
+      animation: latidoEco 1.5s ease-in-out infinite;
+    }
+
+    /* 🔄 SPINNER TRIDIMENSIONAL DELGADO ECO-TECH */
+    .loader-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(0, 0, 0, 0.05);
+      border-top-color: var(--splash-spinner);
+      border-radius: 50%;
+      animation: rodarSpinner 0.8s linear infinite;
+    }
+
+    .loader-text {
+      color: var(--splash-text);
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* 🎬 ANIMACIONES PURAS DEL MOTOR DEL NAVEGADOR */
+    @keyframes rodarSpinner {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes latidoEco {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+  </style>
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root>
+    <!-- 🚀 SPLASH SCREEN INDESTRUCTIBLE: Se pinta en el milisegundo cero -->
+    <div class="app-global-loader">
+      <div class="loader-content">
+        <!-- Puedes cambiar este emoji por el path de tu logo de la bolsa si lo deseas -->
+        <!-- <span class="loader-logo">♻️</span> -->
+        <span class="loader-logo">
+          <img src="assets/svg/logo.svg" alt="App Reciclaje Logo">
+        </span>
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Cargando Reto UCC...</p>
+      </div>
+    </div>
+  </app-root>
 </body>
 
 </html>

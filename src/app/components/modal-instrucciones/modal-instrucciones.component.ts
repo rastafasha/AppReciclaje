@@ -6,7 +6,7 @@ import { IonModal, IonButton } from '@ionic/angular';
   selector: 'app-modal-instrucciones',
   templateUrl: './modal-instrucciones.component.html',
   styleUrls: ['./modal-instrucciones.component.scss'],
-  imports: [CommonModule, IonModal, IonButton]
+  imports: [CommonModule, IonModal]
 })
 export class ModalInstruccionesComponent {
 

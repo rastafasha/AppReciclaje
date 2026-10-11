@@ -1,118 +1,101 @@
-<div class="form-panel">
+<div class="form-panel-duo animate__animated animate__fadeInUp">
+  
+  <!-- 🔝 BARRA SUPERIOR DE CIERRE NATIVA -->
+  <header class="panel-top-bar-duo">
+    <div class="decor-line-duo"></div>
+    <button type="button" class="close-btn-duo" (click)="notificarCierre()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </header>
 
-  <!-- Pestaña superior decorativa y botón de cierre X -->
-  <div class="panel-top-bar">
-    <div class="decor-line"></div>
-    <!-- <ion-icon name="close-circle" class="close-icon" (click)="notificarCierre()"></ion-icon> -->
-  </div>
+  <h2 class="form-title-duo">Registrar Impacto Diario</h2>
 
-  <h2 class="form-title">Formulario de Participación</h2>
-
-  <!-- Tarjeta Informativa de Puntos y Rangos -->
-  <div class="info-points-card">
-    <div class="character-box">
-      <app-hoja-animada [ancho]="200" [estado]="estadoActual()">
-      </app-hoja-animada>
-    </div>
-    <div class="points-text">
-      <p>Es requerido que llenes este formulario de avance diario para obtener puntos</p>
-      <ul>
-        <li>Pollo: 1-9 pts</li>
-        <li>Aprendiz: 9-18 pts</li>
-        <li>Soldado: 18-30 pts</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="avance-form-container">
-
-    <!-- 👋 BANNER DE RETO DIARIO COMPLETADO -->
-    @if (retoDelDiaCompletado()) {
-    <div class="reto-completo-card">
-      <span class="emoji-hero">🎉🏆</span>
+  @if (retoDelDiaCompletado()) {
+    <!-- 🏆 PANTALLA PREMIUM DE RETO COMPLETADO -->
+    <div class="reto-completo-card-duo animate__animated animate__zoomIn">
+      <div class="success-badge-duo">🎉🏆</div>
       <h4>¡Reto del Día Completado!</h4>
       <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha UCC!</p>
-      <ion-button expand="block" fill="clear" color="medium" (click)="notificarCierre()">
-        Cerrar Ventana
-      </ion-button>
+      <button class="btn-duo-secondary" (click)="notificarCierre()">Cerrar Ventana</button>
     </div>
-    } @else {
-    <!-- Formulario de Entrada de Datos Conectado -->
-    <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
+  } @else {
+    
+    <form class="form-scrollable-body">
+      
+      <!-- 🍳 SECCIÓN 1: MOMENTO DEL HÁBITO (Píldoras Horizontales) -->
+      <div class="input-group-duo">
+        <label class="group-label-duo">Momento del Hábito *</label>
+        <div class="globos-horizontal-scroll">
+          @for (comida of opcionesComida; track comida) {
+            <button type="button" 
+                    class="globo-item-btn-duo"
+                    [class.activo]="comidaSeleccionada() === comida"
+                    [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
+                    [disabled]="comidasRegistradasHoy().includes(comida)"
+                    (click)="seleccionarComida(comida)">
+              
+              @if (comida === 'DESAYUNO') { 🍳 } 
+              @else if (comida === 'ALMUERZO') { 🍽️ } 
+              @else { 🌙 }
+              
+              {{ comida | titlecase }}
+              
+              @if (comidasRegistradasHoy().includes(comida)) {
+                <span class="mini-check">✓</span>
+              }
+            </button>
+          }
+        </div>
+      </div>
 
-      <!-- 🍳 GLOBOS DE MOMENTO DEL HÁBITO -->
-      <label class="globos-label">Momento del Hábito *</label>
-      <div class="globos-horizontal-scroll">
-        @for (comida of opcionesComida; track comida) {
-          <button 
-            type="button"
-            class="globo-item-btn"
-            [class.activo]="comidaSeleccionada() === comida"
-            [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
-            [disabled]="comidasRegistradasHoy().includes(comida)"
-            (click)="seleccionarComida(comida)">
-            
-            @if (comida === 'DESAYUNO') { 🍳 }
-            @else if (comida === 'ALMUERZO') { 🍽 }
-            @else { 🌙 }
-            
-            {{ comida | titlecase }}
-            
-            @if (comidasRegistradasHoy().includes(comida)) { 
-              <span class="mini-check">✓</span> 
-            }
+      <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Selectores de Fila Táctiles) -->
+      <div class="input-group-duo">
+        <label class="group-label-duo">Categoría de Alimento *</label>
+        <div class="categories-grid-duo">
+          @for (cat of opcionesCategoria; track cat.valor) {
+            <button type="button" 
+                    class="category-tile-duo"
+                    [class.selected]="categoriaSeleccionada() === cat.valor"
+                    (click)="seleccionarCategoria(cat.valor)">
+              <div class="tile-check"></div>
+              <span>{{ cat.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- 📝 SECCIÓN 3: DETALLES DE LA ACCIÓN -->
+      <div class="input-group-duo">
+        <label for="itemName" class="group-label-duo">Nombre del Item</label>
+        <input id="itemName" type="text" class="custom-input-duo" placeholder="Ej. Envase de plástico UCC o yogur">
+      </div>
+
+      <div class="input-group-duo">
+        <label for="itemDesc" class="group-label-duo">Descripción Corta</label>
+        <textarea id="itemDesc" class="custom-textarea-duo" placeholder="Cuéntanos brevemente cómo lo reciclaste..."></textarea>
+      </div>
+
+      <!-- 🚨 MANEJO DE ERRORES -->
+      @if (errorMessage) {
+        <div class="error-banner-duo animate__animated animate__headShake">
+          <ion-icon name="alert-circle"></ion-icon>
+          <p>{{ errorMessage }}</p>
+        </div>
+      }
+
+      <!-- 🟢 BOTÓN FÍSICO DE ENVÍO -->
+      <div class="form-actions-duo">
+        @if (isLoading()) {
+          <button type="button" class="btn-duo-submit loading" disabled>
+            <ion-spinner name="crescent"></ion-spinner> Guardando hábito...
+          </button>
+        } @else {
+          <button type="submit" class="btn-duo-submit" (click)="$event.preventDefault(); onAgregarAvance()">
+            Agregar Avance
           </button>
         }
       </div>
 
-      <!-- 🥦 GLOBOS DE CATEGORÍA DE ALIMENTOS -->
-      <label class="globos-label">Categoría de Alimento *</label>
-      <div class="globos-horizontal-scroll">
-        @for (cat of opcionesCategoria; track cat.valor) {
-        <button type="button" class="globo-item-btn" [class.activo]="categoriaSeleccionada() === cat.valor"
-          (click)="seleccionarCategoria(cat.valor)">
-          {{ cat.label }}
-        </button>
-        }
-      </div>
-
-
-      <!-- Input Nombre Ítem -->
-      <div class="input-group">
-        <label>Nombre Item</label>
-        <ion-input class="custom-input" type="text" formControlName="nombreItem"
-          placeholder="Ej: Tortilla de espinacas"></ion-input>
-      </div>
-
-      <!-- Textarea Descripción Corta -->
-      <div class="input-group">
-        <label>Descripción Corta</label>
-        <ion-textarea class="custom-textarea" formControlName="descripcion"
-          placeholder="Detalla cómo reciclaste los desperdicios..."></ion-textarea>
-      </div>
-
-      <!-- MENSAJE DE ERROR DEL INDEX COMPUESTO DE ATLAS -->
-      @if (errorMessage) {
-      <div class="error-banner">
-        <ion-icon name="close-circle" color="danger"></ion-icon>
-        <p>{{ errorMessage }}</p>
-      </div>
-      }
-
-      <!-- BOTÓN PRINCIPAL CON LOADING INTEGRADO -->
-      <ion-button expand="block" lass="btn-add" type="submit" [disabled]="isLoading()" style="margin-bottom: 70px;">
-        @if (isLoading()) {
-        <ion-spinner name="crescent" slot="start"></ion-spinner>
-        Guardando hábito...
-        } @else {
-        Agregar Avance
-        }
-      </ion-button>
-
     </form>
-    }
-  </div>
-
-
-
+  }
 </div>

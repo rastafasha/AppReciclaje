@@ -1,96 +1,150 @@
-:host {
-  --background: #ffffff;
-}
-
-
 /* 🏠 Contenedor Principal */
-.reglas-container {
+.reglas-container-duo {
   display: flex;
   flex-direction: column;
-  padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
+  padding: 20px 20px 100px 20px; /* Colchón libre inferior para las Tabs */
   background-color: #ffffff;
+  min-height: 100vh;
 }
 
-/* 🧳 Bloque Superior de Reglas y Logotipos */
-.intro-reglas-box {
+/* 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE */
+.intro-reglas-box-duo {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  gap: 16px;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 
-  .text-side {
+  .text-side-duo {
     text-align: left;
     flex: 1.8;
 
+    .ucc-brand-image-duo {
+      height: 40px;
+      width: auto;
+      margin-bottom: 12px;
+      object-fit: contain;
+    }
+
     h2 {
-      color: #252876;
-      font-size: 24px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
+      color: #3c3c3c;
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.5px;
     }
 
     p {
-      color: #1e2267;
-      font-size: 14px;
+      color: #64748b;
+      font-size: 13.5px;
       line-height: 1.4;
-      margin: 0 0 14px 0;
+      margin: 0;
       font-weight: 500;
-    }
-
-    .ucc-brand-image {
-      height: 44px;
-      width: auto;
-      margin-bottom: 10px;
     }
   }
 
-  .character-side {
-    flex: 1;
+  .character-side-duo {
+    flex: 0.9;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
+    padding: 12px 8px;
+    height: 70px;
+    width: 190px;
+  }
+}
 
-    img {
-      width: 90px;
-      height: auto;
+/* 📜 TEXTO INFORMATIVO */
+.prizes-subtitle-duo {
+  color: #252876; /* Tu azul UCC */
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  background: #f0f4ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  border: 1px solid #e0e7ff;
+}
+
+.section-title-duo {
+  color: #3c3c3c;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 20px 0 12px 0;
+  text-align: left;
+}
+
+/* 🏆 TARJETAS DE PREMIOS (LOOK GAMIFICADO PROFESIONAL) */
+.premio-item-card-duo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #cbd5e1; /* Relieve fino táctil */
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .medal-badge-duo {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+  }
+
+  .premio-info-duo {
+    text-align: left;
+    flex: 1;
+
+    h3 {
+      color: #1e293b;
+      font-size: 15px;
+      font-weight: 800;
+      margin: 0 0 2px 0;
+    }
+
+    p {
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+      font-weight: 500;
     }
   }
-}
 
-/* 📜 Texto del Subtítulo Informativo de Premios */
-.prizes-subtitle {
-  color: #1e2267;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-/* 🏆 Tarjetas de Premios y Ganadores del Figma */
-.premio-item-card {
-  border: 1px solid #dcdcdc; // El borde gris/azul sutil de tu captura
-  border-radius: 20px;
-  padding: 16px 20px;
-  text-align: left;
-  width: 100%;
-  margin-bottom: 14px;
-  background-color: #ffffff;
-
-  h3 {
-    color: #252876;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 6px 0;
+  /* 🥇 Personalización sutil por puestos sin ser estridente */
+  &.rank-1 {
+    border-color: #fde047; border-bottom-color: #eab308;
+    .medal-badge-duo { background: #fef9c3; border-color: #fde047; }
   }
 
-  p {
-    color: #a6a6a6;
-    font-size: 14px;
-    line-height: 1.4;
-    margin: 0;
+  &.rank-2 {
+    border-color: #cbd5e1; border-bottom-color: #94a3b8;
+    .medal-badge-duo { background: #f1f5f9; border-color: #cbd5e1; }
+  }
+
+  &.rank-3 {
+    border-color: #fed7aa; border-bottom-color: #f97316;
+    .medal-badge-duo { background: #ffedd5; border-color: #fed7aa; }
+  }
+
+  &.rank-past {
+    border-color: #e2e8f0; border-bottom-color: #cbd5e1;
+    .medal-badge-duo { background: #f8fafc; border-color: #e2e8f0; }
   }
 }
-

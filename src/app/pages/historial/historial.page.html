@@ -9,34 +9,64 @@
     @if (isLoading()) {
     <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
     }@else {
-      <!-- Tarjeta Resumen de racha -->
-      <div class="summary-card">
-        <h2>Entregas Totales</h2>
-        <h1>{{ total() }}</h1>
-      </div>
+    <div class="historial-container-duo animate__animated animate__fadeIn">
 
-      <!-- Listado Reactivo Moderno del Concurso -->
-      @for (item of historial(); track item.id || $index) {
-      <div class="history-item-card">
-        <div class="card-left">
-          <h3>{{ item.nombreItem }}</h3>
-          <p>Categoría: {{ item.categoria | titlecase }}</p>
-          <span>{{ item.createdAt | date:'shortDate' }}</span>
+      <h2 class="page-title-duo">Mis Logros Verdes 🏆</h2>
+
+      <!-- 📊 MARCADOR DE ENTREGAS PREMIUM -->
+      <section class="summary-card-duo">
+        <h2>Entregas Totales Realizadas</h2>
+        <div class="counter-box-duo">
+          <h1>{{ total() }}</h1>
+          <span class="eco-badge-duo">♻️ UCC</span>
+        </div>
+      </section>
+
+      <!-- ♻️ LISTADO DE LOGROS DESBLOQUEADOS -->
+      <div class="history-list-duo">
+        @for (item of historial(); track item.id || $index) {
+        <article class="history-item-card-duo animate__animated animate__fadeInUp">
+
+          <div class="card-left-duo">
+            <h3>{{ item.nombreItem || 'Artículo Reciclado' }}</h3>
+            <p class="category-text-duo">
+              <span>📦 Categoría:</span> {{ item.categoria | titlecase }}
+            </p>
+            <span class="date-text-duo">
+              <ion-icon name="calendar-outline"></ion-icon> {{ item.createdAt | date:'shortDate' }}
+            </span>
+          </div>
+
+          <div class="card-right-duo">
+            <!-- Píldora del Momento (Desayuno, Almuerzo, Cena) -->
+            <span class="moment-badge-duo" [class]="item.comida">
+              @if (item.comida === 'DESAYUNO') { 🍳 }
+              @else if (item.comida === 'ALMUERZO') { 🍽️ }
+              @else { 🌙 }
+              {{ item.comida | titlecase }}
+            </span>
+            <!-- Puntos ganados con relieve sutil -->
+            <div class="points-earned-duo">
+              <h4>+1 PTS</h4>
+            </div>
+          </div>
+
+        </article>
+        } @empty {
+        <!-- PANTALLA VACÍA GAMIFICADA -->
+        <div class="empty-history-duo animate__animated animate__zoomIn">
+          <div class="empty-icon-duo">🍃</div>
+          <h4>Aún no tienes misiones registradas</h4>
+          <p>Cada comida que registres suma puntos para el gran sorteo de Mercadona. ¡Empieza hoy mismo!</p>
         </div>
 
-        <div class="card-right">
-          <!-- 🚀 AQUÍ ES EL CAMBIO EXACTO: Invocamos la función adaptada a alimentos -->
-          <ion-badge [color]="getCategoryColor(item.categoria)">{{ item.comida }}</ion-badge>
-          <h4>+1 pts</h4>
-        </div>
+        <div class="character-box">
+      <app-hoja-animada></app-hoja-animada>
+    </div>
+        }
       </div>
-      } @empty {
-      <div class="ion-text-center ion-padding" style="color: #a6a6a6; margin-top: 30px;">
-        <p>Aún no tienes entregas registradas. ¡Empieza a reciclar hoy! ♻️</p>
-      </div>
-      <app-hoja-animada [ancho]="300" [estado]="estadoActual()">
-        </app-hoja-animada>
-      }
+
+    </div>
     }
 
 
@@ -44,5 +74,3 @@
 </ion-content>
 <!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Pestaña Perfil Derecha Activa) -->
 <app-menufooter [tabActiva]="'historial'"></app-menufooter>
-
-

@@ -107,9 +107,9 @@
       </div>
       }
       <!-- Botón Agregar Familiar -->
-      <ion-button expand="block" class="btn-add-familiar" id="open-add-familiar">
-        Agregar Familiar
-      </ion-button>
+      <button type="button" class="btn-duo-action btn-blue-duo" (click)="abrirModalNuevoFamiliar()">
+      Agregar Familiar
+    </button>
       }
 
     </div>
@@ -165,14 +165,20 @@
 <app-menufooter [tabActiva]="'perfil'"></app-menufooter>
 
 <!-- 🔼 OFFCANVAS SHEET MODAL (Llamando al componente modular hijo) -->
-<ion-modal trigger="open-add-familiar" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.6" class="binance-sheet-modal">
+<ion-modal 
+  [isOpen]="familiarSeleccionado() !== null || modalAbierto()" 
+  [initialBreakpoint]="0.65" 
+  [breakpoints]="[0, 0.65, 0.70]"
+  (didDismiss)="onModalCerrado()"
+  class="binance-sheet-modal">
   <ng-template>
-    <ion-content>
-
-      <!-- 🚀 Invocamos tu componente standalone e interceptamos el Output para cerrar -->
-      <app-agregar-familiar (onCerrarModal)="modal.dismiss()" [familiarAEditar]="familiarSeleccionado()"
-        (familiarAgregado)="onFamiliarProcesado()"></app-agregar-familiar>
-
-    </ion-content>
+    
+    <!-- 🚀 CAMBIO CRÍTICO: Enlazamos 'familiarAgregado' y 'cerrarModal' con el Padre -->
+    <app-agregar-familiar 
+      [familiarAEditar]="familiarSeleccionado()"
+      (familiarAgregado)="onFamiliarProcesado()"
+      (cerrarModal)="onModalCerrado()">
+    </app-agregar-familiar>
+    
   </ng-template>
 </ion-modal>

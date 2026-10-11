@@ -50,7 +50,7 @@
 
   /* Estado Activo Azul (Paso 2) */
   &.active-blue {
-    background-color: #252876; // El azul rey/oscuro
+    background-color: #1e2267; // El azul rey/oscuro
     color: #ffffff;
   }
 }
@@ -94,7 +94,7 @@ form {
 
 /* 🔘 Botoneras Dinámicas */
 .btn-primary {
-  --background: #252876;
+  --background: #1e2267;
   --border-radius: 25px;
   --color: #ffffff;
   font-size: 16px;
@@ -123,7 +123,7 @@ form {
 
   .btn-submit {
     flex: 1.2;
-    --background: #252876;
+    --background: #1e2267;
     --border-radius: 25px;
     --color: #ffffff;
     font-size: 16px;
@@ -152,8 +152,8 @@ form {
 
 .btn-secondary {
   --background: transparent;
-  --color: #252876;
-  --border-color: #252876;
+  --color: #1e2267;
+  --border-color: #1e2267;
   --border-style: solid;
   --border-width: 1px;
   --border-radius: 25px;

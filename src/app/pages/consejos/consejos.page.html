@@ -1,28 +1,41 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
-
-
-<ion-content >
-  <div class="consejos-container">
+<ion-content [fullscreen]="true">
+  <div class="consejos-container-duo animate__animated animate__fadeIn">
     <app-backbutton pageTitle="Consejos de Reciclaje"></app-backbutton>
-    <div class="intro-consejos-box">
-      <div class="character-box">
-        <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida"> -->
-         <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
+    <!-- 🫵 CABECERA INTERACTIVA CON EL PERSONAJE DE LA APP -->
+    <header class="intro-consejos-box-duo">
+      <div class="character-side-duo">
+        <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
       </div>
-      <div class="intro-text">
-        <p>Aquí encontrarás ideas o consejos de cómo reciclar los alimentos para ayudar al medio ambiente</p>
+      
+      <!-- Bocadillo de Diálogo estilo Comic / Academia -->
+      <div class="dialog-bubble-duo">
+        <h2>Academia UCC 🍃</h2>
+        <p>¡Hola! Aquí encontrarás trucos e ideas geniales para reciclar tus alimentos y cuidar el planeta cada día.</p>
+        <div class="bubble-arrow-left"></div>
       </div>
-    </div>
+    </header>
 
-    <!-- ⚡ @for dinámico: Itera el arreglo del Figma y pasa el objeto al hacer clic -->
-    @for (item of listaConsejos; track item.titulo) {
-      <div class="consejo-item-card">
-        <h3>{{ item.titulo }}</h3>
-        <p>{{ item.contenido.substring(0, 75) }}...</p>
-        <div class="read-more-btn" (click)="abrirDetalle(item)">Leer +</div>
-      </div>
-    }
+    <!-- 📝 TARJETAS DE CONSEJOS (MISIONES DE CONOCIMIENTO) -->
+    <section class="consejos-list-duo">
+      @for (item of listaConsejos; track item.titulo) {
+        <article class="consejo-item-card-duo animate__animated animate__fadeInUp">
+          <div class="card-badge-info">💡 TIP</div>
+          
+          <h3>{{ item.titulo }}</h3>
+          <p>{{ item.contenido.substring(0, 75) }}...</p>
+          
+          <div class="card-footer-duo">
+            <!-- Botón de acción con relieve táctil sutil -->
+            <button type="button" class="btn-read-more-duo" (click)="abrirDetalle(item)">
+              Leer Más 
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </button>
+          </div>
+        </article>
+      }
+    </section>
 
   </div>
 </ion-content>

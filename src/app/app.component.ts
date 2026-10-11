@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonApp, IonContent, IonIcon, IonMenu, IonRouterOutlet, MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { trophyOutline, documentTextOutline, powerOutline } from 'ionicons/icons';
+import { trophyOutline, documentTextOutline, powerOutline, chevronForwardOutline, ribbonOutline } from 'ionicons/icons';
 import { AuthService } from './services/auth';
 import { PwaNotifInstallerComponent } from './shared/pwa-notif-installer/pwa-notif-installer.component';
 import { ImagenPipe } from './pipes/imagen.pipe';
@@ -43,7 +43,7 @@ export class AppComponent {
   });
 
   constructor() {
-    addIcons({ trophyOutline, documentTextOutline, powerOutline });
+    addIcons({ chevronForwardOutline, ribbonOutline, documentTextOutline, powerOutline});
   }
 
   navegarA(ruta: string) {

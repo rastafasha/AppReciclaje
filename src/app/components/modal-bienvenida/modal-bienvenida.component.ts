@@ -6,7 +6,7 @@ import { IonModal, IonButton } from '@ionic/angular';
   selector: 'app-modal-bienvenida',
   templateUrl: './modal-bienvenida.component.html',
   styleUrls: ['./modal-bienvenida.component.scss'],
-  imports: [CommonModule, IonModal, IonButton]
+  imports: [CommonModule, IonModal]
 })
 export class ModalBienvenidaComponent   {
  // 🚦 Recibe el estado booleano de apertura desde el padre

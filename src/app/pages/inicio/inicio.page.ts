@@ -8,7 +8,7 @@ import {
   pizza, restaurant, ribbon, refreshCircleOutline, 
   documentTextOutline, personCircleOutline 
 } from 'ionicons/icons';
-import { IonContent, IonButton, IonIcon, IonModal, ToastController } from '@ionic/angular';
+import { IonContent,  IonIcon, IonModal, ToastController } from '@ionic/angular';
 import { MiPuntajeComponent } from '../../components/mi-puntaje/mi-puntaje.component';
 import { FormularioAvanceComponent } from '../../components/formulario-avance/formulario-avance.component';
 import { MaterialesService } from '../../services/materiales';
@@ -28,7 +28,7 @@ import { UiModalService } from '../../services/ui-modal-service';
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent,
-    IonButton, IonIcon, RouterModule,
+     IonIcon, RouterModule,
     FormularioAvanceComponent, MiPuntajeComponent, IonModal,
     HeaderComponent, MenufooterComponent, SkeletonLoaderComponent,
     ModalBienvenidaComponent, ModalInstruccionesComponent, HojaAnimadaComponent
@@ -82,7 +82,7 @@ export class InicioPage implements OnInit {
   addIcons({ 
     notificationsOutline, menuOutline, helpCircleOutline, 
     pizza, restaurant, ribbon, refreshCircleOutline, 
-    documentTextOutline, personCircleOutline 
+    documentTextOutline, personCircleOutline, 
   });
 
   // 👁️ OBSERVADOR DE APERTURA DE MODAL (CORREGIDO Y BLINDADO)

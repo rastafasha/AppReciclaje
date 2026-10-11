@@ -1,70 +1,110 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
+
 <ion-content>
   <div class="inicio-container">
     @if (isLoading()) {
     <app-skeleton-loader [rows]="7" [columns]="1" template="13"></app-skeleton-loader>
-    }@else {
-    <!-- Sección de Saludo y Nivel -->
-    <div class="welcome-section">
-      <h2>¡Hola, {{ nombreUsuario() }}! 👋</h2>
-      <p>Mi Nivel: {{ rango() }}</p>
-      <span>Notificaciones Activas</span>
-      <ion-icon name="help-circle-outline" class="info-help" (click)="abrirInstrucciones()">
-      </ion-icon>
-    </div>
+    } @else {
+    <div class="inicio-container-duo animate__animated animate__fadeIn">
 
-    <!-- Tarjeta de Hábitos Diarios con el Personaje -->
-    <div class="habitos-card">
-      <span class="card-title">Habitos Diarios</span>
-
-      <!-- Lado del Personaje Estático Leyendo/Saludando -->
-      <div class="character-side">
-        <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Hábitos"> -->
-        <app-hoja-animada [ancho]="160" [estado]="estadoActual()">
-        </app-hoja-animada>
-      </div>
-
-      <!-- Lista de Íconos del Figma -->
-      <div class="habitos-list">
-        <div class="habito-item">
-          <ion-icon name="pizza" class="icon-pan"></ion-icon> Desayuno
+      <!-- 👤 HEADER DEL PERFIL: Monitoreo de Rango y Soporte -->
+      <header class="welcome-section-duo">
+        <div class="user-meta">
+          <h2>¡Hola, {{ nombreUsuario() }}! 👋</h2>
+          <div class="badge-rango-duo">
+            <ion-icon name="ribbon"></ion-icon>
+            <span>Nivel: {{ rango() }}</span>
+          </div>
         </div>
-        <div class="habito-item">
-          <ion-icon name="restaurant" class="icon-pollo"></ion-icon>Almuerzo
+        <button class="btn-help-duo" (click)="abrirInstrucciones()">
+          <ion-icon name="help-circle-outline"></ion-icon>
+        </button>
+      </header>
+
+      <!-- 📊 BARRA DE LOGRO DIARIO: Progreso de Impacto -->
+      <section class="progress-section-duo">
+        <div class="progress-text-duo">
+          <span>Comidas Registradas</span>
+          <strong>{{ totalComidas() }} / 63 🍽️</strong>
         </div>
-        <div class="habito-item">
-          <ion-icon name="ribbon" class="icon-cena"></ion-icon>Cena
+        <!-- Barra tridimensional de progreso de lecciones -->
+        <div class="progress-track-duo">
+          <div class="progress-bar-duo" [style.width.%]="(totalComidas() / 63) * 100">
+            <div class="progress-shine-duo"></div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- Marcador de Días Completados -->
-    <div class="progress-banner">
-      Comidas Registradas: {{ totalComidas() }} / 63 🍽️
-    </div>
+      <!-- 🪺 MAPA DE MISIONES: Los Nodos de Hábitos Diarios -->
+      <section class="habitos-map-duo">
+        <h3 class="section-title-duo">Misiones de Hoy</h3>
 
-    <!-- Botonera de Navegación -->
-    <ion-button expand="block" class="btn-action" id="open-formulario-avance">
-      ir a Formulario
-    </ion-button>
+        <div class="habitos-layout-duo">
+          <!-- Lado izquierdo: El personaje que reacciona e interactúa con el usuario -->
+          <div class="character-side-duo" (click)="cambiarEstado('feliz')">
+            <app-hoja-animada [estado]="estadoActual()"></app-hoja-animada>
+          </div>
 
-    <ion-button expand="block" class="btn-action" id="open-mi-puntaje">
-      Ver Mi Puntaje
-    </ion-button>
+          <!-- Lado derecho: Lista de lecciones / hábitos con relieve 3D -->
+          <div class="habitos-nodes-duo">
 
-    <ion-button expand="block" class="btn-action" (click)="irAHistorial()">
-      Ver Historial
-    </ion-button>
+            <button class="node-item-duo node-desayuno" id="open-formulario-avance">
+              <div class="node-icon-box"><ion-icon name="pizza"></ion-icon></div>
+              <div class="node-info">
+                <h4>Desayuno</h4>
+                <span>Registrar impacto</span>
+              </div>
+            </button>
 
-    <!-- Tarjeta de Consejo Informativo -->
-    <div class="consejo-card">
-      <h3>Consejo</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod...</p>
-      <div class="read-more" (click)="irAlConsejos()">Leer +</div>
+            <button class="node-item-duo node-almuerzo" id="open-formulario-avance">
+              <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
+              <div class="node-info">
+                <h4>Almuerzo</h4>
+                <span>Sumar puntos</span>
+              </div>
+            </button>
+
+            <button class="node-item-duo node-cena" id="open-formulario-avance">
+              <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
+              <div class="node-info">
+                <h4>Cena</h4>
+                <span>Cerrar racha</span>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 🔵 SECCIÓN DE RECOMPENSAS: Accesos Rápidos Gamificados -->
+      <section class="rewards-actions-duo">
+        <button class="btn-duo-action btn-blue-duo" id="open-mi-puntaje">
+          <ion-icon name="trophy"></ion-icon> Ver Mi Puntaje
+        </button>
+
+        <!-- Botonera de Navegación -->
+        <!-- <ion-button class="btn-duo-action btn-blue-duo" id="open-formulario-avance">
+          ir a Formulario
+        </ion-button> -->
+        <button class="btn-duo-action btn-gray-duo" (click)="irAlHistorial()">
+          <ion-icon name="document-text-outline"></ion-icon> Historial UCC
+        </button>
+      </section>
+
+      <!-- 📝 IMPULSO DE CONOCIMIENTO: El consejo del día -->
+      <footer class="consejo-card-duo">
+        <div class="consejo-header">
+          <span>💡 TIP ECOLÓGICO</span>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod...</p>
+        <span class="read-more-duo" (click)="irAlConsejos()">Leer +</span>
+      </footer>
+
     </div>
     }
+
 
 
 
@@ -80,7 +120,7 @@
 <!-- 🔼 MODAL 1: FORMULARIO DE AVANCE (Componente Hijo) -->
 <!-- ========================================================================= -->
 <ion-modal #modalAvance trigger="open-formulario-avance" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
-  style="--height: 90vh; --border-radius: 30px 30px 0 0;">
+  class="binance-sheet-modal">
   <ng-template>
     <ion-content>
       <app-formulario-avance (cerrarModal)="modalAvance.dismiss()"></app-formulario-avance>
@@ -92,7 +132,7 @@
 <!-- 🔼 MODAL 2: MI PUNTAJE (Componente Hijo) -->
 <!-- ========================================================================= -->
 <ion-modal #modalPuntaje trigger="open-mi-puntaje" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
-  style="--height: 85%; --border-radius: 30px 30px 0 0;">
+  class="binance-sheet-modal">
   <ng-template>
     <ion-content>
       <app-mi-puntaje (cerrarModal)="modalPuntaje.dismiss()"></app-mi-puntaje>
@@ -101,10 +141,14 @@
 </ion-modal>
 
 <!-- 👋 Modal de Bienvenida reutilizable -->
-<app-modal-bienvenida [isOpen]="mostrarModalBienvenida()" [nombreUsuario]="nombreUsuario()"
-  (cerrar)="mostrarModalBienvenida.set(false)">
+<!-- 🏆 MODAL 1: BIENVENIDA AL RETO -->
+<app-modal-bienvenida 
+  [isOpen]="mostrarModalBienvenida()"
+  (cerrar)="cerrarBienvenida()">
 </app-modal-bienvenida>
 
-<!-- ℹ️ Modal de Instrucciones reutilizable -->
-<app-modal-instrucciones [isOpen]="mostrarModalInstrucciones()" (cerrar)="mostrarModalInstrucciones.set(false)">
+<!-- 📖 MODAL 2: INSTRUCCIONES DEL CONCURSO UCC -->
+<app-modal-instrucciones 
+  [isOpen]="mostrarModalInstrucciones()"
+  (cerrar)="cerrarInstrucciones()">
 </app-modal-instrucciones>
