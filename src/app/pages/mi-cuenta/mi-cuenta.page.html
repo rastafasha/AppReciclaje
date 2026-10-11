@@ -10,14 +10,21 @@
     }@else {
     <!-- Tarjeta Resumen de Credenciales Maestras NoSQL -->
     <div class="profile-summary-card">
-      <div class="avatar-box">
-        <!-- <img src="assets/images/default.jpeg" alt="Avatar" (click)="irACompletarPerfil()"> -->
+      <div class="account-avatar-wrapper" (click)="irAEditarPerfil()">
 
-         @if (imgTemp()) {
-          <img [src]="imgTemp()" class="img-preview-crop" (click)="irACompletarPerfil()" />
+        @if (authService.usuarioActual()?.profile?.avatar_url) {
+        <!-- 📸 Foto real e instantánea sincronizada desde Cloudinary -->
+        <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'" alt="Avatar del Retador"
+          class="avatar-img">
         } @else {
-          <img [src]="avatarUrl() | imagenPipe:'usuarios'" class="img-preview-crop" (click)="irACompletarPerfil()" />
+        <!-- 👤 Imagen predeterminada si la cuenta no tiene foto de perfil -->
+        <img src="assets/images/default.jpeg" alt="Predeterminado" class="avatar-img">
         }
+
+        <!-- Pequeño indicador flotante estilo lápiz para incentivar al usuario a editar -->
+        <div class="edit-badge">
+          <ion-icon name="pencil"></ion-icon>
+        </div>
       </div>
       <div class="user-info">
         <h3>{{ nombreUsuario() }}</h3>
@@ -27,11 +34,33 @@
     </div>
 
     <!-- Banner de Alerta Cerrable para Familiares -->
-    <div class="alert-banner">
-      <ion-icon name="close" class="close-icon"></ion-icon>
-      <p>¡Hola de nuevo, {{ nombreUsuario() }}! 👋</p>
-      <p>Agradecemos que hayas completado tu perfil. Ahora aquí puedes agregar familiares que viven contigo.</p>
+    <!-- Banner de Alerta Inteligente Estilo Duolingo (Solo si no hay familiares y no se ha cerrado) -->
+@if (familiares().length === 0 && mostrarBannerFamiliares()) {
+  <div class="alert-banner-duo animate__animated animate__fadeIn">
+    <!-- Botón de cerrar para que los que viven solos limpien su pantalla -->
+    <button class="close-btn" (click)="ocultarBannerPermanente()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    
+    <div class="banner-body">
+      <div class="banner-icon-box">
+        <span>💡</span>
+      </div>
+      <div class="banner-text">
+        <h4>¡Hola, {{ nombreUsuario() }}! 👋</h4>
+        <p>Agradecemos que tu perfil esté completo. Puedes registrar a quienes viven contigo para acumular puntos juntos o presionar el botón para desafiar a alguien.</p>
+        
+        <!-- Acciones rápidas estilo Duolingo (Botón con relieve 3D) -->
+        <div class="banner-actions">
+          <button class="btn-duo-secondary btn-small" (click)="compartirAppConFamiliar()">
+            <ion-icon name="paper-plane-outline"></ion-icon>
+            Invitar Retador
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+}
     }
 
 

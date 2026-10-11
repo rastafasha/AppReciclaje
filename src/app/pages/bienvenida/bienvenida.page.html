@@ -1,28 +1,32 @@
 <!-- 🏔️ Barra Superior idéntica al Figma -->
 <app-header></app-header>
 
-<ion-content >
-  <div class="bienvenida-container">
+<ion-content [fullscreen]="true">
+  <div class="bienvenida-container-duo">
     
-    <!-- Título de Sección -->
-    <h2 class="page-title">Mi Cuenta</h2>
+    <!-- 🏛️ Encabezado Superior Grueso -->
+    <h2 class="page-title-duo">¡Tu Desafío Comienza! ♻️</h2>
 
-    <!-- Tarjeta de Mensaje Inicial -->
-    <div class="alert-card">
-      <p>Bienvenido {{ nombreUsuario() }}!.<br>Agradecemos que completes tu perfil para poder disfrutar de la mejor experiencia</p>
+    <!-- ✉️ Bocadillo de Diálogo Estilo Duolingo (Mensaje flotante con relieve) -->
+    <div class="dialog-bubble-duo animate__animated animate__fadeInUp">
+      <div class="bubble-body">
+        <h3>¡Hola, {{ nombreUsuario() }}! 👋</h3>
+        <p>Para poder registrar tus hábitos de reciclaje, acumular puntos para los premios de <strong>Mercadona / UCC</strong> y clasificar en los sorteos, necesitamos que completes tu perfil.</p>
+      </div>
+      <!-- Flecha decorativa inferior que apunta al personaje -->
+      <div class="bubble-arrow"></div>
     </div>
 
-    <!-- Botón de Acción -->
-    <ion-button expand="block" class="btn-complete" (click)="irACompletarPerfil()">
-      Completar Perfil
-    </ion-button>
+    <!-- 🔵 Botón de Acción con Relieve 3D Gigante -->
+    <button class="btn-duo-primary" (click)="irACompletarPerfil()">
+      Completar Mi Perfil
+    </button>
 
-    <!-- 🍃 Render Temporal del Personaje Estático antes de meterle el Lottie JSON -->
-    <div class="character-placeholder">
-      <!-- <img src="assets/images/img_12.png" alt="Hoja Verde Bienvenida"> -->
-       <app-hoja-animada [ancho]="300" [estado]="estadoActual()">
-        </app-hoja-animada>
+    <!-- 🍃 Personaje de la Hoja Animada en el Fondo -->
+    <div class="character-box">
+      <app-hoja-animada></app-hoja-animada>
     </div>
 
   </div>
 </ion-content>
+

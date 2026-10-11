@@ -3,36 +3,40 @@
 
   <!-- 🍔 EL MENÚ LATERAL DESLIZABLE GLOBAL (side="end" o side="start" según tu Figma) -->
   <ion-menu contentId="main-app-content" menuId="main-menu" side="end">
-    <ion-content >
-      
+    <ion-content>
+
       <!-- Cabecera del Menú con Perfil -->
-      <div class="menu-header-box" style="background-color: #252876; padding: 35px 20px; display: flex; flex-direction: column; align-items: center; color: #ffffff; text-align: center;">
-        <div class="menu-avatar" style="width: 75px; height: 75px; border: 2px solid #ffffff; border-radius: 50%; overflow: hidden; margin-bottom: 12px; background-color: #f2f2f2;">
-          <!-- <img [src]="avatarPreview()" alt="Avatar Usuario" style="width: 100%; height: 100%; object-fit: cover;"> -->
-           @if (imgTemp()) {
-          <img [src]="imgTemp()" alt="Avatar Usuario" style="width: 100%; height: 100%; object-fit: cover;" />
-        } @else {
-          <img [src]="avatarUrl() | imagenPipe:'usuarios'" alt="Avatar Usuario" style="width: 100%; height: 100%; object-fit: cover;" />
-        }
+      <div class="menu-header-box">
+        <div class="menu-avatar-container" (click)="navegarA('perfil-editar')">
+
+          @if (authService.usuarioActual()?.profile?.avatar_url) {
+          <!-- 📸 Imagen real traída desde Cloudinary mediante el Pipe unificado -->
+          <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'"
+            alt="Avatar del Retador">
+          } @else {
+          <!-- 👤 Imagen predeterminada si el usuario no tiene avatar guardado -->
+          <img src="assets/images/default.jpeg" alt="Predeterminado">
+          }
+
         </div>
-        <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 4px 0;">¡Hola, {{ nombreUsuario() }}! 👋</h3>
-        <p style="font-size: 13px; color: #8fa0b5; margin: 0;">Mercadona Premia tu reciclaje</p>
+        <h3 >¡Hola, {{ nombreUsuario() }}! 👋</h3>
+        <p >UCC Premia tu reciclaje</p>
       </div>
 
       <!-- Lista de Opciones de Navegación del Figma -->
-      <div class="menu-list-items" style="padding: 10px 0; background-color: #ffffff;">
-        
-        <div class="menu-item-row" (click)="navegarA('reglas')" style="display: flex; align-items: center; gap: 14px; padding: 16px 20px; color: #1e2267; font-size: 16px; font-weight: 600; border-bottom: 1px solid #f2f2f2; cursor: pointer;">
+      <div class="menu-list-items" >
+
+        <div class="menu-item-row" (click)="navegarA('reglas')">
           <ion-icon name="trophy-outline" style="font-size: 22px; color: #252876;"></ion-icon>
           <span>Reglas del Concurso</span>
         </div>
 
-        <div class="menu-item-row" (click)="navegarA('consejos')" style="display: flex; align-items: center; gap: 14px; padding: 16px 20px; color: #1e2267; font-size: 16px; font-weight: 600; border-bottom: 1px solid #f2f2f2; cursor: pointer;">
+        <div class="menu-item-row" (click)="navegarA('consejos')">
           <ion-icon name="document-text-outline" style="font-size: 22px; color: #252876;"></ion-icon>
           <span>Términos y Condiciones</span>
         </div>
 
-        <div class="menu-item-row" (click)="cerrarSesion()" style="display: flex; align-items: center; gap: 14px; padding: 16px 20px; color: #f3a91b; font-size: 16px; font-weight: 600; cursor: pointer;">
+        <div class="menu-item-row" (click)="cerrarSesion()"  >
           <ion-icon name="power-outline" style="font-size: 22px; color: #f3a91b;"></ion-icon>
           <span>Cerrar Sesión</span>
         </div>

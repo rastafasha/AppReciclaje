@@ -10,6 +10,7 @@ import { ImagenPipe } from './pipes/imagen.pipe';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonIcon, PwaNotifInstallerComponent, ImagenPipe]
 })
@@ -17,7 +18,7 @@ export class AppComponent {
   private router = inject(Router);
   private menuCtrl = inject(MenuController);
 
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   // public avatarPreview = signal<string>('assets/images/default.jpeg');
   public imgTemp = signal<string | ArrayBuffer | null>(null);
   public avatarUrl = signal<string>('');
@@ -56,8 +57,15 @@ export class AppComponent {
   }
 
   cerrarSesion() {
-    this.menuCtrl.close('main-menu');
-    localStorage.removeItem('token'); // Limpiamos la sesión NoSQL
-    this.router.navigateByUrl('/login');
-  }
+  // Cerrar el menú lateral de Ionic
+  this.menuCtrl.close('main-menu');
+  
+  console.log('🧼 Ejecutando limpieza profunda desde el componente...');
+  
+  // 2. 🔥 LLAMADA CLAVE: Esto borra token, profile_complete y resetea las Signals en RAM al instante
+  this.authService.logout(); 
+  
+  // 3. Redirección limpia al Login
+  this.router.navigateByUrl('/login');
+}
 }

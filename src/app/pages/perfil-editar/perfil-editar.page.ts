@@ -24,7 +24,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
 export class PerfilEditarPage implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   private usuarioService = inject(UserService);
   private profileService = inject(ProfileService);
   private fileUploadService = inject(FileUploadService);
@@ -134,7 +134,7 @@ export class PerfilEditarPage implements OnInit {
       // 4. ☁️ SUBIDA A LA NUBE: Consumimos tu servicio real FileUploadService con Fetch
       this.cargandoImagen.set(true);
       
-      this.fileUploadService.actualizarFoto(archivoSeleccionado, 'usuarios', usuarioLogueado.uid)
+      this.fileUploadService.actualizarFoto(archivoSeleccionado, 'perfiles', usuarioLogueado.uid)
         .then(async (nombreArchivo) => {
           this.cargandoImagen.set(false);
           

@@ -25,12 +25,14 @@ export class AuthService {
   // Nota: Evaluamos si el perfil ya existe en el objeto populado
   // Signal computado inteligente para saber si el usuario pasó por el onboarding
   public isProfileComplete = computed(() => {
-    const user = this._usuarioActual();
-    if (!user || !user.profile || typeof user.profile === 'string') return false;
+  const user = this._usuarioActual();
+  // Si no hay usuario, o el perfil viene como un ID plano en string, está incompleto
+  if (!user || !user.profile || typeof user.profile === 'string') return false;
 
-    const perfil = user.profile as any;
-    return !!(perfil.phone_mobile && perfil.phone_mobile.trim() !== '');
-  });
+  const perfil = user.profile as any;
+  // Criterio unificado de negocio: debe tener nombre y un teléfono de contacto
+  return !!(perfil.first_name && (perfil.phone_mobile || perfil.phone));
+});
 
   // Getters rápidos para usar en toda la app
   get token(): string {
@@ -40,34 +42,48 @@ export class AuthService {
   /**
    * 🔑 Login Tradicional
    */
-  login(body: any) {
-    return this.http.post<any>(`${apiUrl}/auth/login`, body).pipe(
-      tap(resp => {
-        // 🔍 ¡DEPURACIÓN CLAVE! Revisa qué te está respondiendo exactamente el backend
-        console.log('📦 Respuesta cruda del Backend en Login:', resp);
+ login(body: any): Observable<boolean> {
+  return this.http.post<any>(`${apiUrl}/auth/login`, body).pipe(
+    switchMap(resp => {
+      // Si las credenciales son incorrectas o falta el usuario, cortamos el flujo
+      if (!resp.ok || !resp.user) return of(false);
 
-        if (resp.ok) {
-          // Buscamos el token de forma flexible por si el backend lo nombró diferente
-          const tokenToken = resp.token;
-          const usuarioData = resp.user;
+      const tokenToken = resp.token;
+      const usuarioData = resp.user;
 
-          if (tokenToken) {
-            localStorage.setItem('token', tokenToken);
-            this.setSession(tokenToken);
-          }
+      if (tokenToken) {
+        this.setSession(tokenToken);
+      }
 
-          if (usuarioData) {
+      // 🧠 SI EL BACKEND ENVIÓ EL PROFILE COMO UN STRING ID:
+      if (typeof usuarioData.profile === 'string') {
+        console.log('🔍 Perfil en string detectado. Consultando datos completos a Atlas...');
+        return this.http.get<any>(`${apiUrl}/usuarios/user_profile/${usuarioData.uid}`).pipe(
+          map(profileResp => {
+            // Inyectamos el objeto populado real dentro del usuario
+            usuarioData.profile = profileResp.profile;
             this._usuarioActual.set(usuarioData);
+            
+            // Ahora que tenemos los datos reales, guardamos la bandera exacta
+            localStorage.setItem('profile_complete', String(this.isProfileComplete()));
+            return true;
+          }),
+          catchError(() => {
+            // Fallback por si la ruta del perfil falla, guardamos el usuario base
+            this._usuarioActual.set(usuarioData);
+            localStorage.setItem('profile_complete', 'false');
+            return of(true);
+          })
+        );
+      }
 
-            // Si viene ID plano (string), la bandera inicial es false
-            const isString = typeof usuarioData.profile === 'string';
-            const complete = !isString && !!(usuarioData.profile && usuarioData.profile.first_name);
-            localStorage.setItem('profile_complete', String(complete));
-          }
-        }
-      })
-    );
-  }
+      // Si el backend ya lo envió populado por defecto
+      this._usuarioActual.set(usuarioData);
+      localStorage.setItem('profile_complete', String(this.isProfileComplete()));
+      return of(true);
+    })
+  );
+}
 
   /**
    * ♻️ Renovar Token (Para mantener la sesión activa al abrir la app)
@@ -140,7 +156,7 @@ export class AuthService {
     // 🧼 Borramos TODOS los rastros del disco duro para evitar confusión entre cuentas
     localStorage.removeItem('token');
     localStorage.removeItem('profile_complete');
-
+    localStorage.clear();
     // Reseteamos las Signals en memoria RAM
     this._token.set(null);
     this._usuarioActual.set(null);

@@ -13,21 +13,6 @@ ion-menu {
   color: #ffffff;
   text-align: center;
 
-  .menu-avatar {
-    width: 75px;
-    height: 75px;
-    border: 2px solid #ffffff;
-    border-radius: 50%; // Avatar completamente circular
-    overflow: hidden;
-    margin-bottom: 12px;
-    background-color: #f2f2f2;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
 
   h3 {
     font-size: 18px;
@@ -45,6 +30,7 @@ ion-menu {
 .menu-list-items {
   padding: 10px 0;
   background-color: #ffffff;
+  height: calc(67vh);
 
   .menu-item-row {
     display: flex;
@@ -78,5 +64,30 @@ ion-menu {
         color: #f3a91b;
       }
     }
+  }
+}
+.menu-avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  margin: 24px auto 12px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 2px solid #ffffff;  
+   background-color: #f2f2f2;
+
+  &:active {
+    transform: scale(0.95); /* Microinteracción al presionarlo */
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }

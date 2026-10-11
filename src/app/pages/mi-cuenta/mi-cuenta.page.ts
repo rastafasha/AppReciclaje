@@ -31,7 +31,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
 })
 export class MiCuentaPage implements OnInit {
   private router = inject(Router);
-  private authService = inject(AuthService); // ⚙️ Instanciamos la sesión global
+  public authService = inject(AuthService); // ⚙️ Instanciamos la sesión global
   private familiarService = inject(FamiliarService);
   private notificationService = inject(NotificationService); // ⚙️ Instanciamos el servicio Push
   private toastController = inject(ToastController); // ⚙️ Instanciamos el manejador de alertas
@@ -46,6 +46,8 @@ export class MiCuentaPage implements OnInit {
   public isLoading = signal<boolean>(false);
     // 🚦 Signal independiente para controlar el estado de carga del botón Push
   public isPushLoading = signal<boolean>(false);
+
+  public mostrarBannerFamiliares = signal<boolean>(localStorage.getItem('hide_family_banner') !== 'true');
 
   public imgTemp = signal<string | ArrayBuffer | null>(null);
   public avatarUrl = signal<string>('');
@@ -96,6 +98,31 @@ export class MiCuentaPage implements OnInit {
     window.scrollTo(0, 0);
     this.cargarFamiliares();
   }
+
+  // 3. Añade los dos nuevos métodos al final de tu archivo TS:
+ocultarBannerPermanente() {
+  console.log('🙈 Ocultando banner de familiares permanentemente para este usuario.');
+  localStorage.setItem('hide_family_banner', 'true');
+  this.mostrarBannerFamiliares.set(false);
+}
+
+compartirAppConFamiliar() {
+  console.log('📲 Abriendo Web Share API para invitar a un familiar...');
+  
+  const mensajeInvitacion = `¡Hola! Estoy usando la App de Reciclaje de Mercadona / UCC para ganar puntos y premios. ¡Regístrate tú también y salvemos el planeta juntos! ♻️✨`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'Concurso de Reciclaje UCC',
+      text: mensajeInvitacion,
+      url: window.location.origin // O el enlace real de descarga de tu app/PWA
+    }).catch(err => console.log('Error al compartir:', err));
+  } else {
+    // Fallback si abren desde una PC de escritorio sin Share API (Copiar al portapapeles)
+    navigator.clipboard.writeText(mensajeInvitacion);
+    console.log('📋 Mensaje copiado al portapapeles para enviar por WhatsApp.');
+  }
+}
 
   /**
    * 📋 Recuperar la lista de familiares desde MongoDB Atlas

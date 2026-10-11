@@ -117,3 +117,70 @@
   margin: 15px 0 0 0;
   width: 100%;
 }
+
+// avatar
+
+.avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  
+  &.is-loading {
+    pointer-events: none; // Evita que el usuario haga doble clic y dispare dos selectores
+    opacity: 0.85;
+  }
+}
+
+.avatar-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #f4f5f8;
+  cursor: pointer;
+  margin-right: 15px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85); // Fondo semitransparente claro
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  ion-spinner {
+    transform: scale(1.2);
+  }
+
+  .loading-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+    margin-top: 6px;
+  }
+}
+
+.overlay-edit {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  padding: 4px 0;
+  font-size: 14px;
+}

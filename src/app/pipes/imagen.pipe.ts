@@ -9,21 +9,19 @@ const base_url = environment.mediaUrlRemoto;
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform(img: string, tipo: 'usuarios' |'perfiles'): string {
+  transform(img: string | undefined | null, tipo: 'usuarios' | 'perfiles'): string {
+    // 1. Si no viene ninguna imagen, retornamos el asset por defecto
+    if (!img || img.trim() === '') {
+      return 'assets/images/default.jpeg';
+    } 
 
-    if(!img){
-      return `assets/images/default.jpeg`;
-    } else if(img.includes('https')){
+    // 2. 🛡️ FILTRO CRÍTICO: Si ya es una URL segura de Cloudinary, la retornamos intacta
+    if (img.includes('http://') || img.includes('https://')) {
       return img;
-    } else if(img){
-      return `${base_url}/${tipo}/${img}`;
-    }else {
-      // return `${base_url}/no-image.jpg`;
-      return `./assets/images/default.jpeg`;
+    } 
 
-    }
-
-
+    // 3. Si viene un ID plano de archivo, consumimos el endpoint de Express que creaste
+    return `${base_url}/uploads/${tipo}/${img}`;
   }
 
 }

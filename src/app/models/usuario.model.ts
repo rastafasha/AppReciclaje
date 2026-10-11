@@ -10,7 +10,6 @@ export class IPerfil {
   public last_name?: string,
   public phone_office?: string,
   public phone_mobile?: string,
-  public avatar_url?: string,
   public puntos_totales?: number,   // Histórico acumulado
   public puntos_actuales?: number,  // Elegible si llega a >= 55 pts
   public pais?: string,
@@ -18,15 +17,15 @@ export class IPerfil {
   public createdAt?: string,
   ){}
 
-  img?: string;
+  avatar_url?: string;
      get imagenUrl(){
 
-      if(!this.img){
+      if(!this.avatar_url){
         return `assets/images/default.jpeg`;
-      } else if(this.img.includes('https')){
-        return this.img;
-      } else if(this.img){
-        return `${base_url}/pagos/${this.img}`;
+      } else if(this.avatar_url.includes('https')){
+        return this.avatar_url;
+      } else if(this.avatar_url){
+        return `${base_url}/pagos/${this.avatar_url}`;
       }else {
         return `${base_url}/pagos/no-image.jpg`;
       }

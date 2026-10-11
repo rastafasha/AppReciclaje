@@ -1,9 +1,9 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline } from 'ionicons/icons';
-import { IonButton, IonContent, } from '@ionic/angular';
+import { IonContent, } from '@ionic/angular';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { AuthService } from '../../services/auth';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
@@ -13,7 +13,7 @@ import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada
   templateUrl: './bienvenida.page.html',
   styleUrls: ['./bienvenida.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonButton, RouterModule, HeaderComponent, HojaAnimadaComponent]
+  imports: [CommonModule, IonContent, RouterModule, HeaderComponent, HojaAnimadaComponent]
 })
 export class BienvenidaPage {
   private router = inject(Router);
@@ -42,8 +42,26 @@ export class BienvenidaPage {
   public estadoActual = signal<any>('saludando');
 
   constructor() {
-    // Registramos los iconos nativos de Ionicons que se muestran en la barra superior
     addIcons({ notificationsOutline, menuOutline });
+
+    // 👁️ OBSERVADOR REACTIVO EN CALIENTE:
+    // Se ejecuta automáticamente cada vez que las signals del AuthService cambien de estado.
+    effect(() => {
+      const usuario = this.authService.usuarioActual();
+      const completo = this.authService.isProfileComplete();
+
+      // Si el usuario no está autenticado, no procesamos redirecciones aquí
+      if (!usuario) return;
+
+      // Si detectamos que los datos del perfil ya se rehidrataron desde Atlas 
+      // y cumplen con los requisitos mínimos, lo enviamos de inmediato a inicio
+      if (completo) {
+        console.log('🚀 Observador: Perfil completo detectado en Atlas. Redirigiendo a Inicio.');
+        this.router.navigateByUrl('/inicio');
+      } else {
+        console.log('📝 Observador: El perfil requiere atención. El usuario permanece en Bienvenida.');
+      }
+    });
   }
 
   irACompletarPerfil() {

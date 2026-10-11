@@ -1,19 +1,41 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content >
+<ion-content>
   <div class="editar-container">
-    
+
     <!-- Botón de Retroceso Figma -->
     <app-backbutton pageTitle="Editar Perfil"></app-backbutton>
 
 
     <!-- Tarjeta Resumen con Previsualización Dinámica -->
     <div class="profile-preview-card">
-      <div class="avatar-box" (click)="modalFoto.present()">
-        <img [src]="avatarUrl() | imagenPipe:'perfiles'" alt="Avatar de Usuario">
-        <div class="camera-badge">
-          <ion-icon name="camera-outline"></ion-icon>
+      <div class="avatar-wrapper" [class.is-loading]="cargandoImagen()">
+        <div class="avatar-container" (click)="!cargandoImagen() && dispararSelectorArchivo()">
+
+          <!-- 🔄 INDICADOR EN CALIENTE: Se activa mientras viaja a Cloudinary -->
+          @if (cargandoImagen()) {
+          <div class="spinner-overlay">
+            <ion-spinner name="crescent" color="primary"></ion-spinner>
+            <p class="loading-text">Subiendo...</p>
+          </div>
+          }
+
+          <!-- 📸 RENDER DE IMÁGENES -->
+          @if (authService.usuarioActual()?.profile?.avatar_url) {
+          <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'" alt="Avatar">
+          } @else if (avatarUrl()) {
+          <img [src]="avatarUrl() | imagenPipe:'perfiles'" alt="Avatar Reciente">
+          } @else {
+          <img src="assets/images/default.jpeg" alt="Predeterminado">
+          }
+
+          <!-- Botón flotante inferior (Oculto si está cargando) -->
+          @if (!cargandoImagen()) {
+          <div class="overlay-edit">
+            <ion-icon name="camera-outline"></ion-icon>
+          </div>
+          }
         </div>
       </div>
       <div class="user-info">
@@ -35,7 +57,7 @@
 
     <!-- Formulario de Campos Personales -->
     <form [formGroup]="perfilForm" (ngSubmit)="guardarCambiosPerfil()">
-      
+
       <div class="input-group">
         <label>Nombre</label>
         <ion-input class="custom-input" type="text" formControlName="first_name"></ion-input>
@@ -57,7 +79,7 @@
       </div>
 
       <!-- Botón Guardar definitivo -->
-      <ion-button expand="block" class="btn-save" type="submit" >
+      <ion-button expand="block" class="btn-save" type="submit">
         Guardar
       </ion-button>
       <!-- <ion-button expand="block" class="btn-save" type="submit" [disabled]="perfilForm.invalid">
@@ -74,32 +96,32 @@
   <ng-template>
     <div class="modal-sheet-content ion-padding">
       <div class="modal-handle-bar"></div>
-      
+
       <h3>Actualizar foto de perfil</h3>
       <p class="subtitle-modal">Elige una imagen cuadrada y nítida desde tu dispositivo.</p>
 
       <div class="preview-upload-zone">
         @if (imgTemp()) {
-          <img [src]="imgTemp()" class="img-preview-crop" />
+        <img [src]="imgTemp()" class="img-preview-crop" />
         } @else {
-          <img [src]="avatarUrl() | imagenPipe:'usuarios'" class="img-preview-crop" />
+        <img [src]="avatarUrl() | imagenPipe:'usuarios'" class="img-preview-crop" />
         }
       </div>
 
       <div class="actions-upload-row">
         <!-- El disparador de archivos del sistema escondido -->
         <input #filePicker type="file" (change)="cambiarImagen($event)" accept="image/*" style="display: none;">
-        
+
         <ion-button fill="outline" (click)="filePicker.click()" [disabled]="cargandoImagen()">
           Buscar en Galería
         </ion-button>
 
         <ion-button (click)="subirImagen()" [disabled]="!imgTemp() || cargandoImagen()">
           @if (cargandoImagen()) {
-            <ion-spinner name="crescent" slot="start"></ion-spinner>
-            Guardando...
+          <ion-spinner name="crescent" slot="start"></ion-spinner>
+          Guardando...
           } @else {
-            Guardar Cambios
+          Guardar Cambios
           }
         </ion-button>
       </div>
