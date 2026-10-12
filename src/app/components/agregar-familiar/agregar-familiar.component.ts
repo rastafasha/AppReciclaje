@@ -36,7 +36,7 @@ export class AgregarFamiliarComponent {
   public parentescoSeleccionado = signal<string>('');
 
   constructor() {
-    addIcons({ closeCircle });
+    addIcons({ closeCircle  });
 
     // 🧠 EFFECT REACTIVO: Escucha en tiempo real si el input 'familiarAEditar' cambia
     effect(() => {

@@ -2,7 +2,7 @@ import { Component, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
+import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, arrowForwardOutline } from 'ionicons/icons';
 import { IonContent, IonModal, IonIcon } from '@ionic/angular';
 import { IConsejoData, DetalleConsejoComponent } from '../../components/consejo-detalle/consejo-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -31,7 +31,8 @@ export class ConsejosPage {
     { titulo: 'Planificación de Porciones', contenido: 'Medir las porciones de carbohidratos reduce los sobrantes de comida en la cena, promoviendo un consumo responsable y saludable.' }
   ];
   constructor() {
-    addIcons({ notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline });
+    addIcons({ notificationsOutline, menuOutline, 
+      refreshCircleOutline, documentTextOutline, personCircleOutline, arrowForwardOutline });
   }
 
   abrirDetalle(consejo: IConsejoData) {

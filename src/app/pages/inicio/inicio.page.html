@@ -116,41 +116,44 @@
 <!-- 🗺️ MENÚ DE PESTAÑAS INFERIOR (Tabs Bar Calcada del Figma) -->
 <app-menufooter [tabActiva]="'inicio'"></app-menufooter>
 
-<!-- ========================================================================= -->
-<!-- 🔼 MODAL 1: FORMULARIO DE AVANCE (Componente Hijo) -->
-<!-- ========================================================================= -->
-<ion-modal #modalAvance trigger="open-formulario-avance" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
-  class="binance-sheet-modal">
-  <ng-template>
-    <ion-content>
-      <app-formulario-avance (cerrarModal)="modalAvance.dismiss()"></app-formulario-avance>
-    </ion-content>
-  </ng-template>
-</ion-modal>
-
-<!-- ========================================================================= -->
-<!-- 🔼 MODAL 2: MI PUNTAJE (Componente Hijo) -->
-<!-- ========================================================================= -->
-<ion-modal #modalPuntaje trigger="open-mi-puntaje" [breakpoints]="[0, 0.85]" [initialBreakpoint]="0.85"
-  class="binance-sheet-modal">
-  <ng-template>
-    <ion-content>
-      <app-mi-puntaje (cerrarModal)="modalPuntaje.dismiss()"></app-mi-puntaje>
-    </ion-content>
-  </ng-template>
-</ion-modal>
-
-<!-- 👋 Modal de Bienvenida reutilizable -->
-<!-- 🏆 MODAL 1: BIENVENIDA AL RETO -->
+<!-- 🏆 MODAL 1: BIENVENIDA -->
 <app-modal-bienvenida 
-  [isOpen]="mostrarModalBienvenida()"
+  [isOpen]="mostrarModalBienvenida()" 
   keepContentsMounted="true"
   (cerrar)="cerrarBienvenida()">
 </app-modal-bienvenida>
 
-<!-- 📖 MODAL 2: INSTRUCCIONES DEL CONCURSO UCC -->
+<!-- 📖 MODAL 2: INSTRUCCIONES -->
 <app-modal-instrucciones 
-  [isOpen]="mostrarModalInstrucciones()"
+  [isOpen]="mostrarModalInstrucciones()" 
   keepContentsMounted="true"
   (cerrar)="cerrarInstrucciones()">
 </app-modal-instrucciones>
+
+<!-- 🟢 MODAL 3: FORMULARIO DE AVANCE (Misión diaria) -->
+<ion-modal 
+  [isOpen]="mostrarModalFormularioAvance()" 
+  [initialBreakpoint]="0.65" 
+  [breakpoints]=""
+  keepContentsMounted="true"
+  (didDismiss)="onModalFormularioCerrado()"
+  class="binance-sheet-modal">
+  <ng-template>
+    <!-- Capturamos la salida output () del formulario real para detonar el cierre -->
+    <app-formulario-avance (cerrarModal)="onModalFormularioCerrado()"></app-formulario-avance>
+  </ng-template>
+</ion-modal>
+
+<!-- 📊 MODAL 4: MI PUNTAJE CENTRAL -->
+<ion-modal 
+  [isOpen]="mostrarModalMiPuntaje()" 
+  [initialBreakpoint]="0.65" 
+  [breakpoints]=""
+  keepContentsMounted="true"
+  (didDismiss)="onModalPuntajeCerrado()"
+  class="binance-sheet-modal">
+  <ng-template>
+    <!-- Capturamos la salida output () de mi puntaje para detonar el cierre -->
+    <app-mi-puntaje (cerrarModal)="onModalPuntajeCerrado()"></app-mi-puntaje>
+  </ng-template>
+</ion-modal>

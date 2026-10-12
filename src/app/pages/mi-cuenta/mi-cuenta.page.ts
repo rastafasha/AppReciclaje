@@ -6,7 +6,8 @@ import { addIcons } from 'ionicons';
 import {
   notificationsOutline, menuOutline, close, person,
   pencil, createOutline, powerOutline, refreshCircleOutline,
-  documentTextOutline, personCircleOutline
+  documentTextOutline, personCircleOutline,
+  closeCircle
 } from 'ionicons/icons';
 import { IonContent, IonIcon, IonToggle,  IonModal, ToastController } from '@ionic/angular';
 import { AgregarFamiliarComponent } from '../../components/agregar-familiar/agregar-familiar.component';
@@ -91,7 +92,7 @@ export class MiCuentaPage implements OnInit {
     addIcons({
       notificationsOutline, menuOutline, close, person,
       pencil, createOutline, powerOutline, refreshCircleOutline,
-      documentTextOutline, personCircleOutline
+      documentTextOutline, personCircleOutline, closeCircle
     });
   }
 

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
+import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, checkmarkDoneOutline } from 'ionicons/icons';
 import { IonContent, IonModal, IonIcon } from '@ionic/angular';
 import { INotificacion } from '../../models/notificacion.model';
 import { NotificacionDetalleComponent } from '../../components/notificacion-detalle/notificacion-detalle.component';
@@ -42,7 +42,9 @@ export class NotificacionesPage implements OnInit{
   });
 
   constructor() {
-    addIcons({ notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline });
+    addIcons({ notificationsOutline, menuOutline, 
+      refreshCircleOutline, documentTextOutline, 
+      personCircleOutline, checkmarkDoneOutline});
   }
 
   ngOnInit() {

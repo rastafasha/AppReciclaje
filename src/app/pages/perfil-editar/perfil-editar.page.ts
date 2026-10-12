@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, menuOutline, chevronBackOutline } from 'ionicons/icons';
+import { notificationsOutline, menuOutline, chevronBackOutline, cameraOutline } from 'ionicons/icons';
 import { IonContent, IonButton, IonInput, IonModal, ToastController, IonIcon, IonSpinner } from '@ionic/angular';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { AuthService } from '../../services/auth';
@@ -61,7 +61,7 @@ export class PerfilEditarPage implements OnInit {
   });
 
   constructor() {
-    addIcons({ notificationsOutline, menuOutline, chevronBackOutline });
+    addIcons({ notificationsOutline, menuOutline, chevronBackOutline, cameraOutline });
   }
 
   ngOnInit() {

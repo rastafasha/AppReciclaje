@@ -51,54 +51,6 @@
 </ion-menu>
 
 
-  <ion-menu contentId="main-content" menuId="main-menu" side="end">
-  <ion-content>
-    
-    <!-- 🏛️ ENCABEZADO PREMIUM CON AVATAR SINCRONIZADO -->
-    <header class="menu-header-box-duo" (click)="navegarA('perfil-editar')">
-      <div class="menu-avatar-container-duo">
-        @if (authService.usuarioActual()?.profile?.avatar_url) {
-          <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'" alt="Avatar del Retador">
-        } @else {
-          <img src="assets/images/default.jpeg" alt="Predeterminado">
-        }
-      </div>
-      <h3>¡Hola, {{ nombreUsuario() }}! 👋</h3>
-      <p>UCC Premia tu reciclaje</p>
-    </header>
-
-    <!-- 📋 LISTADO DE ACCIONES CON IDENTIDAD PROPIA -->
-    <nav class="menu-list-items-duo">
-      
-      <div class="menu-item-row-duo" (click)="navegarA('inicio')">
-        <div class="item-leading-duo">
-          <ion-icon name="ribbon-outline"></ion-icon>
-          <span>Reglas del Concurso</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="item-arrow-duo"></ion-icon>
-      </div>
-
-      <div class="menu-item-row-duo" (click)="navegarA('terminos')">
-        <div class="item-leading-duo">
-          <ion-icon name="document-text-outline"></ion-icon>
-          <span>Términos y Condiciones</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="item-arrow-duo"></ion-icon>
-      </div>
-
-      <!-- 🚪 ACCIÓN DE SALIDA SEGURA -->
-      <div class="menu-item-row-duo logout-item-duo" (click)="cerrarSesion()">
-        <div class="item-leading-duo">
-          <ion-icon name="power-outline"></ion-icon>
-          <span>Cerrar Sesión</span>
-        </div>
-      </div>
-
-    </nav>
-
-  </ion-content>
-</ion-menu>
-
 
   <!-- 📺 CONTENEDOR FÍSICO QUE SE DESPLAZA -->
   <div id="main-app-content" class="ion-page">

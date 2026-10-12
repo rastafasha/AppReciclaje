@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 // 🚀 Ajustado a las APIs Standalone oficiales de Ionic
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline } from 'ionicons/icons';
@@ -12,7 +12,7 @@ import { NotificationService } from '../../services/notificacion-service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true, // 🚀 Declaramos formalmente el modo standalone
-  imports: [CommonModule, IonHeader, IonToolbar, IonIcon, IonMenuToggle, IonBadge]
+  imports: [CommonModule, IonHeader, IonToolbar, IonIcon, IonMenuToggle, IonBadge, RouterModule]
 })
 export class HeaderComponent implements OnInit{
   private router = inject(Router);

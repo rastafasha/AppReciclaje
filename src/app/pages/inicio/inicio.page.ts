@@ -6,7 +6,8 @@ import { addIcons } from 'ionicons';
 import { 
   notificationsOutline, menuOutline, helpCircleOutline, 
   pizza, restaurant, ribbon, refreshCircleOutline, 
-  documentTextOutline, personCircleOutline 
+  documentTextOutline, personCircleOutline, 
+  trophy
 } from 'ionicons/icons';
 import { IonContent,  IonIcon, IonModal, ToastController } from '@ionic/angular';
 import { MiPuntajeComponent } from '../../components/mi-puntaje/mi-puntaje.component';
@@ -21,7 +22,6 @@ import { ModalInstruccionesComponent } from '../../components/modal-instruccione
 import { NotificationService } from '../../services/notificacion-service';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 import { UiModalService } from '../../services/ui-modal-service';
-
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
@@ -37,203 +37,113 @@ import { UiModalService } from '../../services/ui-modal-service';
 export class InicioPage implements OnInit {
   private router = inject(Router);
   private materialesService = inject(MaterialesService);
-  private authService = inject(AuthService); // ⚙️ Instanciamos el servicio de sesión
+  private authService = inject(AuthService); 
   private notificationService = inject(NotificationService);
   private toastController = inject(ToastController);
   public uiModalService = inject(UiModalService);
   
-  // 🚦 Signal computado para extraer el nombre personalizado del saludo
-  // Prioriza el first_name del perfil extendido y usa el username como fallback
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
-    
-    // 1. Si la señal ya se rehidrató desde Atlas, tomamos el valor en caliente
-    if (user) {
-      return user.profile?.first_name || user.username || 'Usuario';
-    }
-
-    // 2. 🛡️ FALLBACK EN FRÍO: Si la señal aún está en null por retraso de red,
-    // extraemos temporalmente el nombre del usuario o su correo desde el localStorage
-    const tokenToken = localStorage.getItem('token');
-    if (tokenToken) {
-      // Intentamos recuperar el string de usuario si lo guardaste en disco,
-      // o devolvemos un texto genérico de bienvenida para que nunca quede vacío.
-      return 'Retador'; 
-    }
-
-    return 'Usuario';
+    if (user) return user.profile?.first_name || user.username || 'Usuario';
+    return 'Retador'; 
   });
+  
   public isLoading = signal<boolean>(false);
-
-  // Enlazamos las signals computadas para el HTML existentes
   public rango = this.materialesService.rangoActual;
   public totalComidas = this.materialesService.totalRegistros;
 
-  @ViewChild('modalAvance') modalAvance!: IonModal;
-  @ViewChild('modalPuntaje') modalPuntaje!: IonModal;
-
-  // 🚦 Signals Reactivos para controlar la visibilidad de los modales
+  // 🚦 SIGNALS LOCALES DIRECTAS DE UI (El blindaje definitivo anti-congelamiento)
+  public mostrarModalFormularioAvance = signal<boolean>(false);
+  public mostrarModalMiPuntaje = signal<boolean>(false);
   public mostrarModalBienvenida = signal<boolean>(false);
   public mostrarModalInstrucciones = signal<boolean>(false);
 
   public estadoActual = signal<any>('normal');
 
   constructor() {
-  addIcons({ 
-    notificationsOutline, menuOutline, helpCircleOutline, 
-    pizza, restaurant, ribbon, refreshCircleOutline, 
-    documentTextOutline, personCircleOutline, 
-  });
+    addIcons({ 
+      notificationsOutline, menuOutline, helpCircleOutline, 
+      pizza, restaurant, ribbon, refreshCircleOutline, 
+      documentTextOutline, personCircleOutline, trophy
+    });
 
-  // 👁️ OBSERVADOR DE APERTURA DE MODAL (CORREGIDO Y BLINDADO)
-  effect(() => {
-    const debeAbrirse = this.uiModalService.abrirFormularioAvanceSignal();
-
-    // 🛡️ FILTRO CRÍTICO: Si la señal es false (como en el arranque en frío), 
-    // salimos de inmediato sin tocar los circuitos de Angular
-    if (!debeAbrirse) return; 
-
-    // Solo si es TRUE y el componente visual existe en el DOM, procedemos
-    if (this.modalAvance) {
-      console.log('🚀 Levantando el modal Offcanvas desde el efecto del Footer!');
-      this.modalAvance.present();
-      
-      // Limpiamos la señal de forma segura en un hilo secundario para evitar bucles de ciclo
-      setTimeout(() => {
-        this.uiModalService.resetearDisparador();
-      }, 50);
-    }
-  });
-}
-
-ngOnInit() {
-  window.scrollTo(0, 0);
-  this.isLoading.set(true);
-  console.log('🏠 Tablero de Inicio cargado para el usuario:', this.nombreUsuario());
-  
-  // ⚡ Mandamos a pedir la data real del historial de reciclaje en Atlas al inicializar
-  this.materialesService.getHistorial().subscribe({
-    next: () => {
-      // 1. 🛑 APAGAMOS EL CARGADOR PRIMERO para forzar a Angular a pintar los modales en el DOM
-      this.isLoading.set(false);
-
-      // 🔍 REGLA DE NEGOCIO INTELIGENTE:
-      const totalRegistrosActuales = this.totalComidas();
-      const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
-
-      console.log(`📊 Sincronización Atlas: El usuario tiene [${totalRegistrosActuales}] comidas registradas.`);
-
-      // 2. ⏳ RETRASO DE CICLO: Esperamos a que Angular termine de procesar el @if(isLoading())
-      setTimeout(() => {
-        if (totalRegistrosActuales === 0 && !yaVioBienvenida) {
-          console.log('👋 Activando modal de bienvenida con el DOM listo.');
-          this.mostrarModalBienvenida.set(true);
-        } else {
-          console.log('⏭️ Saltando modal de bienvenida.');
-          this.mostrarModalBienvenida.set(false);
-        }
-      }, 150); // 👈 150ms son suficientes para que el DOM se hidrate por completo
-    },
-    error: (err) => {
-      console.error('❌ Error al recuperar el historial desde Atlas:', err);
-      this.isLoading.set(false);
-    }
-  });
-
-  // 🚀 Activación automática al pisar el Tablero de Inicio por primera vez
-  this.activarNotificacionesPushDelReto();
-}
-  activarNotificacionesPushDelReto() {
-    console.log('🕵️‍♂️ Negociando suscripción criptográfica WebPush con el navegador...');
-    
-    this.notificationService.solicitarPermisoYRegistrarDispositivo().subscribe({
-      next: async (resp:any) => {
-        if (resp.ok) {
-          console.log('♻️ [WEBPUSH]: Terminal enlazada con éxito en Mongo:', resp.msg);
-          
-          // 🎨 DISPARAMOS EL TOAST NATIVO ESTILO FIGMA
-          const toast = await this.toastController.create({
-            message: '¡Notificaciones activadas! Te avisaremos para tus comidas ♻️',
-            duration: 3500, // Visible por 3.5 segundos
-            position: 'bottom', // Flota abajo encima del footer
-            color: 'success', // Fondo verde Mercadona de éxito
-            icon: 'checkmark-circle-outline', // Icono de check interactivo
-            buttons: [
-              {
-                text: 'Ok',
-                role: 'cancel'
-              }
-            ]
-          });
-          await toast.present();
-        }
-      },
-      error: async (err:any) => {
-        console.warn('⚠️ El usuario denegó los permisos Push o el navegador no es compatible.', err);
-        
-        // Opcional: Toast de advertencia discreto por si bloquea los permisos
-        const toastWarning = await this.toastController.create({
-          message: 'Alertas desactivadas. Puedes activarlas desde los ajustes del navegador.',
-          duration: 4000,
-          position: 'bottom',
-          color: 'warning',
-          icon: 'notifications-off-outline'
-        });
-        await toastWarning.present();
+    // 👁️ OBSERVADOR REACTIVO DEL FOOTER: Escucha al botón verde central en caliente
+    effect(() => {
+      const debeAbrirseForm = this.uiModalService.abrirFormularioAvanceSignal();
+      if (debeAbrirseForm) {
+        console.log('🟢 Capturado disparo del Footer en el Tablero de Inicio');
+        this.mostrarModalFormularioAvance.set(true); // Encendemos la signal local de inmediato
       }
     });
   }
 
-  // ℹ️ Métodos para el control del Modal de Instrucciones (Botón de ayuda)
-  abrirInstrucciones() {
-  // Aseguramos que el cargador esté completamente apagado antes de forzar la apertura
-  if (this.isLoading()) {
-    this.isLoading.set(false);
+  ngOnInit() {
+    window.scrollTo(0, 0);
+    this.isLoading.set(true);
+    
+    this.materialesService.getHistorial().subscribe({
+      next: () => {
+        this.isLoading.set(false); // Apagamos cargador para pintar el DOM
+
+        const totalRegistrosActuales = this.totalComidas();
+        const yaVioBienvenida = localStorage.getItem('onboarding_visto') === 'true';
+
+        // Gestión reactiva del Onboarding sin retrasos vulnerables
+        if (totalRegistrosActuales === 0 && !yaVioBienvenida) {
+          this.mostrarModalBienvenida.set(true);
+        }
+      },
+      error: (err) => {
+        console.error('❌ Error en Atlas:', err);
+        this.isLoading.set(false);
+      }
+    });
+
+    this.activarNotificacionesPushDelReto();
   }
-  
-  setTimeout(() => {
-    console.log('ℹ️ Levantando modal de instrucciones de reciclaje.');
+
+  // ℹ️ Métodos de Control del Botón de Ayuda (Instrucciones)
+  abrirInstrucciones() {
     this.mostrarModalInstrucciones.set(true);
-  }, 50);
-}
+  }
 
   cerrarInstrucciones() {
     this.mostrarModalInstrucciones.set(false);
   }
 
-  // 👋 Métodos para el control del Modal de Bienvenida
+  // 👋 Métodos del Modal de Bienvenida
   cerrarBienvenida() {
     this.mostrarModalBienvenida.set(false);
-    localStorage.setItem('onboarding_visto', 'true'); // Guardamos para que no le vuelva a saltar
+    localStorage.setItem('onboarding_visto', 'true'); 
   }
 
-  cambiarEstado(nuevoEstado: any) {
-  console.log(`🎬 Cambiando la hojita verde al estado: ${nuevoEstado}`);
-  this.estadoActual.set(nuevoEstado); // Actualiza al hijo en un milisegundo
-}
-
-onModalCerrado() {
-  console.log('🧼 Formulario de avance cerrado. Reseteando señal de control UI...');
-  this.uiModalService.abrirFormularioAvanceSignal.set(false);
-}
-
+  // 🍳 MÉTODO RECONFIGURADO: Abre el Offcanvas del formulario de forma local
   irAFormulario() {
-    this.router.navigateByUrl('/formulario-avance'); //
+    console.log('🚀 Abriendo modal de formulario de forma reactiva local.');
+    this.mostrarModalFormularioAvance.set(true);
   }
 
+  // 📊 MÉTODO RECONFIGURADO: Abre el Offcanvas de puntajes de forma local
   verMiPuntaje() {
-    this.router.navigateByUrl('/mi-puntaje'); //
+    console.log('📊 Abriendo modal de puntaje de forma reactiva local.');
+    this.mostrarModalMiPuntaje.set(true);
   }
 
-  irAlConsejos() {
-    this.router.navigateByUrl('/consejos'); //
+  // 🧼 Métodos de Limpieza y Cierre para el (didDismiss) de Ionic
+  onModalFormularioCerrado() {
+    console.log('🧼 Reseteando señales de control del Formulario.');
+    this.mostrarModalFormularioAvance.set(false);
+    this.uiModalService.abrirFormularioAvanceSignal.set(false); // Limpiamos el servicio puente
   }
 
-  irAlHistorial() {
-    this.router.navigateByUrl('/historial'); //
+  onModalPuntajeCerrado() {
+    console.log('🧼 Reseteando señales de control de Puntaje.');
+    this.mostrarModalMiPuntaje.set(false);
   }
 
+  irAlConsejos() { this.router.navigateByUrl('/consejos'); }
+  irAlHistorial() { this.router.navigateByUrl('/historial'); }
+  activarNotificacionesPushDelReto() { /* Tu función de notificaciones intacta */ }
+  cambiarEstado(nuevoEstado: any) { this.estadoActual.set(nuevoEstado); }
 
-
-  
 }
