@@ -134,7 +134,7 @@
 <ion-modal 
   [isOpen]="mostrarModalFormularioAvance()" 
   [initialBreakpoint]="0.65" 
-  [breakpoints]=""
+  [breakpoints]="[0, 0.65, 0.70]"
   keepContentsMounted="true"
   (didDismiss)="onModalFormularioCerrado()"
   class="binance-sheet-modal">
@@ -148,7 +148,7 @@
 <ion-modal 
   [isOpen]="mostrarModalMiPuntaje()" 
   [initialBreakpoint]="0.65" 
-  [breakpoints]=""
+  [breakpoints]="[0, 0.65, 0.70]"
   keepContentsMounted="true"
   (didDismiss)="onModalPuntajeCerrado()"
   class="binance-sheet-modal">
