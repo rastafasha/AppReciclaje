@@ -1,5 +1,5 @@
 <div class="form-panel-duo animate__animated animate__fadeInUp">
-  
+
   <!-- 🔝 BARRA SUPERIOR DE CIERRE NATIVA -->
   <header class="panel-top-bar-duo">
     <div class="decor-line-duo"></div>
@@ -11,91 +11,92 @@
   <h2 class="form-title-duo">Registrar Impacto Diario</h2>
 
   @if (retoDelDiaCompletado()) {
-    <!-- 🏆 PANTALLA PREMIUM DE RETO COMPLETADO -->
-    <div class="reto-completo-card-duo animate__animated animate__zoomIn">
-      <div class="success-badge-duo">🎉🏆</div>
-      <h4>¡Reto del Día Completado!</h4>
-      <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha UCC!</p>
-      <button class="btn-duo-secondary" (click)="notificarCierre()">Cerrar Ventana</button>
-    </div>
+  <!-- 🏆 PANTALLA PREMIUM DE RETO COMPLETADO -->
+  <div class="reto-completo-card-duo animate__animated animate__zoomIn">
+    <div class="success-badge-duo">🎉🏆</div>
+    <h4>¡Reto del Día Completado!</h4>
+    <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha UCC!</p>
+    <button class="btn-duo-secondary" (click)="notificarCierre()">Cerrar Ventana</button>
+  </div>
   } @else {
-    
-    <form class="form-scrollable-body">
-      
-      <!-- 🍳 SECCIÓN 1: MOMENTO DEL HÁBITO (Píldoras Horizontales) -->
-      <div class="input-group-duo">
-        <label class="group-label-duo">Momento del Hábito *</label>
-        <div class="globos-horizontal-scroll">
-          @for (comida of opcionesComida; track comida) {
-            <button type="button" 
-                    class="globo-item-btn-duo"
-                    [class.activo]="comidaSeleccionada() === comida"
-                    [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
-                    [disabled]="comidasRegistradasHoy().includes(comida)"
-                    (click)="seleccionarComida(comida)">
-              
-              @if (comida === 'DESAYUNO') { 🍳 } 
-              @else if (comida === 'ALMUERZO') { 🍽️ } 
-              @else { 🌙 }
-              
-              {{ comida | titlecase }}
-              
-              @if (comidasRegistradasHoy().includes(comida)) {
-                <span class="mini-check">✓</span>
-              }
-            </button>
+
+  <form class="form-scrollable-body">
+
+    <!-- 🍳 SECCIÓN 1: MOMENTO DEL HÁBITO (Píldoras Horizontales) -->
+    <div class="input-group-duo">
+      <label class="group-label-duo">Momento del Hábito *</label>
+      <div class="globos-horizontal-scroll">
+        @for (comida of opcionesComida; track comida) {
+        <button type="button" class="globo-item-btn-duo" [class.activo]="comidaSeleccionada() === comida"
+          [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
+          [disabled]="comidasRegistradasHoy().includes(comida)" (click)="seleccionarComida(comida)">
+
+          @if (comida === 'DESAYUNO') { 🍳 }
+          @else if (comida === 'ALMUERZO') { 🍽️ }
+          @else { 🌙 }
+
+          {{ comida | titlecase }}
+
+          @if (comidasRegistradasHoy().includes(comida)) {
+          <span class="mini-check">✓</span>
           }
-        </div>
-      </div>
-
-      <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Selectores de Fila Táctiles) -->
-      <div class="input-group-duo">
-        <label class="group-label-duo">Categoría de Alimento *</label>
-        <div class="categories-grid-duo">
-          @for (cat of opcionesCategoria; track cat.valor) {
-            <button type="button" 
-                    class="category-tile-duo"
-                    [class.selected]="categoriaSeleccionada() === cat.valor"
-                    (click)="seleccionarCategoria(cat.valor)">
-              <div class="tile-check"></div>
-              <span>{{ cat.label }}</span>
-            </button>
-          }
-        </div>
-      </div>
-
-      <!-- 📝 SECCIÓN 3: DETALLES DE LA ACCIÓN -->
-      <div class="input-group-duo">
-        <label for="itemName" class="group-label-duo">Nombre del Item</label>
-        <input id="itemName" type="text" class="custom-input-duo" placeholder="Ej. Envase de plástico UCC o yogur">
-      </div>
-
-      <div class="input-group-duo">
-        <label for="itemDesc" class="group-label-duo">Descripción Corta</label>
-        <textarea id="itemDesc" class="custom-textarea-duo" placeholder="Cuéntanos brevemente cómo lo reciclaste..."></textarea>
-      </div>
-
-      <!-- 🚨 MANEJO DE ERRORES -->
-      @if (errorMessage) {
-        <div class="error-banner-duo animate__animated animate__headShake">
-          <ion-icon name="alert-circle"></ion-icon>
-          <p>{{ errorMessage }}</p>
-        </div>
-      }
-
-      <!-- 🟢 BOTÓN FÍSICO DE ENVÍO -->
-      <div class="form-actions-duo">
-        @if (isLoading()) {
-          <button type="button" class="btn-duo-submit loading" disabled>
-            <ion-spinner name="crescent"></ion-spinner> Guardando hábito...
-          </button>
-        } @else {
-          <button type="submit" class="btn-duo-submit  btn-blue-duo" (click)="$event.preventDefault(); onAgregarAvance()">
-            Agregar Avance
-          </button>
+        </button>
         }
       </div>
+    </div>
 
-    </form>
+    <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Globos con Scroll Horizontal) -->
+    <div class="input-group-duo">
+      <label class="group-label-duo">Categoría de Alimento *</label>
+
+      <div class="globos-horizontal-scroll">
+        @for (cat of opcionesCategoria; track cat.valor) {
+        <button type="button" class="globo-item-btn-duo" [class.activo]="categoriaSeleccionada() === cat.valor"
+          (click)="seleccionarCategoria(cat.valor)">
+
+          @if (cat.valor === 'PROTEINAS') { 🥩 }
+          @else if (cat.valor === 'CARBOHIDRATOS') { 🌾 }
+          @else if (cat.valor === 'VEGETALES_FRUTAS') { 🥦 }
+
+          {{ cat.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- 📝 SECCIÓN 3: DETALLES DE LA ACCIÓN -->
+    <div class="input-group-duo">
+      <label for="itemName" class="group-label-duo">Nombre del Item</label>
+      <input id="itemName" type="text" class="custom-input-duo" placeholder="Ej. Envase de plástico UCC o yogur">
+    </div>
+
+    <div class="input-group-duo">
+      <label for="itemDesc" class="group-label-duo">Descripción Corta</label>
+      <textarea id="itemDesc" class="custom-textarea-duo"
+        placeholder="Cuéntanos brevemente cómo lo reciclaste..."></textarea>
+    </div>
+
+    <!-- 🚨 MANEJO DE ERRORES -->
+    @if (errorMessage) {
+    <div class="error-banner-duo animate__animated animate__headShake">
+      <ion-icon name="alert-circle"></ion-icon>
+      <p>{{ errorMessage }}</p>
+    </div>
+    }
+
+    <!-- 🟢 BOTÓN FÍSICO DE ENVÍO -->
+    <div class="form-actions-duo">
+      @if (isLoading()) {
+      <button type="button" class="btn-duo-submit loading" disabled>
+        <ion-spinner name="crescent"></ion-spinner> Guardando hábito...
+      </button>
+      } @else {
+      <button type="submit" class="btn-duo-submit  btn-blue-duo" (click)="$event.preventDefault(); onAgregarAvance()">
+        Agregar Avance
+      </button>
+      }
+    </div>
+
+  </form>
   }
 </div>
