@@ -50,7 +50,7 @@
           <!-- Lado derecho: Lista de lecciones / hábitos con relieve 3D -->
           <div class="habitos-nodes-duo">
 
-            <button class="node-item-duo node-desayuno" id="open-formulario-avance">
+            <button class="node-item-duo node-desayuno" id="open-formulario-avance" (click)="irAFormulario()">
               <div class="node-icon-box"><ion-icon name="pizza"></ion-icon></div>
               <div class="node-info">
                 <h4>Desayuno</h4>
@@ -58,7 +58,7 @@
               </div>
             </button>
 
-            <button class="node-item-duo node-almuerzo" id="open-formulario-avance">
+            <button class="node-item-duo node-almuerzo" id="open-formulario-avance" (click)="irAFormulario()">
               <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
               <div class="node-info">
                 <h4>Almuerzo</h4>
@@ -66,7 +66,7 @@
               </div>
             </button>
 
-            <button class="node-item-duo node-cena" id="open-formulario-avance">
+            <button class="node-item-duo node-cena" id="open-formulario-avance" (click)="irAFormulario()">
               <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
               <div class="node-info">
                 <h4>Cena</h4>
@@ -80,7 +80,7 @@
 
       <!-- 🔵 SECCIÓN DE RECOMPENSAS: Accesos Rápidos Gamificados -->
       <section class="rewards-actions-duo">
-        <button class="btn-duo-action btn-blue-duo" id="open-mi-puntaje">
+        <button class="btn-duo-action btn-blue-duo" id="open-mi-puntaje" (click)="verMiPuntaje()">
           <ion-icon name="trophy"></ion-icon> Ver Mi Puntaje
         </button>
 

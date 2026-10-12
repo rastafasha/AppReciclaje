@@ -61,21 +61,13 @@ export class InicioPage implements OnInit {
   public estadoActual = signal<any>('normal');
 
   constructor() {
-    addIcons({ 
-      notificationsOutline, menuOutline, helpCircleOutline, 
-      pizza, restaurant, ribbon, refreshCircleOutline, 
-      documentTextOutline, personCircleOutline, trophy
-    });
+  addIcons({ 
+    notificationsOutline, menuOutline, helpCircleOutline, 
+    pizza, restaurant, ribbon, refreshCircleOutline, 
+    documentTextOutline, personCircleOutline, 
+  });
 
-    // 👁️ OBSERVADOR REACTIVO DEL FOOTER: Escucha al botón verde central en caliente
-    effect(() => {
-      const debeAbrirseForm = this.uiModalService.abrirFormularioAvanceSignal();
-      if (debeAbrirseForm) {
-        console.log('🟢 Capturado disparo del Footer en el Tablero de Inicio');
-        this.mostrarModalFormularioAvance.set(true); // Encendemos la signal local de inmediato
-      }
-    });
-  }
+}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -131,15 +123,14 @@ export class InicioPage implements OnInit {
 
   // 🧼 Métodos de Limpieza y Cierre para el (didDismiss) de Ionic
   onModalFormularioCerrado() {
-    console.log('🧼 Reseteando señales de control del Formulario.');
-    this.mostrarModalFormularioAvance.set(false);
-    this.uiModalService.abrirFormularioAvanceSignal.set(false); // Limpiamos el servicio puente
-  }
+  this.mostrarModalFormularioAvance.set(false);
+  this.uiModalService.resetearDisparador(); // 🧼 Deja el servicio listo para otro clic
+}
 
   onModalPuntajeCerrado() {
-    console.log('🧼 Reseteando señales de control de Puntaje.');
-    this.mostrarModalMiPuntaje.set(false);
-  }
+  this.mostrarModalMiPuntaje.set(false);
+  this.uiModalService.resetearPuntaje(); // 🧼 Deja el servicio listo para otro clic
+}
 
   irAlConsejos() { this.router.navigateByUrl('/consejos'); }
   irAlHistorial() { this.router.navigateByUrl('/historial'); }
