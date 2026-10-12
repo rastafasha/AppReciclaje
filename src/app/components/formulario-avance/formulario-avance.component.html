@@ -1,102 +1,110 @@
 <div class="form-panel-duo animate__animated animate__fadeInUp">
 
-  <!-- 🔝 BARRA SUPERIOR DE CIERRE NATIVA -->
-  <header class="panel-top-bar-duo">
+  <!-- 🔝 BARRA DE CIERRE SUPERIOR -->
+  <div class="panel-top-bar-duo">
     <div class="decor-line-duo"></div>
     <button type="button" class="close-btn-duo" (click)="notificarCierre()">
       <ion-icon name="close-circle"></ion-icon>
     </button>
-  </header>
+  </div>
 
-  <h2 class="form-title-duo">Registrar Impacto Diario</h2>
-
+  <!-- PANTALLA 1: CASO COMPLETADO (RETO DEL DÍA) -->
   @if (retoDelDiaCompletado()) {
-  <!-- 🏆 PANTALLA PREMIUM DE RETO COMPLETADO -->
-  <div class="reto-completo-card-duo animate__animated animate__zoomIn">
+  <div class="reto-completo-card-duo animate__animated animate__fadeIn">
     <div class="success-badge-duo">🎉🏆</div>
     <h4>¡Reto del Día Completado!</h4>
-    <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha UCC!</p>
-    <button class="btn-duo-secondary" (click)="notificarCierre()">Cerrar Ventana</button>
+    <p>Ya registraste tu Desayuno, Almuerzo y Cena de hoy. ¡Sigue así mañana para mantener tu racha Mercadona de 21
+      días! ♻️</p>
+    <button type="button" class="btn-duo-secondary font-weight-bold" (click)="notificarCierre()">
+      Cerrar Ventana
+    </button>
   </div>
   } @else {
+  <!-- PANTALLA 2: FORMULARIO ACTIVO -->
+  <div class="form-scrollable-body animate__animated animate__fadeIn">
+    <h2 class="form-title-duo">Registrar Impacto Diario</h2>
 
-  <form class="form-scrollable-body">
+    <!-- FORMULARIO REACTIVO -->
+    <form [formGroup]="avanceForm" (ngSubmit)="onAgregarAvance()">
 
-    <!-- 🍳 SECCIÓN 1: MOMENTO DEL HÁBITO (Píldoras Horizontales) -->
-    <div class="input-group-duo">
-      <label class="group-label-duo">Momento del Hábito *</label>
-      <div class="globos-horizontal-scroll">
-        @for (comida of opcionesComida; track comida) {
-        <button type="button" class="globo-item-btn-duo" [class.activo]="comidaSeleccionada() === comida"
-          [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)"
-          [disabled]="comidasRegistradasHoy().includes(comida)" (click)="seleccionarComida(comida)">
+      <!-- SECCIÓN A: MOMENTO DEL HÁBITO -->
+      <div class="input-group-duo">
+        <label class="group-label-duo">Momento del Hábito *</label>
+        <div class="globos-horizontal-scroll">
+          @for (comida of opcionesComida; track comida) {
+          <button type="button" class="globo-item-btn-duo transition-all"
+            [disabled]="comidasRegistradasHoy().includes(comida)" [class.activo]="comidaSeleccionada() === comida"
+            [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)" (click)="seleccionarComida(comida)">
 
-          @if (comida === 'DESAYUNO') { 🍳 }
-          @else if (comida === 'ALMUERZO') { 🍽️ }
-          @else { 🌙 }
+            @if (comida === 'DESAYUNO') { 🍳 }
+            @else if (comida === 'ALMUERZO') { 🍽️ }
+            @else { 🌙 }
 
-          {{ comida | titlecase }}
+            {{ comida | titlecase }}
 
-          @if (comidasRegistradasHoy().includes(comida)) {
-          <span class="mini-check">✓</span>
+            @if (comidasRegistradasHoy().includes(comida)) { <span class="mini-check">✓</span>
+            }
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Globos con Scroll Horizontal) -->
+      <div class="input-group-duo">
+        <label class="group-label-duo">Categoría de Alimento *</label>
+
+        <div class="globos-horizontal-scroll">
+          @for (cat of opcionesCategoria; track cat.valor) {
+          <button type="button" class="globo-item-btn-duo" [class.activo]="categoriaSeleccionada() === cat.valor"
+            (click)="seleccionarCategoria(cat.valor)">
+
+            @if (cat.valor === 'PROTEINAS') { 🥩 }
+            @else if (cat.valor === 'CARBOHIDRATOS') { 🌾 }
+            @else if (cat.valor === 'VEGETALES_FRUTAS') { 🥦 }
+
+            {{ cat.label }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- SECCIÓN C: CAMPOS DE TEXTO -->
+      <div class="input-group-duo">
+        <label class="group-label-duo">Nombre del Item</label>
+        <input type="text" formControlName="nombreItem" class="custom-input-duo"
+          placeholder="Ej: Ensalada con aguacate y nueces">
+      </div>
+
+      <div class="input-group-duo">
+        <label class="group-label-duo">Descripción Corta</label>
+        <textarea formControlName="descripcion" rows="3" class="custom-textarea-duo"
+          placeholder="Describe brevemente el hábito saludable o material de empaque reciclado..."></textarea>
+      </div>
+
+      <!-- BANNER DE FEEDBACK DE ERRORES -->
+      @if (errorMessage) {
+      <div class="error-banner-duo animate__animated animate__headShake">
+        <i class="fas fa-exclamation-triangle mt-1"></i>
+        <p>{{ errorMessage }}</p>
+      </div>
+      }
+
+      <!-- ACCIONES GATILLO SUBMIT -->
+      <div class="form-actions-duo">
+        <button type="submit" class="btn-duo-submit btn-blue-duo shadow font-weight-bold" [class.loading]="isLoading()"
+          [disabled]="avanceForm.invalid || isLoading()">
+
+          @if (isLoading()) {
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>Guardando hábito...</span>
+          } @else {
+          <span><i class="fas fa-plus-circle mr-1"></i> Agregar Avance</span>
           }
         </button>
-        }
       </div>
-    </div>
 
-    <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Globos con Scroll Horizontal) -->
-    <div class="input-group-duo">
-      <label class="group-label-duo">Categoría de Alimento *</label>
-
-      <div class="globos-horizontal-scroll">
-        @for (cat of opcionesCategoria; track cat.valor) {
-        <button type="button" class="globo-item-btn-duo" [class.activo]="categoriaSeleccionada() === cat.valor"
-          (click)="seleccionarCategoria(cat.valor)">
-
-          @if (cat.valor === 'PROTEINAS') { 🥩 }
-          @else if (cat.valor === 'CARBOHIDRATOS') { 🌾 }
-          @else if (cat.valor === 'VEGETALES_FRUTAS') { 🥦 }
-
-          {{ cat.label }}
-        </button>
-        }
-      </div>
-    </div>
-
-    <!-- 📝 SECCIÓN 3: DETALLES DE LA ACCIÓN -->
-    <div class="input-group-duo">
-      <label for="itemName" class="group-label-duo">Nombre del Item</label>
-      <input id="itemName" type="text" class="custom-input-duo" placeholder="Ej. Envase de plástico UCC o yogur">
-    </div>
-
-    <div class="input-group-duo">
-      <label for="itemDesc" class="group-label-duo">Descripción Corta</label>
-      <textarea id="itemDesc" class="custom-textarea-duo"
-        placeholder="Cuéntanos brevemente cómo lo reciclaste..."></textarea>
-    </div>
-
-    <!-- 🚨 MANEJO DE ERRORES -->
-    @if (errorMessage) {
-    <div class="error-banner-duo animate__animated animate__headShake">
-      <ion-icon name="alert-circle"></ion-icon>
-      <p>{{ errorMessage }}</p>
-    </div>
-    }
-
-    <!-- 🟢 BOTÓN FÍSICO DE ENVÍO -->
-    <div class="form-actions-duo">
-      @if (isLoading()) {
-      <button type="button" class="btn-duo-submit loading" disabled>
-        <ion-spinner name="crescent"></ion-spinner> Guardando hábito...
-      </button>
-      } @else {
-      <button type="submit" class="btn-duo-submit  btn-blue-duo" (click)="$event.preventDefault(); onAgregarAvance()">
-        Agregar Avance
-      </button>
-      }
-    </div>
-
-  </form>
+    </form>
+  </div>
   }
+
 </div>

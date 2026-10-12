@@ -9,7 +9,7 @@ import {
   documentTextOutline, personCircleOutline,
   closeCircle
 } from 'ionicons/icons';
-import { IonContent, IonIcon, IonToggle,  IonModal, ToastController } from '@ionic/angular';
+import { IonContent, IonIcon, IonToggle, IonModal, ToastController } from '@ionic/angular';
 import { AgregarFamiliarComponent } from '../../components/agregar-familiar/agregar-familiar.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -26,7 +26,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
   styleUrls: ['./mi-cuenta.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent,
-    IonIcon, IonToggle, 
+    IonIcon, IonToggle,
     AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent,
     SkeletonLoaderComponent, ImagenPipe]
 })
@@ -83,7 +83,7 @@ export class MiCuentaPage implements OnInit {
   public identificacion = computed(() => {
     const user = this.authService.usuarioActual();
     if (!user || !user.identificacion || user.identificacion.trim() === '') {
-      return 'Sin teléfono registrado';
+      return 'Sin identificación registrado';
     }
     return user.identificacion;
   });
@@ -167,34 +167,34 @@ export class MiCuentaPage implements OnInit {
   }
 
   abrirModalNuevoFamiliar() {
-  console.log('➕ Abriendo modal para nuevo familiar.');
-  this.familiarSeleccionado.set(null); // Nos aseguramos que vaya vacío
-  this.modalAbierto.set(true); // Encendemos la bandera
-}
+    console.log('➕ Abriendo modal para nuevo familiar.');
+    this.familiarSeleccionado.set(null); // Nos aseguramos que vaya vacío
+    this.modalAbierto.set(true); // Encendemos la bandera
+  }
   /**
    * ✏️ Abre el Offcanvas en modo edición precargando el familiar seleccionado
    */
- abrirEdicionFamiliar(familiar: IFamiliar) {
-  console.log('✏️ Editando familiar seleccionado:', familiar);
-  this.familiarSeleccionado.set(familiar); // Inyectamos la data en el puente
-  this.modalAbierto.set(true); // Encendemos la bandera
-}
+  abrirEdicionFamiliar(familiar: IFamiliar) {
+    console.log('✏️ Editando familiar seleccionado:', familiar);
+    this.familiarSeleccionado.set(familiar); // Inyectamos la data en el puente
+    this.modalAbierto.set(true); // Encendemos la bandera
+  }
 
   /**
    * 🔄 Captura el evento output() cuando el formulario hijo termina en Atlas
    */
   onFamiliarProcesado() {
-  console.log('✅ Familiar guardado en Atlas con éxito. Limpiando modales...');
-  this.modalAbierto.set(false);
-  this.familiarSeleccionado.set(null); 
-  this.cargarFamiliares(); // Recargamos el listado al vuelo
-}
+    console.log('✅ Familiar guardado en Atlas con éxito. Limpiando modales...');
+    this.modalAbierto.set(false);
+    this.familiarSeleccionado.set(null);
+    this.cargarFamiliares(); // Recargamos el listado al vuelo
+  }
 
-onModalCerrado() {
-  console.log('🧼 Modal cerrado por el usuario. Reseteando señales de control.');
-  this.modalAbierto.set(false);
-  this.familiarSeleccionado.set(null);
-}
+  onModalCerrado() {
+    console.log('🧼 Modal cerrado por el usuario. Reseteando señales de control.');
+    this.modalAbierto.set(false);
+    this.familiarSeleccionado.set(null);
+  }
   /**
    * 📲 CORE WEBPUSH: Disparador manual desde el botón de la vista Mi Cuenta
    */
