@@ -1,71 +1,112 @@
-:host {
-  --background: #ffffff;
-}
-
-.register-container {
+/* 🏠 Contenedor Principal Adaptado */
+.reglas-container-duo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100%;
   padding: 40px 24px;
   background-color: #ffffff;
+  min-height: 100vh;
 }
 
-.logo-area {
-  margin-bottom: 25px;
-  img {
-    width: 140px;
-    height: auto;
+/* 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE */
+.intro-reglas-box-duo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.text-side-duo {
+  text-align: left;
+  flex: 1.8;
+
+  .ucc-brand-image-duo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 12px;
+    object-fit: contain;
+  }
+
+  h2 {
+    color: #1e2267;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
   }
 }
 
-/* 🧭 Estilos del Stepper (Círculos 1 y 2) */
-.stepper-container {
+.character-side-duo {
+  flex: 1.1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+  overflow: visible;
+
+  app-hoja-animada {
+    transform: scale(1.55);
+    transform-origin: center;
+  }
+}
+
+/* 🧭 INDICADORES DEL STEPPER MULTIPASO */
+.stepper-container-duo {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 280px;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
 }
 
-.step-circle {
-  width: 50px;
-  height: 50px;
+.step-circle-duo {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background-color: #e6e6e6; // Gris por defecto
-  color: #a6a6a6;
+  background-color: #f1f5f9;
+  color: #94a3b8;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 18px;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 17px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Estado Activo Amarillo (Paso 1 o Completado) */
   &.active-yellow {
-    background-color: #f3a91b; // El amarillo/naranja exacto del Figma
+    background-color: #f3a91b; /* El amarillo/naranja de tu Figma */
     color: #ffffff;
+    box-shadow: 0 4px 10px rgba(243, 169, 27, 0.25);
   }
 
-  /* Estado Activo Azul (Paso 2) */
   &.active-blue {
-    background-color: #1e2267; // El azul rey/oscuro
+    background-color: #1e2267; /* El azul marino de marca */
     color: #ffffff;
+    box-shadow: 0 4px 10px rgba(30, 34, 103, 0.25);
   }
 }
 
-.step-line {
+.step-line-duo {
   flex: 1;
-  height: 1px;
-  background-color: #b3b3b3;
-  margin: 0 15px;
+  height: 2px;
+  background-color: #e2e8f0;
+  margin: 0 16px;
 }
 
-/* 📝 Formulario y Cajas Grises */
+/* 📋 FORMULARIOS E INPUTS GRISES SOFT */
 form {
   width: 100%;
-  max-width: 340px;
 }
 
 .input-group {
@@ -75,62 +116,62 @@ form {
   label {
     display: block;
     color: #1e2267;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 700;
+    font-size: 14.5px;
     margin-bottom: 8px;
     padding-left: 4px;
   }
 }
 
 .custom-input {
-  --background: #e6e6e6;
-  --color: #333333;
-  --border-radius: 25px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  font-size: 16px;
-  height: 50px;
+  --background: #f1f5f9;
+  --color: #1e293b;
+  --border-radius: 16px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-size: 15px;
+  height: 52px;
 }
 
-/* 🔘 Botoneras Dinámicas */
+/* 🚀 BOTONERAS INTEGRADAS */
 .btn-primary {
   --background: #1e2267;
-  --border-radius: 25px;
+  --border-radius: 16px;
   --color: #ffffff;
   font-size: 16px;
-  font-weight: 500;
-  height: 50px;
+  font-weight: 700;
+  height: 54px;
   text-transform: none;
-  margin: 0;
 }
 
-.buttons-row {
+.buttons-row-duo {
   display: flex;
   gap: 12px;
   width: 100%;
 
-  .btn-gray {
+  .btn-gray-duo {
     flex: 1;
-    --background: #999999; // Gris del botón anterior
-    --border-radius: 25px;
+    --background: #94a3b8;
+    --border-radius: 16px;
     --color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    height: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    height: 52px;
     text-transform: none;
     margin: 0;
   }
 
-  .btn-submit {
-    flex: 1.2;
+  .btn-submit-duo {
+    flex: 1.4;
     --background: #1e2267;
-    --border-radius: 25px;
+    --border-radius: 16px;
     --color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    height: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    height: 52px;
     text-transform: none;
     margin: 0;
+    box-shadow: 0 4px 12px rgba(30, 34, 103, 0.15);
   }
 }
 
@@ -138,16 +179,19 @@ form {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #1e2267;
-  margin: 20px 0;
-  font-size: 16px;
+  color: #94a3b8;
+  margin: 24px 0;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+
   &::before, &::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid #e2e8f0;
   }
-  &:not(:empty)::before { margin-right: .5em; }
-  &:not(:empty)::after { margin-left: .5em; }
+  &:not(:empty)::before { margin-right: 1em; }
+  &:not(:empty)::after { margin-left: 1em; }
 }
 
 .btn-secondary {
@@ -155,10 +199,11 @@ form {
   --color: #1e2267;
   --border-color: #1e2267;
   --border-style: solid;
-  --border-width: 1px;
-  --border-radius: 25px;
+  --border-width: 2px;
+  --border-radius: 16px;
   font-size: 15px;
-  font-weight: 500;
-  height: 48px;
+  font-weight: 700;
+  height: 50px;
   text-transform: none;
+  width: 100%;
 }

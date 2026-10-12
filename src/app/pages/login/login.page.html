@@ -1,61 +1,86 @@
-<ion-content >
-  <div class="login-container">
-    
-    <!-- 🧳 Área del Logo del Bolso de Reciclaje -->
-    <div class="logo-area">
-      <!-- Asegúrate de colocar tu logo en la carpeta assets del proyecto -->
-      <img src="assets/svg/logotipo.svg" alt="App Reciclaje Logo">
+<ion-content [fullscreen]="true">
+  <div class="reglas-container-duo">
+
+     <!-- 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE ECO-TECH -->
+    <div class="intro-reglas-box-duo">
+      <!-- COLUMNA IZQUIERDA DE BIENVENIDA -->
+      <div class="text-side-duo">
+        <img src="assets/svg/logotipo.svg" class="ucc-brand-image-duo" alt="UCC Logo">
+        <h2>¡Hola de nuevo! 👋</h2>
+        <p>Ingresa a tu cuenta para continuar con tus **hábitos ecológicos**.</p>
+      </div>
+
+      <!-- 🍃 PERSONAJE FLOTANTE EN CABECERA -->
+      <div class="character-side-duo">
+        <app-hoja-animada [estado]="estadoActual()"></app-hoja-animada>
+      </div>
     </div>
 
+    <!-- 📜 BANNER DE MOTIVACIÓN GAMIFICADA -->
+    <div class="prizes-subtitle-duo">
+      Cada residuo que registres hoy te acerca un paso más al gran sorteo de <strong>UCC Catalunya</strong>. 🏆✨
+    </div>
+
+    
+
     <!-- 📝 Formulario Reactivo Enlazado -->
+     <!-- 📋 FORMULARIO TÁCTIL ESTILIZADO -->
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       
-      <!-- Campo Correo -->
       <div class="input-group">
-        <label>Correo Electrónico</label>
-        <ion-input class="custom-input" type="email" formControlName="email"></ion-input>
+        <label>Correo Electrónico *</label>
+        <ion-input type="email" 
+                   formControlName="email" 
+                   placeholder="ejemplo@correo.com" 
+                   class="custom-input">
+        </ion-input>
       </div>
 
-      <!-- Campo Contraseña -->
       <div class="input-group">
-        <label>Contraseña</label>
-        <ion-input class="custom-input" type="password" formControlName="password"></ion-input>
+        <label>Contraseña *</label>
+        <ion-input type="password" 
+                   formControlName="password" 
+                   placeholder="••••••••" 
+                   class="custom-input">
+        </ion-input>
       </div>
 
-      <!-- 🔘 Checkbox y Olvido su Contraseña -->
+      <!-- FILA DE OPCIONES REDISEÑADA -->
       <div class="options-row">
-        <ion-checkbox labelPlacement="end">Recuerdame</ion-checkbox>
-        <a href="javascript:void(0)">¿Olvido su Contraseña?</a>
+        <ion-checkbox formControlName="recuerdame">Recuérdame</ion-checkbox>
+        <a routerLink="/recuperar-password">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <!-- Error Técnico en caso de fallar en Node.js -->
+      <!-- ALERTA DE ERROR REACTIVA -->
       @if (errorMessage) {
-        <ion-text color="danger" class="ion-margin-bottom" style="display: block; font-size: 13px;">
-          <p>{{ errorMessage }}</p>
-        </ion-text>
+        <div class="error-toast-duo">
+          ⚠️ {{ errorMessage }}
+        </div>
       }
 
-      <!-- 🔵 Botón de Acción Principal -->
-      <ion-button expand="block" class="btn-primary" type="submit" [disabled]="loginForm.invalid">
-        Ingresar
-      </ion-button>
-
-      <!-- ➖ Divisor Ó ➖ -->
-      <div class="divider">ó</div>
-
-      <!-- ⚪ Botones Secundarios -->
-      <ion-button expand="block" class="btn-secondary" fill="clear" routerLink="/register">
-        Registrate
-      </ion-button>
-
-      <ion-button expand="block" class="btn-secondary" fill="clear">
-        Registrate con Google
-      </ion-button>
-
-      <ion-button expand="block" class="btn-secondary" fill="clear">
-        Registrate con Facebook
+      <!-- BOTÓN PRINCIPAL ACCIONABLE -->
+      <ion-button type="submit" [disabled]="loginForm.invalid" class="btn-primary ion-no-margin" expand="block">
+        Ingresar al Reto 🚀
       </ion-button>
 
     </form>
+
+    <!-- DIVISIONES INTEGRADAS -->
+    <div class="divider">ó</div>
+
+    <!-- ACCESOS DE REGISTRO Y OAUTH SOCIAL -->
+    <div class="social-login-container">
+      <ion-button routerLink="/register" class="btn-secondary" expand="block">
+        Registrarse como Retador
+      </ion-button>
+
+      <ion-button class="btn-social google" expand="block">
+        <span class="icon-social">🌐</span> Registrarse con Google
+      </ion-button>
+
+      <ion-button class="btn-social facebook" expand="block">
+        <span class="icon-social">🔷</span> Registrarse con Facebook
+      </ion-button>
+    </div>
   </div>
 </ion-content>

@@ -1,73 +1,103 @@
 <ion-content >
-  <div class="register-container">
+  <div class="reglas-container-duo">
+
+    <!-- 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE ECO-TECH -->
+    <div class="intro-reglas-box-duo">
+      <div class="text-side-duo">
+        <img src="assets/svg/logotipo.svg" class="ucc-brand-image-duo" alt="UCC Logo">
+        <h2>Registro de Retador</h2>
+        <p>Completa los pasos para unirte al reto ecológico.</p>
+      </div>
+
+      <div class="character-side-duo">
+        <app-hoja-animada></app-hoja-animada>
+      </div>
+    </div>
     
-    <!-- Bolso de Reciclaje -->
-    <div class="logo-area">
-      <img src="assets/svg/logo.svg" alt="App Reciclaje Logo">
+
+   <!-- 🧭 STEPPER DINÁMICO GAMIFICADO -->
+    <div class="stepper-container-duo">
+      <div class="step-circle-duo" [class.active-yellow]="pasoActual() === 1">1</div>
+      <div class="step-line-duo"></div>
+      <div class="step-circle-duo" [class.active-blue]="pasoActual() === 2">2</div>
     </div>
 
-    <!-- 🧭 STEPPER VISUAL (Cambia de color según la Signal pasoActual()) -->
-    <div class="stepper-container">
-      <div class="step-circle" [class.active-yellow]="pasoActual() === 1 || pasoActual() === 2">1</div>
-      <div class="step-line"></div>
-      <div class="step-circle" [class.active-blue]="pasoActual() === 2">2</div>
-    </div>
-
-    <!-- Formulario Reactivo Único -->
+    <!-- 📋 FORMULARIO MULTIPASO REACTIVO -->
     <form [formGroup]="registerForm">
       
-      <!-- 📋 INTERFAZ PASO 1 -->
+      <!-- 🟡 BLOQUE 1: DATOS DE IDENTIDAD -->
       @if (pasoActual() === 1) {
         <div class="input-group">
-          <label>Nombre de Usuario</label>
-          <ion-input class="custom-input" type="text" formControlName="username"></ion-input>
+          <label>Nombre de Usuario *</label>
+          <ion-input type="text" 
+                     formControlName="username" 
+                     placeholder="Tu nombre o alias" 
+                     class="custom-input">
+          </ion-input>
         </div>
 
         <div class="input-group">
-          <label>Identificación</label>
-          <ion-input class="custom-input" type="text" formControlName="identificacion" placeholder="Ej: V-12345678"></ion-input>
+          <label>Identificación *</label>
+          <ion-input type="text" 
+                     formControlName="identificacion" 
+                     placeholder="Ej: V-12345678" 
+                     class="custom-input">
+          </ion-input>
         </div>
 
-        <ion-button expand="block" class="btn-primary" (click)="irAlPaso(2)" style="margin-top: 30px;">
+        <ion-button type="button" class="btn-primary ion-no-margin" expand="block" (click)="irAlPaso(2)">
           Siguiente
         </ion-button>
       }
 
-      <!-- 📋 INTERFAZ PASO 2 -->
+      <!-- 🔵 BLOQUE 2: CREDENCIALES DE ACCESO -->
       @if (pasoActual() === 2) {
         <div class="input-group">
-          <label>Correo Electrónico</label>
-          <ion-input class="custom-input" type="email" formControlName="email"></ion-input>
+          <label>Correo Electrónico *</label>
+          <ion-input type="email" 
+                     formControlName="email" 
+                     placeholder="ejemplo@correo.com" 
+                     class="custom-input">
+          </ion-input>
         </div>
 
         <div class="input-group">
-          <label>Contraseña</label>
-          <ion-input class="custom-input" type="password" formControlName="password"></ion-input>
+          <label>Contraseña *</label>
+          <ion-input type="password" 
+                     formControlName="password" 
+                     placeholder="Mínimo 6 caracteres" 
+                     class="custom-input">
+          </ion-input>
         </div>
 
         <div class="input-group">
-          <label>Confirme Contraseña</label>
-          <ion-input class="custom-input" type="password" formControlName="confirmPassword"></ion-input>
+          <label>Confirme Contraseña *</label>
+          <ion-input type="password" 
+                     formControlName="confirmPassword" 
+                     placeholder="Repite tu contraseña" 
+                     class="custom-input">
+          </ion-input>
         </div>
 
-        <div class="buttons-row" style="margin-top: 30px;">
-          <ion-button class="btn-gray" (click)="irAlPaso(1)">
+        <!-- FILA DE BOTONES DE ACCIÓN MÓVIL -->
+        <div class="buttons-row-duo">
+          <ion-button type="button" class="btn-gray-duo" (click)="irAlPaso(1)">
             Anterior
           </ion-button>
-          <ion-button class="btn-submit" (click)="onRegistrar()">
-            Registrarme
+          <ion-button type="button" [disabled]="registerForm.invalid" class="btn-submit-duo" (click)="onRegistrar()">
+            Registrarme 🚀
           </ion-button>
         </div>
       }
 
-      <!-- Divisor ó -->
-      <div class="divider">ó</div>
+    </form>
+    <!-- DIVISIONES Y ENLACE DE RETORNO -->
+    <div class="divider">ó</div>
 
-      <!-- Botón Ingresar inferior -->
-      <ion-button expand="block" class="btn-secondary" fill="clear" (click)="irAlLogin()">
+    <div class="social-login-container">
+      <ion-button (click)="irAlLogin()" class="btn-secondary" expand="block">
         Ingresar
       </ion-button>
-
-    </form>
+    </div>
   </div>
 </ion-content>

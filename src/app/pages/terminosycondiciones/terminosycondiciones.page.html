@@ -1,0 +1,57 @@
+<app-header title="UCC Catalunya"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="reglas-container-duo">
+
+    <!-- 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE -->
+    <div class="intro-reglas-box-duo">
+      <div class="text-side-duo">
+        <img src="assets/svg/ucclogo.svg" class="ucc-brand-image" alt="UCC Catalunya">
+        <h2>Legal y Privacidad</h2>
+        <p>¡Hola, {{ nombreUsuario() }}! Lee los acuerdos de la comunidad.</p>
+      </div>
+
+      <div class="character-side-duo">
+        <app-hoja-animada></app-hoja-animada>
+      </div>
+    </div>
+
+    @if (terminosService.terminos(); as legal) {
+
+    <!-- 📜 BANNER INFORMATIVO PRINCIPAL -->
+    <div class="prizes-subtitle-duo">
+      {{ legal.introduccion }}
+    </div>
+
+    <h3 class="section-title-duo">{{ legal.tituloGlobal }}</h3>
+
+    <!-- 📑 RECORRIDO REACTIVO DE SECCIONES LEGALES -->
+    @for (sec of legal.secciones; track sec.subtitulo) {
+    <div class="premio-item-card-duo rank-past">
+      <div class="medal-badge-duo">⚖️</div>
+      <div class="premio-info-duo">
+        <h3>{{ sec.subtitulo }}</h3>
+        <p>{{ sec.contenido }}</p>
+      </div>
+    </div>
+    }
+
+    <!-- 🛠️ PIE DE VERSIÓN -->
+    <div class="version-footer-duo">
+      <small>Especificación del Sistema: {{ legal.version }}</small>
+    </div>
+
+    } @else {
+    <!-- Estado de carga elegante con spinner de Ionic mientras responde Atlas -->
+    <div class="premio-item-card-duo rank-past" style="justify-content: center; padding: 30px;">
+      <ion-spinner name="crescent" style="margin-right: 10px; color: #252876;"></ion-spinner>
+      <p style="text-align: center; font-weight: 600; margin: 0; color: #252876;">
+        🔄 Sincronizando folios legales...
+      </p>
+    </div>
+    }
+
+  </div>
+</ion-content>
+
+<app-menufooter></app-menufooter>

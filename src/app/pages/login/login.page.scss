@@ -1,32 +1,82 @@
-:host {
-  --background: #ffffff;
-}
-
-.login-container {
+/* 🏠 Contenedor Principal Adaptado */
+.reglas-container-duo {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100%;
   padding: 40px 24px;
   background-color: #ffffff;
+  min-height: 100vh;
 }
 
-.logo-area {
-  margin-bottom: 40px;
+/* 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE (LOOK DE TU CAPTURA) */
+.intro-reglas-box-duo {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+}
 
-  img {
-    width: 140px;
-    height: auto;
+.text-side-duo {
+  text-align: left;
+  flex: 1.8;
+
+  .ucc-brand-image-duo {
+    height: 70px;
+    width: auto;
+    margin-bottom: 12px;
+    object-fit: contain;
+  }
+
+  h2 {
+    color: #1e2267; /* Tu Azul Marino de Marca */
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
   }
 }
 
+.character-side-duo {
+  flex: 1.1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+  overflow: visible;
+
+  app-hoja-animada {
+    transform: scale(1.55); /* Escalado premium del personaje */
+    transform-origin: center;
+  }
+}
+
+/* 📜 BANNER INFORMATIVO INICIAL */
+.prizes-subtitle-duo {
+  color: #252876;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  background: #f0f4ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 28px;
+  border: 1px solid #e0e7ff;
+}
+
+/* 📋 ESTILIZACIÓN DE FORMULARIOS */
 form {
   width: 100%;
-  max-width: 340px;
 }
 
 .input-group {
@@ -35,101 +85,128 @@ form {
 
   label {
     display: block;
-    color: #1e2267; // Azul marino del Figma
-    font-weight: 600;
-    font-size: 15px;
+    color: #1e2267;
+    font-weight: 700;
+    font-size: 14.5px;
     margin-bottom: 8px;
     padding-left: 4px;
   }
 }
 
-// Sobreescribir las cajas de texto nativas de Ionic para que queden redondas y grises
 .custom-input {
-  --background: #e6e6e6; // Gris claro de fondo
-  --color: #333333;
-  --border-radius: 25px; // Redondeado perfecto
-  --padding-start: 20px;
-  --padding-end: 20px;
-  font-size: 16px;
-  height: 50px;
-  box-shadow: none;
+  --background: #f1f5f9; /* Gris claro sedoso */
+  --color: #1e293b;
+  --border-radius: 16px; /* Bordes suaves modernos */
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-size: 15px;
+  height: 52px;
 }
 
+/* 🔘 ACCIONES Y FILA INTERMEDIA */
 .options-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  margin-bottom: 25px;
+  margin-top: 16px;
+  margin-bottom: 28px;
   padding: 0 4px;
 
   ion-checkbox {
-    --size: 18px;
-    --border-radius: 4px;
-    --color-checked: #1e2267;
-    --checkbox-background-checked: #1e2267;
+    --size: 20px;
+    --border-radius: 6px;
+    --border-color: #1e2267;
+    --checkbox-background: #ffffff;
+    --color-checked: #ffffff;
+    --background-checked: #1e2267;
+    --border-color-checked: #1e2267;
     font-size: 14px;
     color: #1e2267;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   a {
-    color: #8fa0b5; // Gris azulado del Figma
+    color: #8fa0b5;
     text-decoration: none;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 
-// Botón Principal de Ingresar
+/* 🚀 BOTONES CON EFECTO TÁCTIL AVANZADO */
 .btn-primary {
-  --background: #252876; // El azul rey/oscuro exacto de tu botón Ingresar
+  --background: #252876;
   --background-activated: #1a1c54;
-  --background-hover: #2e3294;
-  --border-radius: 25px;
+  --border-radius: 16px;
   --color: #ffffff;
   font-size: 16px;
-  font-weight: 500;
-  height: 50px;
-  margin: 0;
-  text-transform: none; // Evita que Ionic lo ponga en mayúsculas fijas
+  font-weight: 700;
+  height: 54px;
+  text-transform: none;
+  box-shadow: 0 4px 12px rgba(37, 40, 118, 0.15);
 }
 
-// Línea divisoria de la "ó"
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #1e2267;
-  margin: 20px 0;
-  font-size: 16px;
+  color: #94a3b8;
+  margin: 24px 0;
+  font-size: 14px;
+  font-weight: 600;
 
   &::before, &::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid #e2e8f0;
   }
-
-  &:not(:empty)::before {
-    margin-right: .5em;
-  }
-
-  &:not(:empty)::after {
-    margin-left: .5em;
-  }
+  &:not(:empty)::before { margin-right: 1em; }
+  &:not(:empty)::after { margin-left: 1em; }
 }
 
-// Botones Secundarios y de Redes Sociales
 .btn-secondary {
   --background: transparent;
   --color: #252876;
   --border-color: #252876;
   --border-style: solid;
-  --border-width: 1px;
-  --border-radius: 25px;
+  --border-width: 2px;
+  --border-radius: 16px;
   font-size: 15px;
-  font-weight: 500;
-  height: 48px;
+  font-weight: 700;
+  height: 50px;
+  margin-bottom: 16px;
+  text-transform: none;
+}
+
+/* 🌐 BOTONES SOCIALES INTEGRADOS */
+.btn-social {
+  --background: #f8fafc;
+  --color: #334155;
+  --border-color: #e2e8f0;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-radius: 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  height: 50px;
   margin-bottom: 12px;
   text-transform: none;
+
+  .icon-social {
+    margin-right: 8px;
+    font-size: 16px;
+  }
+}
+
+/* ⚠️ ALERTA DE ERROR TÁCTIL */
+.error-toast-duo {
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #b91c1c;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: left;
 }

@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { IonContent, IonInput, IonButton } from '@ionic/angular';
 import { UserService } from '../../services/user';
 import { AuthService } from '../../services/auth';
+import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonContent, IonInput, IonButton]
+  imports: [CommonModule, ReactiveFormsModule, IonContent, IonInput, IonButton, HojaAnimadaComponent]
 })
 export class RegisterPage {
   private fb = inject(FormBuilder);

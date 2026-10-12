@@ -1,45 +1,38 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
-import { IonContent} from '@ionic/angular';
+import { IonContent, ModalController, IonSpinner } from '@ionic/angular';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MenufooterComponent } from '../../shared/menufooter/menufooter.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
 import { AuthService } from '../../services/auth';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
+import { ReglasService } from '../../services/reglas-service';
 
 @Component({
   selector: 'app-reglas',
   templateUrl: './reglas.page.html',
   styleUrls: ['./reglas.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, BackbuttonComponent, HojaAnimadaComponent]
+  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, BackbuttonComponent, HojaAnimadaComponent, IonSpinner]
 })
-export class ReglasPage {
-  private router = inject(Router);
+export class ReglasPage implements OnInit{
   private authService = inject(AuthService);
+  public reglasService = inject(ReglasService);
 
   public estadoActual = signal<any>('saludando');
 
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
-    
-    // 1. Si la señal ya se rehidrató desde Atlas, tomamos el valor en caliente
     if (user) {
       return user.profile?.first_name || user.username || 'Usuario';
     }
-
-    // 2. 🛡️ FALLBACK EN FRÍO: Si la señal aún está en null por retraso de red,
-    // extraemos temporalmente el nombre del usuario o su correo desde el localStorage
     const tokenToken = localStorage.getItem('token');
     if (tokenToken) {
-      // Intentamos recuperar el string de usuario si lo guardaste en disco,
-      // o devolvemos un texto genérico de bienvenida para que nunca quede vacío.
       return 'Retador'; 
     }
-
     return 'Usuario';
   });
 
@@ -47,22 +40,11 @@ export class ReglasPage {
     addIcons({ notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline });
   }
 
-  irANotificaciones() {
-    this.router.navigateByUrl('/notificaciones');
+  // 🚀 Disparamos la carga de datos al inicializar la vista en el smartphone
+  ngOnInit() {
+    if (!this.reglasService.reglas()) {
+      this.reglasService.obtenerReglas();
+    }
   }
 
-  irAlInicio() {
-    this.router.navigateByUrl('/inicio');
-  }
-
-  irAConsejos() {
-    this.router.navigateByUrl('/consejos');
-  }
-  irAReglas() {
-    this.router.navigateByUrl('/reglas');
-  }
-
-  irAlPerfil() {
-    this.router.navigateByUrl('/perfil-editar');
-  }
 }
