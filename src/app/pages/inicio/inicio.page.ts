@@ -40,7 +40,7 @@ export class InicioPage implements OnInit {
   private authService = inject(AuthService); // ⚙️ Instanciamos el servicio de sesión
   private notificationService = inject(NotificationService);
   private toastController = inject(ToastController);
-  private uiModalService = inject(UiModalService);
+  public uiModalService = inject(UiModalService);
   
   // 🚦 Signal computado para extraer el nombre personalizado del saludo
   // Prioriza el first_name del perfil extendido y usa el username como fallback
@@ -212,6 +212,11 @@ ngOnInit() {
   this.estadoActual.set(nuevoEstado); // Actualiza al hijo en un milisegundo
 }
 
+onModalCerrado() {
+  console.log('🧼 Formulario de avance cerrado. Reseteando señal de control UI...');
+  this.uiModalService.abrirFormularioAvanceSignal.set(false);
+}
+
   irAFormulario() {
     this.router.navigateByUrl('/formulario-avance'); //
   }
@@ -228,7 +233,7 @@ ngOnInit() {
     this.router.navigateByUrl('/historial'); //
   }
 
-  irAHistorial() {
-    this.router.navigateByUrl('/historial'); //
-  }
+
+
+  
 }

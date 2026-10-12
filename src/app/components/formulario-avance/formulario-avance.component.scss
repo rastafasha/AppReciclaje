@@ -211,25 +211,34 @@
   padding-bottom: 20px;
 }
 
-.btn-duo-submit {
+
+
+.btn-duo-submit{
   width: 100%;
-  background: #252876; /* Tu color de marca UCC */
-  color: #ffffff;
+  height: 50px;
   border: none;
-  border-radius: 14px;
-  border-bottom: 4px solid #1a1c53; /* Relieve tridimensional pro */
+  border-radius: 16px;
+  font-weight: 800;
   font-size: 15px;
-  font-weight: 700;
-  height: 48px;
-  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  cursor: pointer;
   transition: all 0.1s ease;
-  margin-bottom: 100px;
 
-  &:active:not(:disabled) {
+  ion-icon { font-size: 20px; }
+
+  &.btn-blue-duo {
+    background: #252876; /* Tu color de marca UCC */
+  border-bottom: 4px solid #1a1c53; /* Relieve tridimensional pro */
+  color: #ffffff;
+    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+  }
+
+   &:active:not(:disabled) {
     border-bottom-width: 1px;
     transform: translateY(3px);
   }
@@ -239,6 +248,7 @@
     border-bottom-color: #475569;
     cursor: not-allowed;
   }
+  
 }
 
 /* 🚨 BANNER DE ERROR COMPACTO */

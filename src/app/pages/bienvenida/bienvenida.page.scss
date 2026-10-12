@@ -90,12 +90,22 @@
   }
 }
 
-/* 🍃 Caja del Personaje Animado */
+/* 🍃 CAJA DEL PERSONAJE ANIMADO (GIGANTE Y AJUSTADO AL INICIO) */
 .character-box {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: auto; /* Empuja el muñeco abajo del todo */
-  padding-top: 10px;
+  margin-top: auto; /* Empuja el muñeco abajo del todo manteniendo la física */
+  padding-top: 16px;
+  padding-bottom: 24px; /* Un pequeño colchón inferior para que respire en el móvil */
+  overflow: visible; /* 🛡️ CRÍTICO: Impide que el navegador mutile o corte al personaje al crecer */
+
+  /* 🚀 ESCALADO GIGANTE UNIFICADO */
+  app-hoja-animada {
+    transform: scale(1.55); /* 🚀 ¡El mismo aumento del 55% para mantener la consistencia total! */
+    transform-origin: center;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 }
+

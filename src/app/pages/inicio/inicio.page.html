@@ -144,11 +144,13 @@
 <!-- 🏆 MODAL 1: BIENVENIDA AL RETO -->
 <app-modal-bienvenida 
   [isOpen]="mostrarModalBienvenida()"
+  keepContentsMounted="true"
   (cerrar)="cerrarBienvenida()">
 </app-modal-bienvenida>
 
 <!-- 📖 MODAL 2: INSTRUCCIONES DEL CONCURSO UCC -->
 <app-modal-instrucciones 
   [isOpen]="mostrarModalInstrucciones()"
+  keepContentsMounted="true"
   (cerrar)="cerrarInstrucciones()">
 </app-modal-instrucciones>

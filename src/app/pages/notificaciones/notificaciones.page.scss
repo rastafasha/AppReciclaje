@@ -8,77 +8,79 @@
 }
 
 /* 🧳 SECCIÓN SUPERIOR ACCIONES */
+
+
 .top-actions-box-duo {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   width: 100%;
   margin-bottom: 24px;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 16px;
+}
 
-  .text-side-duo {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+/* 🏢 COLUMNA IZQUIERDA DE TEXTO Y BOTÓN */
+.text-side-duo {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1.8; /* Mantiene la proporción elástica ideal para que el título respire */
 
-    h2 {
-      color: #3c3c3c;
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0;
-      letter-spacing: -0.5px;
-    }
-
-    /* Botón 3D Fino de Marcar Leídas */
-    .btn-read-all-duo {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-bottom: 3px solid #cbd5e1; /* Relieve fino pro */
-      color: #64748b;
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.1s ease;
-
-      &:active {
-        border-bottom-width: 1px;
-        transform: translateY(2px);
-      }
-      
-      ion-icon { font-size: 14px; color: #2dd36f; } /* Check doble en verde Mercadona */
-    }
+  h2 {
+    color: #3c3c3c;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
   }
 
-  .character-side-duo {
-    display: flex;
-    justify-content: center;
+  /* Botón 3D Fino de Marcar Leídas */
+  .btn-read-all-duo {
+    display: inline-flex;
     align-items: center;
-    // background: #f8fafc;
-    // border: 1px solid #e2e8f0;
-    // border-radius: 14px;
-    width: 125px;
-    height: 75px;
-    padding: 4px;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-bottom: 3px solid #cbd5e1;
+    color: #64748b;
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.1s ease;
+
+    &:active {
+      border-bottom-width: 1px;
+      transform: translateY(2px);
+    }
+    
+    ion-icon { font-size: 14px; color: #2dd36f; }
   }
+}
 
-  // .character-side {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
+/* 🍃 EL CONTENEDOR DEL PERSONAJE EN NOTIFICACIONES (ENORME Y LIBRE) */
+.character-side-duo {
+  flex: 1.1; /* 🚀 Más peso a la columna derecha para el inflado sin restricciones */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent; /* Eliminamos el recuadro gris restrictivo */
+  border: none;
+  box-shadow: none;
+  height: 90px; /* Alto perfecto para que coincida con la cabecera */
+  overflow: visible; /* 🛡️ CRÍTICO: Evita los recortes del navegador al escalar */
 
-  //   img {
-  //     width: 75px;
-  //     height: auto;
-  //   }
-  // }
+  /* 🚀 ESCALADO GIGANTE UNIFICADO EN PARALELO */
+  app-hoja-animada {
+    transform: scale(1.55); /* 🚀 ¡El mismo aumento del 55% para una consistencia total! */
+    transform-origin: center;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 }
 
 /* ✉️ TARJETAS DE NOTIFICACIÓN ECO-TECH PREMIUM */

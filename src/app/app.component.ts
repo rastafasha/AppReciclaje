@@ -43,7 +43,7 @@ export class AppComponent {
   });
 
   constructor() {
-    addIcons({ chevronForwardOutline, ribbonOutline, documentTextOutline, powerOutline});
+    addIcons({ chevronForwardOutline, ribbonOutline, documentTextOutline, powerOutline, trophyOutline});
   }
 
   navegarA(ruta: string) {

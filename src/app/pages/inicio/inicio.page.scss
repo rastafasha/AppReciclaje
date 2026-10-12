@@ -5,20 +5,21 @@
 /* ======================================================================= */
 /* 🛡️ BLINDAJE ULTRA-PREMIUM PARA ESQUINAS DE MODALES SLIDERS (BINANCE LOOK) */
 /* ======================================================================= */
-.binance-sheet-modal {
-  // Forzamos el control elástico al 100% para que los breakpoints respondan
+ion-modal.binance-sheet-modal {
+  // 1. Delegamos el control de la altura por completo a los breakpoints nativos de Ionic
   --height: 100%;
 
+  // 2. Atacamos la parte interna real del Shadow DOM para moldear la caja física
   &::part(content) {
     height: 100%;
-    // 🚀 LA SOLUCIÓN MAESTRA: Forzamos el redondeado superior exacto del Figma
+    // Forzamos el radio de curvatura superior exacto del Figma directamente en la estructura real
     border-radius: 24px 24px 0 0 !important;
-    
-    // Cortamos los fondos rígidos cuadrados del componente hijo que intenten desbordarse
+    // Cortamos los fondos rígidos de los componentes hijos que intenten desbordarse
     overflow: hidden !important;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
   }
 
+  // 3. Control elástico del teclado para que suba limpiamente al escribir en los inputs
   --keyboard-offset: env(safe-area-inset-bottom, 20px);
 }
 
@@ -126,36 +127,51 @@
   margin: 0 0 16px 0;
 }
 
+/* 🪺 MAPA DE MISIONES (ESTRUCTURA ORIGINAL EN PARALELO - PERSONAJE POTENCIADO) */
 .habitos-layout-duo {
   display: flex;
-  gap: 16px;
+  flex-direction: row; /* 🟢 Mantenemos el diseño original de dos columnas */
+  gap: 12px;
   align-items: center;
-  margin-bottom: 28px;
+  width: 100%;
+  margin-bottom: 24px;
 }
 
+/* 🍃 EL CONTENEDOR DEL PERSONAJE (MÁS ANCHO Y SIN FONDO GRIS PARA MÁXIMA ESCALA) */
 .character-side-duo {
-  flex: 0.8;
+  flex: 1.1; /* 🚀 Le damos más peso a la columna para que la hojita no se ahogue */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  // background: #fdfdfd;
-  // border-radius: 14px; /* Menos redondo, más pro */
-  padding: 12px 8px;
-  // border: 1px solid #e2e8f0;
-  height: 165px;
-  // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  background: transparent; /* Eliminamos el fondo gris para que flote orgánicamente */
+  border: none;
+  box-shadow: none;
+  height: 170px; /* Alto suficiente para contener el escalado */
+  overflow: visible; /* 🛡️ Impide que el navegador mutile al personaje al crecer */
+  
+  /* 🚀 ESCALADO GIGANTE EN PARALELO */
+  app-hoja-animada {
+    transform: scale(1.55); /* ¡Aumentamos su tamaño un 55% manteniendo tu layout! */
+    transform-origin: center;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* Microinteracción de feedback táctil al pulsar la mascota */
+  &:active app-hoja-animada {
+    transform: scale(1.45);
+  }
 }
 
+/* 🧱 LOS NODOS DE COMIDA CON TUS COLORES ORIGINALES (COLUMNA DERECHA) */
 .habitos-nodes-duo {
-  flex: 1.2;
+  flex: 1.3; /* Ajustamos la proporción para que encaje perfecto al lado del muñeco */
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-
-/* NODOS COLECTORES (BOTONES 3D INTERACTIVOS) */
+/* NODOS INTERACTIVOS (Restauramos tus bordes sólidos Duolingo de 5px) */
 .node-item-duo {
   display: flex;
   align-items: center;
@@ -168,6 +184,7 @@
   cursor: pointer;
   transition: all 0.1s ease;
   width: 100%;
+  box-sizing: border-box;
 
   .node-icon-box {
     width: 38px;
@@ -178,6 +195,7 @@
     justify-content: center;
     color: white;
     font-size: 20px;
+    flex-shrink: 0;
   }
 
   .node-info {
@@ -195,7 +213,7 @@
     }
   }
 
-  /* Variaciones de Color de Misiones Estilo Duolingo */
+  /* 🍳 Mantenemos tus selectores temáticos intactos por el momento */
   &.node-desayuno {
     border-bottom: 5px solid #d78700;
     .node-icon-box { background: #ff9600; box-shadow: 0 2px 0 #d78700; }

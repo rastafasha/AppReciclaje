@@ -10,48 +10,62 @@
 /* 🧳 BLOQUE SUPERIOR MARCA Y PERSONAJE */
 .intro-reglas-box-duo {
   display: flex;
+  flex-direction: row; /* 🟢 Mantenemos el diseño original de dos columnas */
   justify-content: space-between;
   align-items: center;
   gap: 16px;
   width: 100%;
   margin-bottom: 16px;
 
-  .text-side-duo {
-    text-align: left;
-    flex: 1.8;
+  
+}
 
-    .ucc-brand-image-duo {
-      height: 40px;
-      width: auto;
-      margin-bottom: 12px;
-      object-fit: contain;
-    }
+/* 🏢 COLUMNA IZQUIERDA DE TEXTOS DE LA UCC */
+.text-side-duo {
+  text-align: left;
+  flex: 1.8; /* Mantiene la proporción elástica ideal para que el logo y el saludo respiren */
 
-    h2 {
-      color: #3c3c3c;
-      font-size: 22px;
-      font-weight: 800;
-      margin: 0 0 4px 0;
-      letter-spacing: -0.5px;
-    }
-
-    p {
-      color: #64748b;
-      font-size: 13.5px;
-      line-height: 1.4;
-      margin: 0;
-      font-weight: 500;
-    }
+  .ucc-brand-image-duo {
+    height: 40px;
+    width: auto;
+    margin-bottom: 12px;
+    object-fit: contain;
   }
 
-  .character-side-duo {
-    flex: 0.9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px 8px;
-    height: 70px;
-    width: 190px;
+  h2 {
+    color: #3c3c3c;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+/* 🍃 EL CONTENEDOR DEL PERSONAJE EN REGLAS (GIGANTE Y FLOTANTE) */
+.character-side-duo {
+  flex: 1.1; /* 🚀 Le damos más peso a la columna para que tenga espacio real de inflado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent; /* Eliminamos cualquier fondo o recuadro rígido */
+  border: none;
+  box-shadow: none;
+  height: 110px; /* Alto perfecto para el calce de la cabecera */
+  overflow: visible; /* 🛡️ CRÍTICO: Impide que el navegador mutile o corte al personaje al crecer */
+
+  /* 🚀 ESCALADO GIGANTE EN PARALELO */
+  app-hoja-animada {
+    transform: scale(1.55); /* 🚀 ¡Aumentamos su tamaño un 55% al igual que en el Inicio! */
+    transform-origin: center;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 }
 
