@@ -6,6 +6,8 @@ import { BehaviorSubject, Observable, from } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { NotificationResponse } from '../models/notificacion.model';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 const apiUrl = environment.apiUrl;
 const vapiKey = environment.VAPI_KEY_PUBLIC;
@@ -16,6 +18,8 @@ const vapiKey = environment.VAPI_KEY_PUBLIC;
 export class NotificationService {
   private http = inject(HttpClient);
   private swPush = inject(SwPush);
+  private router = inject(Router);
+  private toastController = inject(ToastController);
   public estaSuscrito$ = new BehaviorSubject<boolean>(false);
   public contadorAlertas$ = new BehaviorSubject<number>(0);
   // 🧪 Llave Pública VAPID de tu archivo .env (¡Pégala aquí exactamente igual!)
@@ -147,6 +151,85 @@ export class NotificationService {
         );
       })
     );
+  }
+
+  /**
+   * 📡 VERIFICADOR EN CALIENTE DE ALERTAS AMBIENTALES IN-APP
+   * Escanea Atlas en busca de novedades para pintarlas en la pantalla actual del usuario
+   */
+  checkUnreadNotificationsInApp() {
+    this.http.get<{ ok: boolean, alertas: any[] }>(
+      `${apiUrl}/notificaciones/unread-count`,
+      this.headers
+    ).subscribe({
+      next: (res) => {
+        if (res.ok && res.alertas && res.alertas.length > 0) {
+          
+          // Iteramos sobre cada alerta pendiente devuelta por Atlas
+          res.alertas.forEach(async (notif) => {
+            let colorToast = 'primary';
+            let iconToast = 'notifications-outline';
+            let tituloCabecera = '🔔 Alerta Reto Eco';
+
+            // ♻️ Sincronizamos con tus tipos de gamificación real
+            switch (notif.tipo) {
+              case 'SORTEO':
+                colorToast = 'success';
+                iconToast = 'trophy-outline';
+                tituloCabecera = '🎉 ¡Nuevo Sorteo Activo!';
+                break;
+              case 'PREMIO_MERCADONA':
+                colorToast = 'tertiary';
+                iconToast = 'gift-outline';
+                tituloCabecera = '🛒 Recompensa Mercadona';
+                break;
+              case 'NUEVO_RECICLAJE':
+                colorToast = 'secondary';
+                iconToast = 'leaf-outline';
+                tituloCabecera = '♻️ Depósito Procesado';
+                break;
+              case 'URGENTE':
+                colorToast = 'danger';
+                iconToast = 'alert-circle-outline';
+                tituloCabecera = '⚠️ ¡Aviso Importante!';
+                break;
+              default:
+                colorToast = 'primary';
+                iconToast = 'notifications-outline';
+            }
+
+            // Desplegamos el aviso flotante nativo de Ionic en el smartphone
+            const toast = await this.toastController.create({
+              header: tituloCabecera,
+              message: notif.mensaje,
+              position: 'top', // Aparece arriba sin tapar tus tabs inferiores
+              color: colorToast,
+              duration: 6000,
+              cssClass: 'custom-inapp-toast', // Por si quieres estilizarlo en tu global.scss
+              buttons: [
+                {
+                  text: 'Ver',
+                  role: 'info',
+                  handler: () => {
+                    // 🚀 Al pulsar "Ver", lo marcamos como leído en caliente y lo mandamos a la bandeja
+                    this.marcarComoLeida(notif._id).subscribe(() => {
+                      this.router.navigateByUrl('/notificaciones');
+                    });
+                  }
+                },
+                {
+                  text: 'X',
+                  role: 'cancel'
+                }
+              ]
+            });
+
+            await toast.present();
+          });
+        }
+      },
+      error: (err) => console.error('Error revisando alertas vivas:', err)
+    });
   }
 
 

@@ -35,6 +35,8 @@ export class HeaderComponent implements OnInit {
     addIcons({ notificationsOutline, menuOutline, logOutOutline });
   }
 
+  
+
   ngOnInit() {
 
     // Si está bloqueado en registro, frenamos la consulta de alertas para ahorrar recursos

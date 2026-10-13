@@ -54,6 +54,9 @@ export class MiCuentaPage implements OnInit {
   public imgTemp = signal<string | ArrayBuffer | null>(null);
   public avatarUrl = signal<string>('');
 
+  // 🚀 SIGNAL MAESTRA: Sostendrá el estado real del interruptor en la interfaz
+  public notificacionesActivas = signal<boolean>(false);
+
   // 🚦 Signals computados reactivos para pintar la tarjeta superior del Figma
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
@@ -99,6 +102,14 @@ export class MiCuentaPage implements OnInit {
   ngOnInit() {
     window.scrollTo(0, 0);
     this.cargarFamiliares();
+     // 🚀 REHIDRATACIÓN EN FRÍO: Escuchamos el BehaviorSubject del servicio para encender el switch
+    this.notificationService.estaSuscrito$.subscribe((estadoReal) => {
+      console.log(`🕵️‍♂️ Sincronizando Switch de Mi Cuenta con SW. Estado: ${estadoReal}`);
+      this.notificacionesActivas.set(estadoReal);
+    });
+    
+    // Forzamos al servicio a inspeccionar el hardware del navegador de inmediato
+    this.notificationService.verificarEstadoSuscripcion();
   }
 
   // 3. Añade los dos nuevos métodos al final de tu archivo TS:
@@ -198,20 +209,25 @@ export class MiCuentaPage implements OnInit {
   /**
    * 📲 CORE WEBPUSH: Disparador manual desde el botón de la vista Mi Cuenta
    */
-  onToggleNotificaciones(event: any) {
+ onToggleNotificaciones(event: any) {
     const estaActivado = event.detail.checked;
 
-    // Si el usuario encendió el interruptor, ejecutamos el motor WebPush
+    // 🛡️ FILTRO DE SEGURIDAD: Si el switch cambió porque lo rehidratamos en el ngOnInit,
+    // frenamos el disparo para evitar bucles infinitos con el servidor.
+    if (estaActivado === this.notificationService.estaSuscrito$.value) {
+      return;
+    }
+
     if (estaActivado) {
       this.isPushLoading.set(true);
-      console.log('🕵️‍♂️ ion-toggle encendido. Suscribiendo terminal a MongoDB Atlas...');
+      console.log('🕵️‍♂️ ion-toggle encendido manualmente. Conectando con Atlas...');
 
       this.notificationService.solicitarPermisoYRegistrarDispositivo().subscribe({
         next: async (resp) => {
           if (resp.ok) {
             console.log('♻️ [WEBPUSH]: Dispositivo enlazado con éxito.');
+            this.notificacionesActivas.set(true); // Fija el estado en caliente
 
-            // Toast nativo de éxito
             const toast = await this.toastController.create({
               message: '¡Notificaciones activadas con éxito! ♻️',
               duration: 3000,
@@ -224,14 +240,15 @@ export class MiCuentaPage implements OnInit {
           this.isPushLoading.set(false);
         },
         error: async (err) => {
-          console.warn('⚠️ Permiso denegado por el usuario o navegador incompatible.', err);
+          console.warn('⚠️ Fallo en el banner VAPID o denegado.', err);
           this.isPushLoading.set(false);
-
-          // Forzamos el apagado del toggle visualmente si el permiso falló
+          
+          // Forzamos el apagado del control por código debido al rechazo
+          this.notificacionesActivas.set(false);
           event.target.checked = false;
 
           const toastWarning = await this.toastController.create({
-            message: 'Permiso denegado. Actívalo en los ajustes de tu navegador.',
+            message: 'Permiso denegado o incompatible con el navegador.',
             duration: 3500,
             position: 'bottom',
             color: 'warning',
@@ -241,8 +258,10 @@ export class MiCuentaPage implements OnInit {
         }
       });
     } else {
-      console.log('🔕 ion-toggle apagado. El usuario desactivó las alertas de forma manual.');
-      // Aquí opcionalmente podrías llamar a un endpoint de des-suscripción si el negocio lo requiere
+      console.log('🔕 El usuario apagó manualmente el control.');
+      // Opcional: Aquí podrías remover la suscripción local del SW si lo requieres
+      this.notificacionesActivas.set(false);
+      this.notificationService.estaSuscrito$.next(false);
     }
   }
 

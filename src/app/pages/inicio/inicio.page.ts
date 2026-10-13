@@ -39,7 +39,6 @@ export class InicioPage implements OnInit {
   private materialesService = inject(MaterialesService);
   private authService = inject(AuthService); 
   private notificationService = inject(NotificationService);
-  private toastController = inject(ToastController);
   public uiModalService = inject(UiModalService);
   
   public nombreUsuario = computed(() => {
@@ -68,6 +67,11 @@ export class InicioPage implements OnInit {
   });
 
 }
+
+ionViewWillEnter() {
+    // Cada vez que el participante abra el Home, escaneamos si hay un comunicado nuevo flotando
+    this.notificationService.checkUnreadNotificationsInApp();
+  }
 
   ngOnInit() {
     window.scrollTo(0, 0);

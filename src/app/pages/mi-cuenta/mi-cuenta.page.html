@@ -135,7 +135,10 @@
           </div>
 
           <!-- 🎛️ Tu ion-toggle Real conectado de forma reactiva -->
-          <ion-toggle [disabled]="isPushLoading()" (ionChange)="onToggleNotificaciones($event)">
+          <ion-toggle 
+            [checked]="notificacionesActivas()" 
+            [disabled]="isPushLoading()"
+            (ionChange)="onToggleNotificaciones($event)">
           </ion-toggle>
 
         </div>
