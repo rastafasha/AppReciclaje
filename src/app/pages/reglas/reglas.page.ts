@@ -16,7 +16,8 @@ import { ReglasService } from '../../services/reglas-service';
   templateUrl: './reglas.page.html',
   styleUrls: ['./reglas.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, BackbuttonComponent, HojaAnimadaComponent, IonSpinner]
+  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, 
+    BackbuttonComponent, HojaAnimadaComponent, IonSpinner]
 })
 export class ReglasPage implements OnInit{
   private authService = inject(AuthService);

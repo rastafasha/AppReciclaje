@@ -22,6 +22,7 @@ import { ModalInstruccionesComponent } from '../../components/modal-instruccione
 import { NotificationService } from '../../services/notificacion-service';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 import { UiModalService } from '../../services/ui-modal-service';
+import { ConsejoService } from '../../services/consejo-service';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
@@ -40,6 +41,7 @@ export class InicioPage implements OnInit {
   private authService = inject(AuthService); 
   private notificationService = inject(NotificationService);
   public uiModalService = inject(UiModalService);
+  public tipsService = inject(ConsejoService);
   
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
@@ -59,6 +61,18 @@ export class InicioPage implements OnInit {
 
   public estadoActual = signal<any>('normal');
 
+   // 🚀 COMPUTED  Extrae únicamente la última píldora en vivo
+  public ultimoTipCreado = computed(() => {
+    const todosLosTips = this.tipsService.tipsInApp();
+    if (todosLosTips && todosLosTips.length > 0) {
+      return todosLosTips[0]; // Como Atlas viene ordenado por -1, el índice 0 es el último creado
+    }
+    return {
+      titulo: '💡 TIP ECOLÓGICO',
+      descripcion: 'Mantén activa tu racha diaria en el campus UCC. Escanea tus depósitos de envases de Mercadona para sumar puntos de recompensa en la cartelera.'
+    };
+  });
+
   constructor() {
   addIcons({ 
     notificationsOutline, menuOutline, helpCircleOutline, 
@@ -76,6 +90,8 @@ ionViewWillEnter() {
   ngOnInit() {
     window.scrollTo(0, 0);
     this.isLoading.set(true);
+    // Ejecuta la carga inicial de los tips para poblar el computed de inmediato
+    this.tipsService.cargarConsejosDelConcurso();
     
     this.materialesService.getHistorial().subscribe({
       next: () => {
@@ -115,13 +131,13 @@ ionViewWillEnter() {
 
   // 🍳 MÉTODO RECONFIGURADO: Abre el Offcanvas del formulario de forma local
   irAFormulario() {
-    console.log('🚀 Abriendo modal de formulario de forma reactiva local.');
+    // console.log('🚀 Abriendo modal de formulario de forma reactiva local.');
     this.mostrarModalFormularioAvance.set(true);
   }
 
   // 📊 MÉTODO RECONFIGURADO: Abre el Offcanvas de puntajes de forma local
   verMiPuntaje() {
-    console.log('📊 Abriendo modal de puntaje de forma reactiva local.');
+    // console.log('📊 Abriendo modal de puntaje de forma reactiva local.');
     this.mostrarModalMiPuntaje.set(true);
   }
 

@@ -94,13 +94,19 @@
       </section>
 
       <!-- 📝 IMPULSO DE CONOCIMIENTO: El consejo del día -->
-      <footer class="consejo-card-duo">
+      <footer class="consejo-card-duo animate__animated animate__fadeInUp mt-4 ">
         <div class="consejo-header">
-          <span>💡 TIP ECOLÓGICO</span>
+          <span>{{ ultimoTipCreado().titulo }}</span>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod...</p>
+        <!-- Descripción recortada elegantemente para mantener la simetría del Home -->
+        <p>
+          {{ ultimoTipCreado().descripcion && ultimoTipCreado().descripcion.length > 120
+          ? ultimoTipCreado().descripcion.substring(0, 120) + '...'
+          : ultimoTipCreado().descripcion }}
+        </p>
         <span class="read-more-duo" (click)="irAlConsejos()">Leer +</span>
       </footer>
+
 
     </div>
     }
@@ -117,27 +123,17 @@
 <app-menufooter [tabActiva]="'inicio'"></app-menufooter>
 
 <!-- 🏆 MODAL 1: BIENVENIDA -->
-<app-modal-bienvenida 
-  [isOpen]="mostrarModalBienvenida()" 
-  keepContentsMounted="true"
-  (cerrar)="cerrarBienvenida()">
+<app-modal-bienvenida [isOpen]="mostrarModalBienvenida()" keepContentsMounted="true" (cerrar)="cerrarBienvenida()">
 </app-modal-bienvenida>
 
 <!-- 📖 MODAL 2: INSTRUCCIONES -->
-<app-modal-instrucciones 
-  [isOpen]="mostrarModalInstrucciones()" 
-  keepContentsMounted="true"
+<app-modal-instrucciones [isOpen]="mostrarModalInstrucciones()" keepContentsMounted="true"
   (cerrar)="cerrarInstrucciones()">
 </app-modal-instrucciones>
 
 <!-- 🟢 MODAL 3: FORMULARIO DE AVANCE (Misión diaria) -->
-<ion-modal 
-  [isOpen]="mostrarModalFormularioAvance()" 
-  [initialBreakpoint]="0.87" 
-  [breakpoints]="[0, 0.87, 0.87]"
-  keepContentsMounted="true"
-  (didDismiss)="onModalFormularioCerrado()"
-  class="binance-sheet-modal">
+<ion-modal [isOpen]="mostrarModalFormularioAvance()" [initialBreakpoint]="0.87" [breakpoints]="[0, 0.87, 0.87]"
+  keepContentsMounted="true" (didDismiss)="onModalFormularioCerrado()" class="binance-sheet-modal">
   <ng-template>
     <!-- Capturamos la salida output () del formulario real para detonar el cierre -->
     <app-formulario-avance (cerrarModal)="onModalFormularioCerrado()"></app-formulario-avance>
@@ -145,13 +141,8 @@
 </ion-modal>
 
 <!-- 📊 MODAL 4: MI PUNTAJE CENTRAL -->
-<ion-modal 
-  [isOpen]="mostrarModalMiPuntaje()" 
-  [initialBreakpoint]="0.91" 
-  [breakpoints]="[0, 0.91, 0.91]"
-  keepContentsMounted="true"
-  (didDismiss)="onModalPuntajeCerrado()"
-  class="binance-sheet-modal">
+<ion-modal [isOpen]="mostrarModalMiPuntaje()" [initialBreakpoint]="0.91" [breakpoints]="[0, 0.91, 0.91]"
+  keepContentsMounted="true" (didDismiss)="onModalPuntajeCerrado()" class="binance-sheet-modal">
   <ng-template>
     <!-- Capturamos la salida output () de mi puntaje para detonar el cierre -->
     <app-mi-puntaje (cerrarModal)="onModalPuntajeCerrado()"></app-mi-puntaje>

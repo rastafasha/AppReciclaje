@@ -1,41 +1,68 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, arrowForwardOutline } from 'ionicons/icons';
-import { IonContent, IonModal, IonIcon } from '@ionic/angular';
+import { IonContent, IonModal, IonIcon, IonSpinner } from '@ionic/angular';
 import { IConsejoData, DetalleConsejoComponent } from '../../components/consejo-detalle/consejo-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { BackbuttonComponent } from '../../shared/backbutton/backbutton.component';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
+import { ConsejoService } from '../../services/consejo-service';
+import { ITipEcologico } from '../../models/tip-ecologico.model';
 
 @Component({
   selector: 'app-consejos',
   templateUrl: './consejos.page.html',
   styleUrls: ['./consejos.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, BackbuttonComponent, HojaAnimadaComponent, IonIcon]
+  imports: [CommonModule, IonContent, RouterModule, IonModal, DetalleConsejoComponent, HeaderComponent, BackbuttonComponent, HojaAnimadaComponent, IonIcon, IonSpinner]
 })
-export class ConsejosPage {
+export class ConsejosPage implements OnInit{
   private router = inject(Router);
+  public tipsService = inject(ConsejoService);
+
   @ViewChild('modalDetalle') modalDetalle!: IonModal;
-
-  // 🚦 Signal para almacenar el consejo activo seleccionado en la lista
-  public consejoSeleccionado = signal<IConsejoData>({ titulo: '', contenido: '' });
+  
   public estadoActual = signal<any>('saludando');
+  // 🚦 Signal para almacenar el consejo activo seleccionado en la lista
+  public consejoSeleccionado = signal<ITipEcologico>({ 
+  titulo: '', 
+  descripcion: '', 
+  activo: true 
+});
+  
 
-// Lista mockeada idéntica a tus bloques del Figma
-  public listaConsejos: IConsejoData[] = [
-    { titulo: 'Aprovechamiento de Verduras', contenido: 'Utiliza las cáscaras de zanahoria y papas para crear caldos vegetales nutritivos antes de desecharlas en el contenedor orgánico.' },
-    { titulo: 'Compostaje en Casa', contenido: 'Las conchas de plátano y restos de café son excelentes aceleradores de nitrógeno para tus plantas. ¡Sepáralas diariamente!' },
-    { titulo: 'Planificación de Porciones', contenido: 'Medir las porciones de carbohidratos reduce los sobrantes de comida en la cena, promoviendo un consumo responsable y saludable.' }
-  ];
+ 
   constructor() {
     addIcons({ notificationsOutline, menuOutline, 
       refreshCircleOutline, documentTextOutline, personCircleOutline, arrowForwardOutline });
   }
+  ngOnInit() {
+    // Carga inicial reglamentaria al instanciar el componente
+    this.tipsService.cargarConsejosDelConcurso();
+  }
 
-  abrirDetalle(consejo: IConsejoData) {
+  /**
+   * 📲 CICLO DE VIDA NATIVO DE IONIC:
+   * Re-sincroniza las píldoras desde Atlas en segundo plano cada vez que el usuario
+   * entre a la pantalla, atrapando cualquier tip nuevo que guarde el administrador.
+   */
+  ionViewWillEnter() {
+    console.log('📡 [PWA CONSEJOS]: Sincronizando cartelera diaria con MongoDB Atlas...');
+    this.tipsService.cargarConsejosDelConcurso();
+  }
+
+  /**
+   * 🔄 Método para que el participante pueda refrescar manualmente la lista con un botón
+   */
+  forzarRefresco() {
+    this.tipsService.cargarConsejosDelConcurso();
+  }
+
+ 
+
+  abrirDetalle(consejo: ITipEcologico) {
     this.consejoSeleccionado.set(consejo); // Actualizamos la signal con la fila elegida
     this.modalDetalle.present(); // Desplegamos el Offcanvas manualmente
   }

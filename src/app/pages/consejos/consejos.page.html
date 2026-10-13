@@ -19,22 +19,42 @@
 
     <!-- 📝 TARJETAS DE CONSEJOS (MISIONES DE CONOCIMIENTO) -->
     <section class="consejos-list-duo">
-      @for (item of listaConsejos; track item.titulo) {
+      <!-- ⏳ SPINNER REACTIVO: Mientras viaja la data desde Atlas -->
+    @if (tipsService.isLoading()) {
+      <div class="ion-text-center ion-padding mt-4">
+        <ion-spinner name="crescent" color="success"></ion-spinner>
+        <p class="text-muted small mt-2">Consultando cartelera ambiental...</p>
+      </div>
+    } @else {
+      
+      <!-- 🚀 BUCLE MAESTRO CONECTADO A TU SIGNAL DE ATLAS -->
+      @for (consejo of tipsService.tipsInApp(); track consejo._id || $index) {
         <article class="consejo-item-card-duo animate__animated animate__fadeInUp">
-          <div class="card-badge-info">💡 TIP</div>
+          <div class="card-badge-info">💡 TIP ECOLÓGICO</div>
           
-          <h3>{{ item.titulo }}</h3>
-          <p>{{ item.contenido.substring(0, 75) }}...</p>
+          <h3>{{ consejo.titulo }}</h3>
+          
+          <!-- Recorta la descripción de forma segura a 110 letras para mantener la estética simétrica -->
+          <p>{{ consejo.descripcion && consejo.descripcion.length > 110 ? consejo.descripcion.substring(0, 110) + '...' : consejo.descripcion }}</p>
           
           <div class="card-footer-duo">
             <!-- Botón de acción con relieve táctil sutil -->
-            <button type="button" class="btn-read-more-duo" (click)="abrirDetalle(item)">
+            <button type="button" class="btn-read-more-duo" (click)="abrirDetalle(consejo)">
               Leer Más 
-              <ion-icon name="arrow-forward-outline"></ion-icon>
+              <ion-icon name="chevron-forward-outline"></ion-icon>
             </button>
           </div>
         </article>
+      } @empty {
+        <!-- 🔕 PANTALLA DE RESERVA: Por si borras todos los tips -->
+        <div class="empty-notifications-duo text-center py-5">
+          <div class="empty-icon-duo">🌱</div>
+          <h4>Cartelera en preparación</h4>
+          <p>El administrador de la UCC está redactando las píldoras del día. ¡Sigue recolectando residuos de Mercadona! ♻️</p>
+        </div>
       }
+
+    }
     </section>
 
   </div>

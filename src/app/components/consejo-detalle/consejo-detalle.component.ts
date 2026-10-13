@@ -4,6 +4,7 @@ import { addIcons } from 'ionicons';
 import { closeCircle } from 'ionicons/icons';
 import { IonIcon } from '@ionic/angular';
 import { HojaAnimadaComponent } from '../hoja-animada/hoja-animada.component';
+import { ITipEcologico } from '../../models/tip-ecologico.model';
 
 // Interfaz rápida para estructurar los consejos
 export interface IConsejoData {
@@ -21,7 +22,7 @@ export interface IConsejoData {
 export class DetalleConsejoComponent {
   
   // 🚦 Angular 22 Signal Input: Recibe obligatoriamente el objeto del consejo seleccionado
-  public consejo = input.required<IConsejoData>();
+  public consejo = input.required<ITipEcologico>();
 
   // ⚡ Estándar Estricto: Nueva función output() libre del prefijo "on"
   public cerrarModal = output<void>();

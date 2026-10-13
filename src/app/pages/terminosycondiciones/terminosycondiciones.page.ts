@@ -13,7 +13,8 @@ import { TerminosService } from '../../services/terminos-service';
   selector: 'app-terminosycondiciones',
   templateUrl: './terminosycondiciones.page.html',
   styleUrls: ['./terminosycondiciones.page.scss'],
-  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, HojaAnimadaComponent, IonSpinner]
+  imports: [CommonModule, IonContent, HeaderComponent, MenufooterComponent, 
+    HojaAnimadaComponent, IonSpinner]
 })
 export class TerminosycondicionesPage implements OnInit {
 
