@@ -1,15 +1,13 @@
 <!-- Barra Superior Corporativa Fija -->
 <app-header></app-header>
 
-<ion-content [fullscreen]="true">
-  <div class="notificaciones-container-duo animate__animated animate__fadeIn">
-  <app-backbutton pageTitle="Notificaciones"></app-backbutton>
-    
-    <!-- 🧳 SECCIÓN DE ACCIONES Y PERSONAJE SUPERIOR -->
-    <header class="top-actions-box-duo">
+<ion-content [scrollEvents]="true">
+  <div class="notificaciones-container-duo">
+    <app-backbutton pageTitle="Notificaciones"></app-backbutton>
+    <!-- Cabecera de la sección -->
+    <div class="top-actions-box-duo">
       <div class="text-side-duo">
         <h2>Mis Alertas 🔔</h2>
-        <!-- El botón masivo solo tiene sentido en la pestaña de pendientes -->
         @if (tabActiva() === 'pendientes' && alertasInApp().length > 0) {
           <button class="btn-read-all-duo" (click)="marcarTodasComoLeidas()">
             <ion-icon name="checkmark-done-outline"></ion-icon>
@@ -17,13 +15,12 @@
           </button>
         }
       </div>
-
       <div class="character-side-duo">
-        <app-hoja-animada [ancho]="200" [estado]="estadoActual()"></app-hoja-animada>
+        <app-hoja-animada [estado]="estadoActual()"></app-hoja-animada>
       </div>
-    </header>
+    </div>
 
-    <!-- 🎛️ SELECTOR PREMIUM DE PESTAÑAS (ION-SEGMENT) -->
+    <!-- Segment tabs -->
     <ion-segment [value]="tabActiva()" (ionChange)="cambiarTab($event)" color="primary" class="custom-segment-tabs">
       <ion-segment-button value="pendientes">
         <ion-label>Pendientes ({{ alertasInApp().length }})</ion-label>
@@ -33,14 +30,13 @@
       </ion-segment-button>
     </ion-segment>
 
-    <!-- ⏳ SPINNER GENERAL DE CARGA -->
-    @if (isLoading()) {
+    @if (isLoading() && desdeLeidas() === 0) {
       <div class="ion-text-center ion-padding">
         <ion-spinner name="crescent" color="primary"></ion-spinner>
       </div>
     } @else {
-
-      <!-- ================= PESTAÑA: PENDIENTES ================= -->
+      
+      <!-- PENDIENTES -->
       @if (tabActiva() === 'pendientes') {
         @for (alerta of alertasInApp(); track alerta._id || $index) {
           <div class="notificacion-item-card-duo no-leida" (click)="abrirDetalle(alerta)">
@@ -54,36 +50,41 @@
           <div class="empty-notifications-duo">
             <div class="empty-icon-duo">🔕</div>
             <h4>Tu bandeja está al día</h4>
-            <p>Te avisaremos por aquí cuando haya actualizaciones del sorteo UCC o Mercadona. ¡Sigue recolectando racha! ♻️</p>
+            <p>Te avisaremos por aquí cuando haya actualizaciones del concurso. ♻️</p>
           </div>
         }
       }
 
-      <!-- ================= PESTAÑA: LEÍDAS (HISTORIAL) ================= -->
+      <!-- HISTORIAL LEÍDAS -->
       @if (tabActiva() === 'leidas') {
         @for (alerta of historialLeidas(); track alerta._id || $index) {
           <div class="notificacion-item-card-duo ya-leida" (click)="abrirDetalle(alerta)">
             <div class="card-content-duo">
-              <h3 style="color: #64748b;">{{ alerta.titulo }} <span style="font-size: 11px; font-weight: 400;">(Leída)</span></h3>
-              <p style="color: #94a3b8;">{{ alerta.mensaje }}</p>
+              <h3>{{ alerta.titulo }} (Leída)</h3>
+              <p>{{ alerta.mensaje }}</p>
             </div>
           </div>
         } @empty {
           <div class="empty-notifications-duo">
             <div class="empty-icon-duo">📚</div>
             <h4>Historial vacío</h4>
-            <p>Aquí se guardarán los mensajes que ya hayas revisado para que puedas consultarlos cuando quieras.</p>
+            <p>Aquí verás tus mensajes revisados.</p>
           </div>
         }
       }
-
     }
 
-
   </div>
+
+  <!-- 🚀 IONIC INFINITE SCROLL: Siempre despierto en el DOM, controlado por TS -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="cargarSiguientePaginaLeidas($event)">
+    <ion-infinite-scroll-content 
+      loadingSpinner="dots" 
+      loadingText="Buscando alertas viejas... ♻️">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
-
-
 
 <!-- ========================================================================= -->
 <!-- 🔼 SUB-OFFCANVAS: DETALLE DE NOTIFICACIÓN (Emerge superpuesto estilo Binance) -->
@@ -91,13 +92,11 @@
 <ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" class="binance-sheet-modal">
   <ng-template>
     <ion-content>
-      
+
       <!-- 🚀 Invocamos tu componente hijo modular inyectándole la Signal mediante enlace de propiedad -->
-      <app-notificacion-detalle 
-        [notificacion]="alertaSeleccionada()" 
-        (cerrarModal)="modalDetalleAlerta.dismiss()">
+      <app-notificacion-detalle [notificacion]="alertaSeleccionada()" (cerrarModal)="modalDetalleAlerta.dismiss()">
       </app-notificacion-detalle>
-      
+
     </ion-content>
   </ng-template>
 </ion-modal>

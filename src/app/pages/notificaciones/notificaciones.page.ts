@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, checkmarkDoneOutline, eyeOutline } from 'ionicons/icons';
-import { IonContent, IonModal, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/angular';
+// 🚀 INYECTAMOS IonInfiniteScroll EN LA CAPTURA FÍSICA
+import { IonContent, IonModal, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonSpinner, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/angular';
 import { INotificacion } from '../../models/notificacion.model';
 import { NotificacionDetalleComponent } from '../../components/notificacion-detalle/notificacion-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -16,34 +17,37 @@ import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada
   templateUrl: './notificaciones.page.html',
   styleUrls: ['./notificaciones.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, RouterModule, IonModal,
-    NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, IonIcon, HojaAnimadaComponent, IonSegment, IonSegmentButton, IonLabel, IonSpinner]
+  imports: [
+    CommonModule, IonContent, RouterModule, IonModal, IonIcon,
+    IonSegment, IonSegmentButton, IonLabel, IonSpinner, IonInfiniteScroll, IonInfiniteScrollContent,
+    NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, HojaAnimadaComponent
+  ]
 })
 export class NotificacionesPage implements OnInit {
   private router = inject(Router);
   private notificationService = inject(NotificationService);
 
-  // ⚡ Referencia física para controlar por código la apertura del segundo Offcanvas deslizable
   @ViewChild('modalDetalleAlerta') modalDetalleAlerta!: IonModal;
+  
+  // 🎯 CAPTURAMOS EL COMPONENTE DE INFINITE SCROLL POR CÓDIGO
+  @ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
+
   public estadoActual = signal<any>('saludando');
   public isLoading = signal<boolean>(false);
-
-   // 🚦 TABS CONTROL: Controla cuál vista de Atlas se renderiza en la PWA
   public tabActiva = signal<'pendientes' | 'leidas'>('pendientes');
 
-  // 🗄️ REPOSITORIOS DE DATOS SEPARADOS
   public alertasInApp = signal<INotificacion[]>([]); 
   public historialLeidas = signal<INotificacion[]>([]);
   public totalLeidas = signal<number>(0);
-  public desdeLeidas = 0; // Puntero para scroll posterior
+
+  public desdeLeidas = signal<number>(0);
+  private LIMITE_PAGINA = 4; // Tu valor de pruebas (tienes 12 registros)
 
   public alertaSeleccionada = signal<INotificacion>({
     _id: '', titulo: '', mensaje: '', tipo: 'AVISO_GENERAL', leido: false, createdAt: ''
   });
 
- 
-
-   constructor() {
+  constructor() {
     addIcons({
       notificationsOutline, menuOutline, refreshCircleOutline, 
       documentTextOutline, personCircleOutline, checkmarkDoneOutline, eyeOutline
@@ -51,25 +55,26 @@ export class NotificacionesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarDatosSegunTab();
-    // this.listarNotificaciones();
-    // 🌟 Sincroniza el contador del header al entrar a la bandeja
+    this.listarNotificacionesPendientes();
     this.notificationService.actualizarContadorBackend();
   }
 
-  /**
-   * 🎛️ Detecta el click del usuario en el selector de pestañas
-   */
   cambiarTab(event: any) {
-    this.tabActiva.set(event.detail.value);
-    this.cargarDatosSegunTab();
-  }
+    const proximaTab = event.detail.value;
+    this.tabActiva.set(proximaTab);
+    
+    if (proximaTab === 'leidas') {
+      // 🚀 Desbloqueamos el scroll manualmente al entrar al historial
+      if (this.infiniteScroll) this.infiniteScroll.disabled = false;
 
-  cargarDatosSegunTab() {
-    if (this.tabActiva() === 'pendientes') {
-      this.listarNotificacionesPendientes();
+      if (this.historialLeidas().length === 0) {
+        this.desdeLeidas.set(0);
+        this.listarHistorialLeidas();
+      }
     } else {
-      this.listarHistorialLeidas();
+      // 🚀 Si vuelve a pendientes, congelamos el scroll para que no tire peticiones fantasmas
+      if (this.infiniteScroll) this.infiniteScroll.disabled = true;
+      this.listarNotificacionesPendientes();
     }
   }
 
@@ -82,33 +87,58 @@ export class NotificacionesPage implements OnInit {
         }
         this.isLoading.set(false);
       },
-      error: (err) => {
-        console.error('❌ Error al recuperar pendientes:', err);
-        this.isLoading.set(false);
-      }
+      error: () => this.isLoading.set(false)
     });
   }
 
   listarHistorialLeidas() {
     this.isLoading.set(true);
-    this.notificationService.getNotificacionesLeidas(this.desdeLeidas).subscribe({
+    this.notificationService.getNotificacionesLeidas(this.desdeLeidas()).subscribe({
       next: (resp: any) => {
         if (resp.ok && resp.alertas) {
           this.historialLeidas.set(resp.alertas);
           this.totalLeidas.set(resp.total || 0);
+
+          // Si desde la primera carga ya trajimos todo el universo de datos, apagamos
+          if (resp.alertas.length >= (resp.total || 0) && this.infiniteScroll) {
+            this.infiniteScroll.disabled = true;
+          }
         }
         this.isLoading.set(false);
       },
-      error: (err) => {
-        console.error('❌ Error al recuperar historial de leídas:', err);
-        this.isLoading.set(false);
-      }
+      error: () => this.isLoading.set(false)
     });
   }
 
-  
+  cargarSiguientePaginaLeidas(event: any) {
+    // 🛡️ Filtro de seguridad por si acaso se cuela un evento en la tab errónea
+    if (this.tabActiva() !== 'leidas') {
+      event.target.complete();
+      return;
+    }
 
+    const saltoReal = this.historialLeidas().length;
+    this.desdeLeidas.set(saltoReal);
 
+    console.log(`📡 Disparado por Hardware. Extrayendo desde: ${saltoReal}`);
+
+    this.notificationService.getNotificacionesLeidas(this.desdeLeidas()).subscribe({
+      next: (resp: any) => {
+        if (resp.ok && resp.alertas) {
+          this.historialLeidas.update((actuales) => [...actuales, ...resp.alertas]);
+        }
+        
+        event.target.complete();
+
+        // Si ya vaciaste el saco de la base de datos de Atlas, cerramos la tubería
+        if (this.historialLeidas().length >= this.totalLeidas()) {
+          event.target.disabled = true;
+          console.log('🔒 Fin de Atlas alcanzado. Infinite Scroll apagado.');
+        }
+      },
+      error: () => event.target.complete()
+    });
+  }
 
   abrirDetalle(alerta: INotificacion) {
     const idReal = alerta._id;
@@ -117,40 +147,27 @@ export class NotificacionesPage implements OnInit {
     this.modalDetalleAlerta.present();
 
     if (idReal && !alerta.leido) {
-      // Optimizamos en caliente quitándolo visualmente de pendientes
       this.alertasInApp.update((actuales) => actuales.filter(item => item._id !== idReal));
-
       this.notificationService.marcarComoLeida(idReal).subscribe({
         next: () => {
-          // Si lo leyó desde la pestaña pendientes, lo agregamos al pool de leídas en RAM
           this.historialLeidas.update((viejas) => [alertaActualizada, ...viejas]);
-        },
-        error: (err) => {
-          console.error('❌ Error al marcar leída:', err);
-          this.listarNotificacionesPendientes(); // Fallback de re-sincronización
         }
       });
     }
   }
-
 
   marcarTodasComoLeidas() {
     this.isLoading.set(true);
     this.notificationService.marcarComoLeidaTodas().subscribe({
       next: (resp) => {
         if (resp.ok) {
-          console.log('🧹 Bandeja vaciada de forma masiva en Atlas.');
-          // Movemos todo al historial localmente para evitar peticiones extras
           const convertidas = this.alertasInApp().map(a => ({ ...a, leido: true }));
           this.historialLeidas.update((viejas) => [...convertidas, ...viejas]);
           this.alertasInApp.set([]);
           this.isLoading.set(false);
         }
       },
-      error: (err) => {
-        console.error(err);
-        this.isLoading.set(false);
-      }
+      error: () => this.isLoading.set(false)
     });
   }
 }
