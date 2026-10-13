@@ -19,7 +19,7 @@ import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada
   imports: [CommonModule, IonContent, RouterModule, IonModal,
     NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, IonIcon, HojaAnimadaComponent]
 })
-export class NotificacionesPage implements OnInit{
+export class NotificacionesPage implements OnInit {
   private router = inject(Router);
   private notificationService = inject(NotificationService);
 
@@ -42,9 +42,11 @@ export class NotificacionesPage implements OnInit{
   });
 
   constructor() {
-    addIcons({ notificationsOutline, menuOutline, 
-      refreshCircleOutline, documentTextOutline, 
-      personCircleOutline, checkmarkDoneOutline});
+    addIcons({
+      notificationsOutline, menuOutline,
+      refreshCircleOutline, documentTextOutline,
+      personCircleOutline, checkmarkDoneOutline
+    });
   }
 
   ngOnInit() {
@@ -74,7 +76,7 @@ export class NotificacionesPage implements OnInit{
   /**ß
    * 🚀 FUNCIÓN MAESTRA: Captura el registro clickeado en tu lista del Figma y activa el Offcanvas de detalle
    */
- abrirDetalle(alerta: INotificacion) {
+  abrirDetalle(alerta: INotificacion) {
     this.alertaSeleccionada.set(alerta);
     this.modalDetalleAlerta.present();
 
@@ -89,11 +91,23 @@ export class NotificacionesPage implements OnInit{
     }
   }
 
-  
 
-  marcarTodasComoLeidas() {
-    console.log('🧹 Limpiando globos de notificaciones mediante HTTP PUT /api/notificaciones/marcar-leida');
-  }
+
+ marcarTodasComoLeidas() {
+  this.isLoading.set(true);
+  this.notificationService.marcarComoLeidaTodas().subscribe({
+    next: (resp) => {
+      if (resp.ok) {
+        console.log('🧹 Bandeja vaciada de forma masiva en Atlas.');
+        this.listarNotificaciones(); // Recarga la lista para borrar los círculos negros (●)
+      }
+    },
+    error: (err) => {
+      console.error(err);
+      this.isLoading.set(false);
+    }
+  });
+}
 
   irAlInicio() { this.router.navigateByUrl('/inicio'); }
   irAConsejos() { this.router.navigateByUrl('/consejos'); }

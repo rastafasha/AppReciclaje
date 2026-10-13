@@ -24,7 +24,7 @@
     <section class="notificaciones-list-duo">
       @for (alerta of alertasInApp(); track alerta.id || $index) {
         <article class="notificacion-item-card-duo animate__animated animate__fadeInUp" 
-                 [class.no-leida]="!alerta.leido">
+                 [class.no-leida]="!alerta.leido" (click)="abrirDetalle(alerta)">
           
           <!-- Indicador visual sutil en caliente de mensaje nuevo -->
           @if (!alerta.leido) {

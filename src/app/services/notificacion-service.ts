@@ -43,6 +43,9 @@ export class NotificationService {
   marcarComoLeida(id: string): Observable<any> {
     return this.http.put<any>(`${apiUrl}/notificaciones/marcar-leida/${id}`, {}, this.headers);
   }
+  marcarComoLeidaTodas(): Observable<any> {
+    return this.http.put<any>(`${apiUrl}/notificaciones/marcar-todas-leidas`, this.headers);
+  }
 
   /**
    * 📲 3. CORE PUSH: Suscribir el dispositivo al Service Worker y enlazar con Atlas
@@ -66,4 +69,6 @@ export class NotificationService {
       })
     );
   }
+
+  
 }

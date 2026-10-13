@@ -6,6 +6,7 @@ import { addIcons } from 'ionicons';
 import { notificationsOutline, menuOutline } from 'ionicons/icons';
 import { IonHeader, IonToolbar, IonIcon, IonMenuToggle, IonBadge } from '@ionic/angular';
 import { NotificationService } from '../../services/notificacion-service';
+import { PushNotificationService } from '../../services/push-notification.service';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ import { NotificationService } from '../../services/notificacion-service';
 export class HeaderComponent implements OnInit{
   private router = inject(Router);
   private notificationService = inject(NotificationService);
+  public pushService = inject(PushNotificationService);
   
   // 🚦 Signal que controla el número flotante de la campana
   public contadorAlertas = signal<number>(0);
@@ -34,6 +36,18 @@ export class HeaderComponent implements OnInit{
         }
       }
     });
+  }
+
+  /**
+   * 📲 Gatillo del ion-toggle de la barra superior
+   */
+  alternarNotificacionesPush(event: any): void {
+    const encendido = event.detail.checked;
+
+    // Si está encendido y el servicio reporta que no hay suscripción activa, disparamos el banner VAPID
+    if (encendido && !this.pushService.isSubscribed$.value) {
+      this.pushService.subscribeToNotifications();
+    }
   }
 
 

@@ -43,5 +43,34 @@
 .icon-menu { font-size: 28px; color: #252876; cursor: pointer; } // 🚀 ¡Esto le dará vida al botón!
 
 
+/* 🟢 BLOQUE AGREGADO PARA CUADRAR EL INDICADOR FLOTANTE */
+.bell-wrapper {
+  position: relative; /* Hace que el hijo absolute tome este cuadro como base */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .badge-contador {
+    position: absolute;
+    top: -4px;        /* Sube el globo rojo a la esquina superior */
+    right: -4px;      /* Desplaza el globo a la esquina derecha */
+    background-color: #ff3b30; /* El rojo nativo exacto de alertas */
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;  /* Garantiza que sea un círculo perfecto */
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1.5px solid #ffffff; /* Borde blanco de separación limpia */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+}
+
 
 
