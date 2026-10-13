@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonIcon, IonText, IonCheckbox, IonRouterLink } from '@ionic/angular';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonIcon, IonText, IonCheckbox, IonRouterLink, LoadingController } from '@ionic/angular';
 import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada.component';
 
 @Component({
@@ -22,6 +22,7 @@ export class LoginPage implements OnInit{
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private loadingCtrl = inject(LoadingController);
 
   // Formulario reactivo estructurado
   public loginForm: FormGroup = this.fb.group({
@@ -45,19 +46,38 @@ export class LoginPage implements OnInit{
     }
   }
 
- onLogin() {
-    if (this.loginForm.invalid) return;
+onLogin() {
+  if (this.loginForm.invalid) return;
 
-    const { email, password, recuerdame } = this.loginForm.value;
+  this.errorMessage = null; // Limpiamos rastros de errores anteriores
 
-    this.authService.login({ email, password }).subscribe({
+  // 1. Extraemos los valores de forma directa y segura del Form Control
+  const emailVal = this.loginForm.get('email')?.value;
+  const passwordVal = this.loginForm.get('password')?.value;
+  // Forzamos a que evalúe el booleano real del checkbox de Ionic
+  const recuerdameVal = !!this.loginForm.get('recuerdame')?.value;
+
+  // Presentamos el loader para congelar la pantalla mientras viaja a Node.js
+  this.loadingCtrl.create({
+    message: 'Ingresando al Reto...',
+    spinner: 'crescent'
+  }).then(async (loader) => {
+    await loader.present();
+
+    // Enviamos el payload limpio al AuthService
+    this.authService.login({ email: emailVal, password: passwordVal }).subscribe({
       next: (isSuccess) => {
+        loader.dismiss();
+
         if (isSuccess) {
-          // 3. PERSISTENCIA SEGURA: Si el login es exitoso y el check está marcado, guardamos el correo
-          if (recuerdame) {
-            localStorage.setItem('usuario_recuerdame', email);
+          // 6. PERSISTENCIA SEGURA ELECTRÓNICA:
+          // Validamos contra nuestra variable booleana directa recuerdameVal
+          if (recuerdameVal) {
+            console.log('💾 Check "Recordarme" activo. Guardando correo en LocalStorage:', emailVal);
+            localStorage.setItem('usuario_recuerdame', emailVal.trim());
           } else {
-            localStorage.removeItem('usuario_recuerdame'); // Lo borra si el usuario se desmarcó
+            console.log('🧼 Check "Recordarme" apagado. Limpiando LocalStorage.');
+            localStorage.removeItem('usuario_recuerdame');
           }
 
           console.log('✅ Autenticación y perfil sincronizados con Atlas.');
@@ -67,10 +87,12 @@ export class LoginPage implements OnInit{
         }
       },
       error: (err) => {
+        loader.dismiss();
         this.errorMessage = err.error?.msg || 'Error de conexión con el servidor';
       }
     });
-  }
+  });
+}
 
 
 }

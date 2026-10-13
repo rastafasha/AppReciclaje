@@ -14,21 +14,26 @@
         <div class="avatar-container" (click)="!cargandoImagen() && dispararSelectorArchivo()">
 
           <!-- 🔄 INDICADOR EN CALIENTE: Se activa mientras viaja a Cloudinary -->
+          @<!-- ⏳ Spinner Loader Nativo: Se activa si la Signal reporta carga en progreso -->
           @if (cargandoImagen()) {
-          <div class="spinner-overlay">
-            <ion-spinner name="crescent" color="primary"></ion-spinner>
-            <p class="loading-text">Subiendo...</p>
-          </div>
+            <div class="loading-overlay">
+              <ion-spinner name="crescent" color="primary"></ion-spinner>
+              <p class="loading-text">Subiendo...</p>
+            </div>
           }
 
           <!-- 📸 RENDER DE IMÁGENES -->
-          @if (authService.usuarioActual()?.profile?.avatar_url) {
-          <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'" alt="Avatar">
-          } @else if (avatarUrl()) {
-          <img [src]="avatarUrl() | imagenPipe:'perfiles'" alt="Avatar Reciente">
-          } @else {
-          <img src="assets/images/default.jpeg" alt="Predeterminado">
+
+          @if (!cargandoImagen()) {
+            @if (authService.usuarioActual()?.profile?.avatar_url) {
+              <img [src]="authService.usuarioActual()!.profile!.avatar_url! | imagenPipe:'perfiles'" alt="Avatar">
+              } @else if (avatarUrl()) {
+                <img [src]="avatarUrl() | imagenPipe:'perfiles'" alt="Avatar Reciente">
+              } @else {
+                <img src="assets/images/default.jpeg" alt="Predeterminado">
+              }
           }
+          
 
           <!-- Botón flotante inferior (Oculto si está cargando) -->
           @if (!cargandoImagen()) {
