@@ -68,3 +68,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Certificados de seguridad SSL locales
+cert.pem
+key.pem
+localhost.cert
+localhost.key
+*.pem
+*.key
+*.cert

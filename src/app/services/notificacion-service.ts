@@ -158,79 +158,63 @@ export class NotificationService {
    * Escanea Atlas en busca de novedades para pintarlas en la pantalla actual del usuario
    */
   checkUnreadNotificationsInApp() {
-    this.http.get<{ ok: boolean, alertas: any[] }>(
-      `${apiUrl}/notificaciones/unread-count`,
-      this.headers
-    ).subscribe({
-      next: (res) => {
-        if (res.ok && res.alertas && res.alertas.length > 0) {
-          
-          // Iteramos sobre cada alerta pendiente devuelta por Atlas
-          res.alertas.forEach(async (notif) => {
-            let colorToast = 'primary';
-            let iconToast = 'notifications-outline';
-            let tituloCabecera = '🔔 Alerta Reto Eco';
+  const opcionesHeaders = {
+    headers: { 'x-token': localStorage.getItem('token') || '' }
+  };
 
-            // ♻️ Sincronizamos con tus tipos de gamificación real
-            switch (notif.tipo) {
-              case 'SORTEO':
-                colorToast = 'success';
-                iconToast = 'trophy-outline';
-                tituloCabecera = '🎉 ¡Nuevo Sorteo Activo!';
-                break;
-              case 'PREMIO_MERCADONA':
-                colorToast = 'tertiary';
-                iconToast = 'gift-outline';
-                tituloCabecera = '🛒 Recompensa Mercadona';
-                break;
-              case 'NUEVO_RECICLAJE':
-                colorToast = 'secondary';
-                iconToast = 'leaf-outline';
-                tituloCabecera = '♻️ Depósito Procesado';
-                break;
-              case 'URGENTE':
-                colorToast = 'danger';
-                iconToast = 'alert-circle-outline';
-                tituloCabecera = '⚠️ ¡Aviso Importante!';
-                break;
-              default:
-                colorToast = 'primary';
-                iconToast = 'notifications-outline';
-            }
+  this.http.get<{ ok: boolean, alertas: any[] }>(
+    `${apiUrl}/notificaciones/pendientes`, 
+    opcionesHeaders
+  ).subscribe({
+    next: (res) => {
+      if (res.ok && res.alertas && res.alertas.length > 0) {
+        
+        res.alertas.forEach(async (notif) => {
+          let colorToast = 'primary';
+          let tituloToast = '🔔 Notificación';
 
-            // Desplegamos el aviso flotante nativo de Ionic en el smartphone
-            const toast = await this.toastController.create({
-              header: tituloCabecera,
-              message: notif.mensaje,
-              position: 'top', // Aparece arriba sin tapar tus tabs inferiores
-              color: colorToast,
-              duration: 6000,
-              cssClass: 'custom-inapp-toast', // Por si quieres estilizarlo en tu global.scss
-              buttons: [
-                {
-                  text: 'Ver',
-                  role: 'info',
-                  handler: () => {
-                    // 🚀 Al pulsar "Ver", lo marcamos como leído en caliente y lo mandamos a la bandeja
-                    this.marcarComoLeida(notif._id).subscribe(() => {
-                      this.router.navigateByUrl('/notificaciones');
-                    });
-                  }
-                },
-                {
-                  text: 'X',
-                  role: 'cancel'
+          // ♻️ Homologación semántica total con tus colecciones de Atlas
+          switch (notif.tipo) {
+            case 'SORTEO':
+              colorToast = 'success';
+              tituloToast = '🎉 ¡Nuevo Sorteo UCC!';
+              break;
+            case 'PREMIO_MERCADONA':
+              colorToast = 'tertiary';
+              tituloToast = '🛒 Recompensa Mercadona';
+              break;
+            case 'URGENTE':
+              colorToast = 'danger';
+              tituloToast = '⚠️ Alerta Prioritaria';
+              break;
+            default:
+              colorToast = 'primary';
+              tituloToast = '♻️ Reto Eco Aviso';
+          }
+
+          const toast = await this.toastController.create({
+            header: tituloToast,
+            message: notif.mensaje,
+            position: 'top',
+            color: colorToast,
+            duration: 5000,
+            buttons: [
+              {
+                text: 'Ver',
+                handler: () => {
+                  this.marcarComoLeida(notif._id).subscribe(() => {
+                    this.router.navigateByUrl('/notificaciones'); // Lo manda a tus pestañas reactivas
+                  });
                 }
-              ]
-            });
-
-            await toast.present();
+              }
+            ]
           });
-        }
-      },
-      error: (err) => console.error('Error revisando alertas vivas:', err)
-    });
-  }
+          await toast.present();
+        });
+      }
+    }
+  });
+}
 
 
 }

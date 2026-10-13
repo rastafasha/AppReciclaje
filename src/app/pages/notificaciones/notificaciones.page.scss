@@ -223,3 +223,64 @@ ion-modal.binance-sheet-modal {
   // 3. Control elástico del teclado para que suba limpiamente al escribir en los inputs
   --keyboard-offset: env(safe-area-inset-bottom, 20px);
 }
+
+.card-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.card-date-ghost {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.badge-tipo {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* 🎨 MAPEO DE COLORES EN CALIENTE ADAPTADO AL CONCURSO */
+
+// 1. SORTEOS UCC (Verdes de Éxito)
+.notificacion-item-card-duo.sorteo {
+  border-left: 5px solid #2dd36f;
+  &.no-leida { background: #f0fbf4; }
+  .badge-tipo { background: #e6f9ed; color: #21a054; }
+}
+
+// 2. RECOMPENSAS MERCADONA (Azul / Terciario)
+.notificacion-item-card-duo.premio_mercadona {
+  border-left: 5px solid #3880ff;
+  &.no-leida { background: #f0f5ff; }
+  .badge-tipo { background: #e5edff; color: #2464df; }
+}
+
+// 3. COMUNICADOS URGENTES (Rojo de Alerta)
+.notificacion-item-card-duo.urgente {
+  border-left: 5px solid #eb445a;
+  &.no-leida { background: #fff5f6; }
+  .badge-tipo { background: #fdedf0; color: #c82333; }
+}
+
+// 4. MANTENIMIENTOS O SISTEMA (Naranja / Warning)
+.notificacion-item-card-duo.mantenimiento_pwa {
+  border-left: 5px solid #ffc409;
+  &.no-leida { background: #fffbeb; }
+  .badge-tipo { background: #fef3c7; color: #b45309; }
+}
+
+// 5. AVISOS GENERALES (Gris Neutro / Marca Base)
+.notificacion-item-card-duo.aviso_general {
+  border-left: 5px solid #64748b;
+  &.no-leida { background: #f8fafc; }
+  .badge-tipo { background: #f1f5f9; color: #475569; }
+}

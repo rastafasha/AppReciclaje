@@ -1,5 +1,4 @@
-export type TipoNotificacion = 'NUEVO_RECICLAJE' | 'RECOMPENSA_CANJEADA' | 'LOGRO_DESBLOQUEADO' | 'AVISO_GENERAL';
-
+export type TipoNotificacion = 'SORTEO' | 'PREMIO_MERCADONA' | 'MANTENIMIENTO_PWA' | 'URGENTE' | 'AVISO_GENERAL';
 export interface INotificacion {
   _id: string;
   usuario?: string;
@@ -10,6 +9,8 @@ export interface INotificacion {
    urlDestino?: string;
   createdAt: string;
 }
+
+
 
 
 export interface NotificationResponse {

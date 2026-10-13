@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonApp, IonContent, IonIcon, IonMenu, IonRouterOutlet, MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
@@ -6,6 +6,8 @@ import { trophyOutline, documentTextOutline, powerOutline, chevronForwardOutline
 import { AuthService } from './services/auth';
 import { PwaNotifInstallerComponent } from './shared/pwa-notif-installer/pwa-notif-installer.component';
 import { ImagenPipe } from './pipes/imagen.pipe';
+import { SocketService } from './services/socket-service';
+import { SwPush } from '@angular/service-worker'; // 🚀 IMPORTANTE: Inyectamos el oidor nativo de Push de Angular
 
 @Component({
   selector: 'app-root',
@@ -14,40 +16,55 @@ import { ImagenPipe } from './pipes/imagen.pipe';
   standalone: true,
   imports: [IonApp, IonRouterOutlet, IonMenu, IonContent, IonIcon, PwaNotifInstallerComponent, ImagenPipe]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private router = inject(Router);
   private menuCtrl = inject(MenuController);
-
   public authService = inject(AuthService);
-  // public avatarPreview = signal<string>('assets/images/default.jpeg');
+  private socketService = inject(SocketService);
+  private swPush = inject(SwPush); // 🚀 Inyección limpia de Angular
+
   public imgTemp = signal<string | ArrayBuffer | null>(null);
   public avatarUrl = signal<string>('');
+
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
-
-    // 1. Si la señal ya se rehidrató desde Atlas, tomamos el valor en caliente
     if (user) {
       return user.profile?.first_name || user.username || 'Usuario';
     }
-
-    // 2. 🛡️ FALLBACK EN FRÍO: Si la señal aún está en null por retraso de red,
-    // extraemos temporalmente el nombre del usuario o su correo desde el localStorage
     const tokenToken = localStorage.getItem('token');
     if (tokenToken) {
-      // Intentamos recuperar el string de usuario si lo guardaste en disco,
-      // o devolvemos un texto genérico de bienvenida para que nunca quede vacío.
       return 'Retador';
     }
-
     return 'Usuario';
   });
 
   constructor() {
-    addIcons({ chevronForwardOutline, ribbonOutline, documentTextOutline, powerOutline, trophyOutline, });
+    addIcons({ chevronForwardOutline, ribbonOutline, documentTextOutline, powerOutline, trophyOutline });
+  }
+
+  ngOnInit() {
+    console.log('♻️ Inicializando Core de la App de Reciclaje.');
+
+    // 🎯 EL SENSOR DE PUSH EN PRODUCCIÓN:
+    // Captura el clic físico sobre el globo flotante cuando la PWA está en segundo plano o cerrada
+    if (this.swPush.isEnabled) {
+      this.swPush.notificationClicks.subscribe({
+        next: (clickEvent: any) => {
+          console.log('📱 [WEBPUSH CLICK]: Se presionó el globo flotante en el centro de notificaciones.', clickEvent);
+          
+          // Extraemos de forma segura la URL de redirección que inyectamos desde Node.js (VAPID data)
+          const rutaDestino = clickEvent.notification.data?.url || '/notificaciones';
+          
+          console.log(`🚀 Redirigiendo participante de forma directa hacia: ${rutaDestino}`);
+          this.router.navigateByUrl(rutaDestino);
+        },
+        error: (err) => console.error('❌ Error capturando clic del Service Worker:', err)
+      });
+    }
   }
 
   navegarA(ruta: string) {
-    this.menuCtrl.close('main-menu'); // Cerramos el panel antes de saltar
+    this.menuCtrl.close('main-menu');
     this.router.navigateByUrl(`/${ruta}`);
   }
 
@@ -57,15 +74,9 @@ export class AppComponent {
   }
 
   cerrarSesion() {
-  // Cerrar el menú lateral de Ionic
-  this.menuCtrl.close('main-menu');
-  
-  console.log('🧼 Ejecutando limpieza profunda desde el componente...');
-  
-  // 2. 🔥 LLAMADA CLAVE: Esto borra token, profile_complete y resetea las Signals en RAM al instante
-  this.authService.logout(); 
-  
-  // 3. Redirección limpia al Login
-  this.router.navigateByUrl('/login');
-}
+    this.menuCtrl.close('main-menu');
+    console.log('🧼 Ejecutando limpieza profunda desde el componente...');
+    this.authService.logout(); 
+    this.router.navigateByUrl('/login');
+  }
 }

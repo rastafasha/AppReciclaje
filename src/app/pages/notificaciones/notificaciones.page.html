@@ -39,9 +39,24 @@
       <!-- PENDIENTES -->
       @if (tabActiva() === 'pendientes') {
         @for (alerta of alertasInApp(); track alerta._id || $index) {
-          <div class="notificacion-item-card-duo no-leida" (click)="abrirDetalle(alerta)">
+          <!-- 🚀 CLASE DINÁMICA: Inyecta el tipo de alerta como modificador CSS -->
+          <div class="notificacion-item-card-duo no-leida" [ngClass]="alerta.tipo || 'aviso_general'" (click)="abrirDetalle(alerta)">
             <div class="unread-dot-duo"></div>
+            
             <div class="card-content-duo">
+              <div class="card-meta-row">
+                <!-- 🎯 INDICADOR VISUAL PREMIUM EN TIEMPO REAL -->
+                <span class="badge-tipo">
+                  @switch (alerta.tipo) {
+                    @case ('SORTEO') { 🎉 Sorteo UCC }
+                    @case ('PREMIO_MERCADONA') { 🛒 Premio Mercadona }
+                    @case ('MANTENIMIENTO_PWA') { ⚙️ Sistema }
+                    @case ('URGENTE') { ⚠️ Urgente }
+                    @default { 📣 Aviso }
+                  }
+                </span>
+                <span class="card-date-ghost">{{ alerta.createdAt | date:'shortTime' }}</span>
+              </div>
               <h3>{{ alerta.titulo }}</h3>
               <p>{{ alerta.mensaje }}</p>
             </div>
@@ -58,9 +73,22 @@
       <!-- HISTORIAL LEÍDAS -->
       @if (tabActiva() === 'leidas') {
         @for (alerta of historialLeidas(); track alerta._id || $index) {
-          <div class="notificacion-item-card-duo ya-leida" (click)="abrirDetalle(alerta)">
+          <!-- 🚀 Mismo comportamiento de clase dinámica con atenuación ya-leida -->
+          <div class="notificacion-item-card-duo ya-leida" [ngClass]="alerta.tipo || 'aviso_general'" (click)="abrirDetalle(alerta)">
             <div class="card-content-duo">
-              <h3>{{ alerta.titulo }} (Leída)</h3>
+              <div class="card-meta-row">
+                <span class="badge-tipo">
+                  @switch (alerta.tipo) {
+                    @case ('SORTEO') { 🎉 Sorteo UCC }
+                    @case ('PREMIO_MERCADONA') { 🛒 Premio Mercadona }
+                    @case ('MANTENIMIENTO_PWA') { ⚙️ Sistema }
+                    @case ('URGENTE') { ⚠️ Urgente }
+                    @default { 📣 Aviso }
+                  }
+                </span>
+                <span class="card-date-ghost">{{ alerta.createdAt | date:'dd/MM HH:mm' }}</span>
+              </div>
+              <h3>{{ alerta.titulo }}</h3>
               <p>{{ alerta.mensaje }}</p>
             </div>
           </div>

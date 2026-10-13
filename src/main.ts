@@ -23,27 +23,25 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideHttpClient(),
     provideIonicAngular({}),
-    // 🛡️ GUARDAESPALDAS DE SESIÓN: Verifica el token antes de disparar rutas y guardianes
+    
     provideAppInitializer(() => {
       const authService = inject(AuthService);
-      // Angular 22 esperará a que se resuelva esta promesa antes de disparar el enrutador
       return authService.cargarSesionPersistente();
     }),
-    importProvidersFrom(SocketIoModule.forRoot(socketConfig)),
+    
+    // 🧼 REMOVEMOS la inyección de SocketIoModule antigua para evitar colisiones
     
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
-    // ⚡ Inicializa el motor de Ionic y sus estados globales (Como los Menús Raíz)
+    
     provideIonicAngular({
-      mode: 'ios', // O 'md' según prefieras
-      // 🚀 BLINDAJE DE TECLADO: Evita que empuje de forma violenta los modales hacia arriba
+      mode: 'ios',
       scrollPadding: false,
       scrollAssist: true,
     }),
     provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(), // Se activa automáticamente al compilar para producción (--prod)
-      registrationStrategy: 'registerWhenStable:3000' // Espera 3 segundos a que la app esté estable
+      enabled: !isDevMode(), 
+      registrationStrategy: 'registerWhenStable:3000'
     }),
-    // 🪙 Registramos al reproductor de forma nativa y segura para la PWA
     provideLottieOptions({
       player: () => player
     }),
