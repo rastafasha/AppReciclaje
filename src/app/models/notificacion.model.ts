@@ -1,7 +1,7 @@
 export type TipoNotificacion = 'NUEVO_RECICLAJE' | 'RECOMPENSA_CANJEADA' | 'LOGRO_DESBLOQUEADO' | 'AVISO_GENERAL';
 
 export interface INotificacion {
-  id: string;
+  _id: string;
   usuario?: string;
   titulo: string;
   mensaje: string;

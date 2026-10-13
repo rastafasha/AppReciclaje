@@ -40,6 +40,18 @@ export class HeaderComponent implements OnInit {
     // Si está bloqueado en registro, frenamos la consulta de alertas para ahorrar recursos
     if (this.enRegistro) return;
 
+    // 🌟 ESCUCHA EN TIEMPO REAL: Cada vez que el servicio cambie el valor, la campana se entera
+    this.notificationService.contadorAlertas$.subscribe((nuevoContador) => {
+      this.contadorAlertas.set(nuevoContador);
+    });
+
+    // Petición inicial reglamentaria para poblar el Subject
+    this.notificationService.actualizarContadorBackend();
+
+    this.notificacionesPendientes();
+  }
+
+  notificacionesPendientes(){
     this.notificationService.getNotificacionesPendientes().subscribe({
       next: (resp: any) => {
         if (resp.ok && resp.alertas) {

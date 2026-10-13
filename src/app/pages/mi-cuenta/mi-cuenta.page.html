@@ -35,32 +35,33 @@
 
     <!-- Banner de Alerta Cerrable para Familiares -->
     <!-- Banner de Alerta Inteligente Estilo Duolingo (Solo si no hay familiares y no se ha cerrado) -->
-@if (familiares().length === 0 && mostrarBannerFamiliares()) {
-  <div class="alert-banner-duo animate__animated animate__fadeIn">
-    <!-- Botón de cerrar para que los que viven solos limpien su pantalla -->
-    <button class="close-btn" (click)="ocultarBannerPermanente()">
-      <ion-icon name="close-circle"></ion-icon>
-    </button>
-    
-    <div class="banner-body">
-      <div class="banner-icon-box">
-        <span>💡</span>
-      </div>
-      <div class="banner-text">
-        <h4>¡Hola, {{ nombreUsuario() }}! 👋</h4>
-        <p>Agradecemos que tu perfil esté completo. Puedes registrar a quienes viven contigo para acumular puntos juntos o presionar el botón para desafiar a alguien.</p>
-        
-        <!-- Acciones rápidas estilo Duolingo (Botón con relieve 3D) -->
-        <div class="banner-actions">
-          <button class="btn-duo-secondary btn-small" (click)="compartirAppConFamiliar()">
-            <ion-icon name="paper-plane-outline"></ion-icon>
-            Invitar Retador
-          </button>
+    @if (familiares().length === 0 && mostrarBannerFamiliares()) {
+    <div class="alert-banner-duo animate__animated animate__fadeIn">
+      <!-- Botón de cerrar para que los que viven solos limpien su pantalla -->
+      <button class="close-btn" (click)="ocultarBannerPermanente()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+
+      <div class="banner-body">
+        <div class="banner-icon-box">
+          <span>💡</span>
+        </div>
+        <div class="banner-text">
+          <h4>¡Hola, {{ nombreUsuario() }}! 👋</h4>
+          <p>Agradecemos que tu perfil esté completo. Puedes registrar a quienes viven contigo para acumular puntos
+            juntos o presionar el botón para desafiar a alguien.</p>
+
+          <!-- Acciones rápidas estilo Duolingo (Botón con relieve 3D) -->
+          <div class="banner-actions">
+            <button class="btn-duo-secondary btn-small" (click)="compartirAppConFamiliar()">
+              <ion-icon name="paper-plane-outline"></ion-icon>
+              Invitar Retador
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-}
+    }
     }
 
 
@@ -74,7 +75,7 @@
       <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
       }@else {
       <!-- 🔄 Bucle reactivo de Angular 22: Renderiza un bloque por cada familiar en Atlas -->
-      @for (familiar of familiares(); track familiar.id) {
+      @for (familiar of familiares(); track familiar._id) {
       <div class="familiar-card">
         <div class="familiar-left">
           <div class="familiar-avatar">
@@ -95,7 +96,7 @@
           </button>
 
           <!-- 🗑️ Botón Opcional para Borrar de una sola vez -->
-          <button class="btn-delete-red" (click)="eliminarFamiliar(familiar.id)">
+          <button class="btn-delete-red" (click)="eliminarFamiliar(familiar._id)">
             <ion-icon name="close-circle"></ion-icon>
           </button>
         </div>
@@ -108,8 +109,8 @@
       }
       <!-- Botón Agregar Familiar -->
       <button type="button" class="btn-duo-action btn-blue-duo" (click)="abrirModalNuevoFamiliar()">
-      Agregar Familiar
-    </button>
+        Agregar Familiar
+      </button>
       }
 
     </div>
@@ -165,20 +166,14 @@
 <app-menufooter [tabActiva]="'perfil'"></app-menufooter>
 
 <!-- 🔼 OFFCANVAS SHEET MODAL (Llamando al componente modular hijo) -->
-<ion-modal 
-  [isOpen]="familiarSeleccionado() !== null || modalAbierto()" 
-  [initialBreakpoint]="0.65" 
-  [breakpoints]="[0, 0.65, 0.70]"
-  (didDismiss)="onModalCerrado()"
-  class="binance-sheet-modal">
+<ion-modal [isOpen]="familiarSeleccionado() !== null || modalAbierto()" [initialBreakpoint]="0.65"
+  [breakpoints]="[0, 0.65, 0.70]" (didDismiss)="onModalCerrado()" class="binance-sheet-modal">
   <ng-template>
-    
+
     <!-- 🚀 CAMBIO CRÍTICO: Enlazamos 'familiarAgregado' y 'cerrarModal' con el Padre -->
-    <app-agregar-familiar 
-      [familiarAEditar]="familiarSeleccionado()"
-      (familiarAgregado)="onFamiliarProcesado()"
+    <app-agregar-familiar [familiarAEditar]="familiarSeleccionado()" (familiarAgregado)="onFamiliarProcesado()"
       (cerrarModal)="onModalCerrado()">
     </app-agregar-familiar>
-    
+
   </ng-template>
 </ion-modal>

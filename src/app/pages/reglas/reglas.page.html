@@ -5,7 +5,7 @@
 <ion-content [fullscreen]="true">
   <div class="reglas-container-duo animate__animated animate__fadeIn">
     <app-backbutton pageTitle="Reglas del Concurso"></app-backbutton>
-    
+
     <!-- 🧳 BLOQUE SUPERIOR DE INTRODUCCIÓN Y MARCA UCC -->
     <header class="intro-reglas-box-duo">
       <div class="text-side-duo">
@@ -21,17 +21,18 @@
 
     <!-- 🎯 SUBTÍTULO MOTIVACIONAL -->
     <p class="prizes-subtitle-duo">
-      Al completar los <strong>21 días requeridos</strong> acumulando tus hábitos de reciclaje, ¡estarás participando por fabulosos premios! 🎁✨
+      Al completar los <strong>21 días requeridos</strong> acumulando tus hábitos de reciclaje, ¡estarás participando
+      por fabulosos premios! 🎁✨
     </p>
 
     <!-- 🏆 PODIO DE PREMIOS (TARJETAS 3D CON MEDALLAS) -->
     <section class="prizes-list-duo">
-      
-      
-<h3 class="section-title-duo">Premios del Sorteo</h3>
+
+
+      <h3 class="section-title-duo">Premios del Sorteo</h3>
       <!-- Evaluamos la señal en caliente antes de renderizar los premios -->
-    @if (reglasService.reglas(); as reglas) {
-      
+      @if (reglasService.reglas(); as reglas) {
+
       <article class="premio-item-card-duo rank-1 animate__animated animate__fadeInUp">
         <div class="medal-badge-duo">🥇</div>
         <div class="premio-info-duo">
@@ -55,22 +56,15 @@
           <p>{{ reglas.tercerLugar }}</p>
         </div>
       </article>
-
-      
-
-     
-
-    } @else {
+      } @else {
       <!-- Estado de carga mientras viajan los datos desde Atlas -->
-      
-
       <div class="premio-item-card-duo rank-past" style="justify-content: center; padding: 30px;">
-      <ion-spinner name="crescent" style="margin-right: 10px; color: #252876;"></ion-spinner>
-      <p style="text-align: center; font-weight: 600; margin: 0; color: #252876;">
-        🔄 Sincronizando bases del concurso...
-      </p>
-    </div>
-    }
+        <ion-spinner name="crescent" style="margin-right: 10px; color: #252876;"></ion-spinner>
+        <p style="text-align: center; font-weight: 600; margin: 0; color: #252876;">
+          🔄 Sincronizando bases del concurso...
+        </p>
+      </div>
+      }
 
       <!-- 👥 SECCIÓN HISTÓRICA: ÚLTIMOS GANADORES -->
       <h3 class="section-title-duo">🗓️ Últimos Ganadores</h3>
@@ -78,7 +72,8 @@
         <div class="medal-badge-duo">🎉</div>
         <div class="premio-info-duo">
           <h3>Sorteo Anterior</h3>
-          <p>Los ganadores de la edición pasada ya han sido contactados de manera oficial. ¡Mucho éxito en esta nueva ronda!</p>
+          <p>Los ganadores de la edición pasada ya han sido contactados de manera oficial. ¡Mucho éxito en esta nueva
+            ronda!</p>
         </div>
       </article>
 

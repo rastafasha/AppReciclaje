@@ -4,7 +4,7 @@ const base_url = environment.mediaUrlRemoto;
 export class IPerfil {
 
   constructor(
-  public id: string,
+  public _id: string,
   public usuario: string, // ID de relación
   public first_name?: string,
   public last_name?: string,

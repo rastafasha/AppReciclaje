@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, checkmarkDoneOutline } from 'ionicons/icons';
-import { IonContent, IonModal, IonIcon } from '@ionic/angular';
+import { notificationsOutline, menuOutline, refreshCircleOutline, documentTextOutline, personCircleOutline, checkmarkDoneOutline, eyeOutline } from 'ionicons/icons';
+import { IonContent, IonModal, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/angular';
 import { INotificacion } from '../../models/notificacion.model';
 import { NotificacionDetalleComponent } from '../../components/notificacion-detalle/notificacion-detalle.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -17,7 +17,7 @@ import { HojaAnimadaComponent } from '../../components/hoja-animada/hoja-animada
   styleUrls: ['./notificaciones.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent, RouterModule, IonModal,
-    NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, IonIcon, HojaAnimadaComponent]
+    NotificacionDetalleComponent, HeaderComponent, BackbuttonComponent, IonIcon, HojaAnimadaComponent, IonSegment, IonSegmentButton, IonLabel, IonSpinner]
 })
 export class NotificacionesPage implements OnInit {
   private router = inject(Router);
@@ -26,90 +26,131 @@ export class NotificacionesPage implements OnInit {
   // ⚡ Referencia física para controlar por código la apertura del segundo Offcanvas deslizable
   @ViewChild('modalDetalleAlerta') modalDetalleAlerta!: IonModal;
   public estadoActual = signal<any>('saludando');
-
   public isLoading = signal<boolean>(false);
-  public alertasInApp = signal<INotificacion[]>([]); // 🚦 Comienza vacío hasta que responda Atlas
 
-  // 🚦 Signal de notificaciones para poblar tu bucle dinámico
-  // public alertasInApp = signal<INotificacion[]>([
-  //   { id: '1', titulo: '¡Racha Iniciada! 🎉', mensaje: 'Registraste tu primer hábito. Completa 21 días para participar en el sorteo de Mercadona.', tipo: 'AVISO_GENERAL', leido: false, createdAt: '' },
-  //   { id: '2', titulo: 'Consejo del Día 💡', mensaje: 'Usa las conchas de frutas para abonar tus plantas de forma natural.', tipo: 'LOGRO_DESBLOQUEADO', leido: false, createdAt: '' }
-  // ]);
+   // 🚦 TABS CONTROL: Controla cuál vista de Atlas se renderiza en la PWA
+  public tabActiva = signal<'pendientes' | 'leidas'>('pendientes');
 
-  // 🚦 Signal de almacenamiento para congelar la notificación seleccionada y pasársela al hijo
+  // 🗄️ REPOSITORIOS DE DATOS SEPARADOS
+  public alertasInApp = signal<INotificacion[]>([]); 
+  public historialLeidas = signal<INotificacion[]>([]);
+  public totalLeidas = signal<number>(0);
+  public desdeLeidas = 0; // Puntero para scroll posterior
+
   public alertaSeleccionada = signal<INotificacion>({
-    id: '', titulo: '', mensaje: '', tipo: 'AVISO_GENERAL', leido: false, createdAt: ''
+    _id: '', titulo: '', mensaje: '', tipo: 'AVISO_GENERAL', leido: false, createdAt: ''
   });
 
-  constructor() {
+ 
+
+   constructor() {
     addIcons({
-      notificationsOutline, menuOutline,
-      refreshCircleOutline, documentTextOutline,
-      personCircleOutline, checkmarkDoneOutline
+      notificationsOutline, menuOutline, refreshCircleOutline, 
+      documentTextOutline, personCircleOutline, checkmarkDoneOutline, eyeOutline
     });
   }
 
   ngOnInit() {
-    this.listarNotificaciones();
+    this.cargarDatosSegunTab();
+    // this.listarNotificaciones();
+    // 🌟 Sincroniza el contador del header al entrar a la bandeja
+    this.notificationService.actualizarContadorBackend();
   }
 
   /**
-   * 📋 Consume tu controlador GET /api/notificaciones/pendientes
+   * 🎛️ Detecta el click del usuario en el selector de pestañas
    */
-  listarNotificaciones() {
+  cambiarTab(event: any) {
+    this.tabActiva.set(event.detail.value);
+    this.cargarDatosSegunTab();
+  }
+
+  cargarDatosSegunTab() {
+    if (this.tabActiva() === 'pendientes') {
+      this.listarNotificacionesPendientes();
+    } else {
+      this.listarHistorialLeidas();
+    }
+  }
+
+  listarNotificacionesPendientes() {
     this.isLoading.set(true);
     this.notificationService.getNotificacionesPendientes().subscribe({
       next: (resp: any) => {
         if (resp.ok && resp.alertas) {
-          // Asignamos las alertas reales de la base de datos a la señal del @for
           this.alertasInApp.set(resp.alertas);
         }
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('❌ Error al recuperar alertas pendientes:', err);
+        console.error('❌ Error al recuperar pendientes:', err);
         this.isLoading.set(false);
       }
     });
   }
 
-  /**ß
-   * 🚀 FUNCIÓN MAESTRA: Captura el registro clickeado en tu lista del Figma y activa el Offcanvas de detalle
-   */
+  listarHistorialLeidas() {
+    this.isLoading.set(true);
+    this.notificationService.getNotificacionesLeidas(this.desdeLeidas).subscribe({
+      next: (resp: any) => {
+        if (resp.ok && resp.alertas) {
+          this.historialLeidas.set(resp.alertas);
+          this.totalLeidas.set(resp.total || 0);
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('❌ Error al recuperar historial de leídas:', err);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  
+
+
+
   abrirDetalle(alerta: INotificacion) {
-    this.alertaSeleccionada.set(alerta);
+    const idReal = alerta._id;
+    const alertaActualizada = { ...alerta, leido: true };
+    this.alertaSeleccionada.set(alertaActualizada);
     this.modalDetalleAlerta.present();
 
-    if (alerta.id && !alerta.leido) {
-      // Consumimos tu endpoint PUT /api/notificaciones/marcar-leida/:id
-      this.notificationService.marcarComoLeida(alerta.id).subscribe({
+    if (idReal && !alerta.leido) {
+      // Optimizamos en caliente quitándolo visualmente de pendientes
+      this.alertasInApp.update((actuales) => actuales.filter(item => item._id !== idReal));
+
+      this.notificationService.marcarComoLeida(idReal).subscribe({
         next: () => {
-          console.log(`🧹 Alerta ${alerta.id} marcada como leída.`);
-          this.listarNotificaciones(); // Recargamos la lista en caliente para restar el contador
+          // Si lo leyó desde la pestaña pendientes, lo agregamos al pool de leídas en RAM
+          this.historialLeidas.update((viejas) => [alertaActualizada, ...viejas]);
+        },
+        error: (err) => {
+          console.error('❌ Error al marcar leída:', err);
+          this.listarNotificacionesPendientes(); // Fallback de re-sincronización
         }
       });
     }
   }
 
 
-
- marcarTodasComoLeidas() {
-  this.isLoading.set(true);
-  this.notificationService.marcarComoLeidaTodas().subscribe({
-    next: (resp) => {
-      if (resp.ok) {
-        console.log('🧹 Bandeja vaciada de forma masiva en Atlas.');
-        this.listarNotificaciones(); // Recarga la lista para borrar los círculos negros (●)
+  marcarTodasComoLeidas() {
+    this.isLoading.set(true);
+    this.notificationService.marcarComoLeidaTodas().subscribe({
+      next: (resp) => {
+        if (resp.ok) {
+          console.log('🧹 Bandeja vaciada de forma masiva en Atlas.');
+          // Movemos todo al historial localmente para evitar peticiones extras
+          const convertidas = this.alertasInApp().map(a => ({ ...a, leido: true }));
+          this.historialLeidas.update((viejas) => [...convertidas, ...viejas]);
+          this.alertasInApp.set([]);
+          this.isLoading.set(false);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading.set(false);
       }
-    },
-    error: (err) => {
-      console.error(err);
-      this.isLoading.set(false);
-    }
-  });
-}
-
-  irAlInicio() { this.router.navigateByUrl('/inicio'); }
-  irAConsejos() { this.router.navigateByUrl('/consejos'); }
-  irAlPerfil() { this.router.navigateByUrl('/mi-cuenta'); }
+    });
+  }
 }

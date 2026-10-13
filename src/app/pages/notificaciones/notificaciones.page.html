@@ -9,10 +9,13 @@
     <header class="top-actions-box-duo">
       <div class="text-side-duo">
         <h2>Mis Alertas 🔔</h2>
-        <button type="button" class="btn-read-all-duo" (click)="marcarTodasComoLeidas()">
-          <ion-icon name="checkmark-done-outline"></ion-icon>
-          Marcar leídas
-        </button>
+        <!-- El botón masivo solo tiene sentido en la pestaña de pendientes -->
+        @if (tabActiva() === 'pendientes' && alertasInApp().length > 0) {
+          <button class="btn-read-all-duo" (click)="marcarTodasComoLeidas()">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+            Marcar todas leídas
+          </button>
+        }
       </div>
 
       <div class="character-side-duo">
@@ -20,32 +23,62 @@
       </div>
     </header>
 
-    <!-- ✉️ LISTADO DE MENSAJES DE MISIÓN -->
-    <section class="notificaciones-list-duo">
-      @for (alerta of alertasInApp(); track alerta.id || $index) {
-        <article class="notificacion-item-card-duo animate__animated animate__fadeInUp" 
-                 [class.no-leida]="!alerta.leido" (click)="abrirDetalle(alerta)">
-          
-          <!-- Indicador visual sutil en caliente de mensaje nuevo -->
-          @if (!alerta.leido) {
-            <div class="unread-dot-duo"></div>
-          }
+    <!-- 🎛️ SELECTOR PREMIUM DE PESTAÑAS (ION-SEGMENT) -->
+    <ion-segment [value]="tabActiva()" (ionChange)="cambiarTab($event)" color="primary" class="custom-segment-tabs">
+      <ion-segment-button value="pendientes">
+        <ion-label>Pendientes ({{ alertasInApp().length }})</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="leidas">
+        <ion-label>Historial</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
-          <div class="card-content-duo">
-            <h3>{{ alerta.titulo }}</h3>
-            <p>{{ alerta.mensaje.substring(0, 75) }}...</p>
+    <!-- ⏳ SPINNER GENERAL DE CARGA -->
+    @if (isLoading()) {
+      <div class="ion-text-center ion-padding">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+      </div>
+    } @else {
+
+      <!-- ================= PESTAÑA: PENDIENTES ================= -->
+      @if (tabActiva() === 'pendientes') {
+        @for (alerta of alertasInApp(); track alerta._id || $index) {
+          <div class="notificacion-item-card-duo no-leida" (click)="abrirDetalle(alerta)">
+            <div class="unread-dot-duo"></div>
+            <div class="card-content-duo">
+              <h3>{{ alerta.titulo }}</h3>
+              <p>{{ alerta.mensaje }}</p>
+            </div>
           </div>
-          
-        </article>
-      } @empty {
-        <!-- PANTALLA VACÍA DE ALERTAS GAMIFICADA -->
-        <div class="empty-notifications-duo animate__animated animate__zoomIn">
-          <div class="empty-icon-duo">🔕</div>
-          <h4>Tu bandeja está al día</h4>
-          <p>Te avisaremos por aquí cuando haya actualizaciones del sorteo UCC o Mercadona. ¡Sigue recolectando racha!</p>
-        </div>
+        } @empty {
+          <div class="empty-notifications-duo">
+            <div class="empty-icon-duo">🔕</div>
+            <h4>Tu bandeja está al día</h4>
+            <p>Te avisaremos por aquí cuando haya actualizaciones del sorteo UCC o Mercadona. ¡Sigue recolectando racha! ♻️</p>
+          </div>
+        }
       }
-    </section>
+
+      <!-- ================= PESTAÑA: LEÍDAS (HISTORIAL) ================= -->
+      @if (tabActiva() === 'leidas') {
+        @for (alerta of historialLeidas(); track alerta._id || $index) {
+          <div class="notificacion-item-card-duo ya-leida" (click)="abrirDetalle(alerta)">
+            <div class="card-content-duo">
+              <h3 style="color: #64748b;">{{ alerta.titulo }} <span style="font-size: 11px; font-weight: 400;">(Leída)</span></h3>
+              <p style="color: #94a3b8;">{{ alerta.mensaje }}</p>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-notifications-duo">
+            <div class="empty-icon-duo">📚</div>
+            <h4>Historial vacío</h4>
+            <p>Aquí se guardarán los mensajes que ya hayas revisado para que puedas consultarlos cuando quieras.</p>
+          </div>
+        }
+      }
+
+    }
+
 
   </div>
 </ion-content>
@@ -55,7 +88,7 @@
 <!-- ========================================================================= -->
 <!-- 🔼 SUB-OFFCANVAS: DETALLE DE NOTIFICACIÓN (Emerge superpuesto estilo Binance) -->
 <!-- ========================================================================= -->
-<ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" style="--height: 80vh; --border-radius: 30px 30px 0 0;">
+<ion-modal #modalDetalleAlerta [breakpoints]="[0, 0.70]" [initialBreakpoint]="0.70" class="binance-sheet-modal">
   <ng-template>
     <ion-content>
       

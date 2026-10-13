@@ -2,7 +2,7 @@ export type TipoComida = 'DESAYUNO' | 'ALMUERZO' | 'CENA';
 export type CategoriaAlimento = 'PROTEINAS' | 'CARBOHIDRATOS' | 'VEGETALES_FRUTAS';
 
 export interface IAvanceDiario {
-  id?: string;
+  _id?: string;
   usuario?: string;
   comida: TipoComida;
   categoria: CategoriaAlimento;

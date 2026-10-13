@@ -24,7 +24,7 @@
 
       <!-- ♻️ LISTADO DE LOGROS DESBLOQUEADOS -->
       <div class="history-list-duo">
-        @for (item of historial(); track item.id || $index) {
+        @for (item of historial(); track item._id || $index) {
         <article class="history-item-card-duo animate__animated animate__fadeInUp">
 
           <div class="card-left-duo">

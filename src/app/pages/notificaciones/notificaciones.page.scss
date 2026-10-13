@@ -7,6 +7,37 @@
   min-height: 100vh;
 }
 
+
+//tabs
+.custom-segment-tabs {
+  margin-bottom: 20px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 4px;
+
+  ion-segment-button {
+    --background-checked: #ffffff;
+    --color-checked: #252876;
+    --border-radius: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    min-height: 38px;
+  }
+}
+
+/* Ajuste fino para la tarjeta ya leída */
+.notificacion-item-card-duo.ya-leida {
+  background-color: #fafafa;
+  border-color: #e2e8f0;
+  border-bottom: 2px solid #e2e8f0;
+  opacity: 0.85; /* Sutil atenuado visual de mensaje viejo */
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
 /* 🧳 SECCIÓN SUPERIOR ACCIONES */
 
 
@@ -170,4 +201,25 @@
     margin: 0;
     font-weight: 600;
   }
+}
+
+/* ======================================================================= */
+/* 🛡️ BLINDAJE ULTRA-PREMIUM PARA ESQUINAS DE MODALES SLIDERS (BINANCE LOOK) */
+/* ======================================================================= */
+ion-modal.binance-sheet-modal {
+  // 1. Delegamos el control de la altura por completo a los breakpoints nativos de Ionic
+  --height: 100%;
+
+  // 2. Atacamos la parte interna real del Shadow DOM para moldear la caja física
+  &::part(content) {
+    height: 100%;
+    // Forzamos el radio de curvatura superior exacto del Figma directamente en la estructura real
+    border-radius: 24px 24px 0 0 !important;
+    // Cortamos los fondos rígidos de los componentes hijos que intenten desbordarse
+    overflow: hidden !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  // 3. Control elástico del teclado para que suba limpiamente al escribir en los inputs
+  --keyboard-offset: env(safe-area-inset-bottom, 20px);
 }

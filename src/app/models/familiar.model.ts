@@ -1,5 +1,5 @@
 export interface IFamiliar {
-  id?: string;          // Generado automáticamente por Mongoose Atlas
+  _id?: string;          // Generado automáticamente por Mongoose Atlas
   usuario?: string;     // Relación con el ID del usuario creador
   nombre: string;   // Nombre del familiar
   apellido: string;    // Apellido del familiar
