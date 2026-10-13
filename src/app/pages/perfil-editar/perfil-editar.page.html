@@ -59,24 +59,23 @@
     <form [formGroup]="perfilForm" (ngSubmit)="guardarCambiosPerfil()">
 
       <div class="input-group">
-        <label>Nombre</label>
+        <label>Nombre <span class="requerido">*</span></label>
         <ion-input class="custom-input" type="text" formControlName="first_name"></ion-input>
       </div>
-
       <div class="input-group">
-        <label>Apellido</label>
+        <label>Apellido<span class="requerido">*</span></label>
         <ion-input class="custom-input" type="text" formControlName="last_name"></ion-input>
       </div>
-
+      <div class="input-group">
+        <label>Teléfono Móvil<span class="requerido">*</span></label>
+        <ion-input class="custom-input" type="tel" formControlName="phone_mobile"></ion-input>
+      </div>
       <div class="input-group">
         <label>Teléfono Casa / Oficina</label>
         <ion-input class="custom-input" type="tel" formControlName="phone_office"></ion-input>
       </div>
 
-      <div class="input-group">
-        <label>Teléfono Móvil</label>
-        <ion-input class="custom-input" type="tel" formControlName="phone_mobile"></ion-input>
-      </div>
+      
 
       <!-- Botón Guardar definitivo -->
       <ion-button expand="block" class="btn-duo-action btn-blue-duo" type="submit">
