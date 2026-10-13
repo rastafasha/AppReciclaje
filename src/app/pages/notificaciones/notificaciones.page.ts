@@ -59,6 +59,31 @@ export class NotificacionesPage implements OnInit {
     this.notificationService.actualizarContadorBackend();
   }
 
+  /**
+   * 📲 INTERCEPTOR DE HARDWARE EN CALIENTE DE IONIC
+   * Se ejecuta cada vez que el retador entra a la vista de alertas
+   */
+  ionViewWillEnter() {
+    // 🕵️‍♂️ Inspeccionamos si el participante viene rebotado de pulsar "Ver" en un Toast
+    const alertaEnEspera = this.notificationService.alertaPendientePorAbrir();
+
+    if (alertaEnEspera) {
+      console.log('🚀 [REDIRECCIÓN TOAST]: Detectada alerta en cola. Levantando Offcanvas nativo...');
+      
+      // 1. Limpiamos la variable del servicio inmediatamente para que no se repita el bucle al volver a entrar
+      this.notificationService.alertaPendientePorAbrir.set(null);
+
+      // 2. Encendemos de forma automática la pestaña de pendientes si por alguna razón no estaba ahí
+      this.tabActiva.set('pendientes');
+
+      // 3. 🎯 Disparamos tu función maestra original con todos sus efectos reactivos
+      // Esto abrirá el modal inferior, mutará el array visual y descontará el Header en Atlas.
+      setTimeout(() => {
+        this.abrirDetalle(alertaEnEspera); //
+      }, 300); // 300ms de cortesía para que Ionic termine la animación de transición de la página
+    }
+  }
+
   cambiarTab(event: any) {
     const proximaTab = event.detail.value;
     this.tabActiva.set(proximaTab);

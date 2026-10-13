@@ -1,5 +1,5 @@
 // src/app/core/services/notification.service.ts
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SwPush } from '@angular/service-worker'; // 🚀 El puente nativo con el Service Worker
 import { BehaviorSubject, Observable, from } from 'rxjs';
@@ -22,6 +22,8 @@ export class NotificationService {
   private toastController = inject(ToastController);
   public estaSuscrito$ = new BehaviorSubject<boolean>(false);
   public contadorAlertas$ = new BehaviorSubject<number>(0);
+  // 🚀 LA VARIABLE DE TRANSFERENCIA ASÍNCRONA: Guarda la alerta en espera de ser abierta
+  public alertaPendientePorAbrir = signal<any | null>(null);
   // 🧪 Llave Pública VAPID de tu archivo .env (¡Pégala aquí exactamente igual!)
   private readonly VAPID_PUBLIC_KEY = vapiKey;
 
@@ -192,23 +194,24 @@ export class NotificationService {
               tituloToast = '♻️ Reto Eco Aviso';
           }
 
-          const toast = await this.toastController.create({
-            header: tituloToast,
-            message: notif.mensaje,
-            position: 'top',
-            color: colorToast,
-            duration: 5000,
-            buttons: [
-              {
-                text: 'Ver',
-                handler: () => {
-                  this.marcarComoLeida(notif._id).subscribe(() => {
-                    this.router.navigateByUrl('/notificaciones'); // Lo manda a tus pestañas reactivas
-                  });
+           const toast = await this.toastController.create({
+              header: tituloToast,
+              message: notif.mensaje,
+              position: 'top',
+              color: colorToast,
+              duration: 5000,
+              buttons: [
+                {
+                  text: 'Ver',
+                  handler: () => {
+                    // 🎯 SOLUCIÓN: En lugar de marcar como leída a ciegas en Atlas, 
+                    // guardamos el objeto completo en la Signal y redirigimos de forma limpia
+                    this.alertaPendientePorAbrir.set(notif);
+                    this.router.navigateByUrl('/notificaciones'); 
+                  }
                 }
-              }
-            ]
-          });
+              ]
+            });
           await toast.present();
         });
       }
