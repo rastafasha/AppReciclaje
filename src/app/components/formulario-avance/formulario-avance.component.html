@@ -32,9 +32,15 @@
         <label class="group-label-duo">Momento del Hábito *</label>
         <div class="globos-horizontal-scroll">
           @for (comida of opcionesComida; track comida) {
-          <button type="button" class="globo-item-btn-duo transition-all"
-            [disabled]="comidasRegistradasHoy().includes(comida)" [class.activo]="comidaSeleccionada() === comida"
-            [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)" (click)="seleccionarComida(comida)">
+          <!-- Determinamos de forma reactiva si el botón debe estar deshabilitado -->
+          @let yaRegistrada = comidasRegistradasHoy().includes(comida);
+          <button type="button" class="globo-item-btn-duo transition-all btn-comida" 
+          [disabled]="yaRegistrada"
+            [class.selected]="comidaSeleccionada() === comida" 
+            [class.duplicado-deshabilitado]="yaRegistrada"
+            [class.activo]="comidaSeleccionada() === comida"
+            [class.registrado-hoy]="comidasRegistradasHoy().includes(comida)" 
+            (click)="seleccionarComida(comida)">
 
             @if (comida === 'DESAYUNO') { 🍳 }
             @else if (comida === 'ALMUERZO') { 🍽️ }
@@ -42,11 +48,16 @@
 
             {{ comida | titlecase }}
 
-            @if (comidasRegistradasHoy().includes(comida)) { <span class="mini-check">✓</span>
-            }
+            @if (yaRegistrada) { ✓ }
           </button>
           }
         </div>
+        <!-- <div class="indicador-ayuda">
+          <p>
+            <strong>💡 Tip de registro:</strong> Las opciones marcadas con (✓) ya fueron registradas hoy. Eres libre de
+            seleccionar cualquier otra opción disponible si hoy cambiaste tu rutina o te saltaste alguna comida.
+          </p>
+        </div> -->
       </div>
 
       <!-- 📦 SECCIÓN 2: CATEGORÍA DE ALIMENTO (Globos con Scroll Horizontal) -->

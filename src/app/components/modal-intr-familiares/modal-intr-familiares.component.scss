@@ -1,0 +1,101 @@
+/* 🚨 Quitamos el .modal-duo-overlay antiguo y lo adaptamos al contenedor interno de la hoja de Ionic */
+.modal-duo-card-sheet {
+  background: #ffffff;
+  padding: 24px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%; /* Ocupa el alto asignado por el breakpoint de Ionic */
+  box-sizing: border-box;
+
+  .badge-guide-duo {
+    font-size: 32px;
+    background: #eefcff;
+    border: 2px solid #1cb0f6;
+    box-shadow: 0 3px 0 #1cb0f6;
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px auto;
+  }
+
+  h2 {
+    color: #3c3c3c; font-size: 20px; font-weight: 800; margin: 0; letter-spacing: -0.5px;
+  }
+}
+
+/* 📜 CONTENEDOR CON SCROLL INTELIGENTE */
+.scrollable-body {
+  width: 100%;
+  overflow-y: auto;
+  margin-top: 16px;
+  padding-right: 4px;
+  flex: 1;
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 4px; }
+}
+
+/* 🎫 TARJETAS DE PASOS NUMERADOS */
+.step-card-duo {
+  display: flex; gap: 12px; align-items: center;
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  text-align: left;
+
+  .step-number {
+    background: #1cb0f6; color: white;
+    font-weight: 800; font-size: 14px;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 0 #1094d4;
+  }
+
+  .step-text {
+    font-size: 13px; color: #4b4b4b; font-weight: 600; line-height: 1.4;
+    .text-green-duo { color: #58cc02; font-weight: 800; }
+    .text-blue-duo { color: #1cb0f6; font-weight: 800; }
+  }
+}
+
+/* 👑 SECCIÓN DE RANGOS (TABLA) */
+.ranks-title-duo {
+  color: #3c3c3c; font-size: 15px; font-weight: 800;
+  margin: 16px 0 8px 0; text-align: left; width: 100%;
+}
+
+.table-container-duo {
+  width: 100%; border: 2px solid #e5e5e5; border-radius: 14px; overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.ranks-table-duo {
+  width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;
+  thead {
+    background: #f7f7f7; border-bottom: 2px solid #e5e5e5;
+    th { padding: 8px 12px; color: #afafaf; font-weight: 700; text-transform: uppercase; font-size: 11px; }
+  }
+  tbody {
+    tr { border-bottom: 1px solid #f1f1f1; &:last-child { border-bottom: none; } }
+    td { padding: 10px 12px; color: #4b4b4b; font-weight: 600; }
+  }
+}
+
+/* 🔴 BOTÓN GRIS SECUNDARIO 3D */
+.modal-footer-gamified { width: 100%; margin-top: 14px; padding-bottom: 10px; }
+
+.btn-duo-secondary-gray {
+  width: 100%; background-color: #ffffff; color: #afafaf;
+  border: 2px solid #e5e5e5; border-radius: 16px; border-bottom: 5px solid #e5e5e5;
+  font-size: 14px; font-weight: 800; height: 46px;
+  text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.1s ease;
+
+  &:active {
+    border-bottom-width: 2px; transform: translateY(3px);
+  }
+}

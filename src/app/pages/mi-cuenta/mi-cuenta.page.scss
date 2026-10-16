@@ -2,21 +2,12 @@
   --background: #ffffff;
 }
 
-
 /* 🏠 Contenedor Principal */
 .cuenta-container {
   display: flex;
   flex-direction: column;
   padding: 16px 20px 80px 20px; // Espacio inferior para las pestañas
   background-color: #ffffff;
-}
-
-.page-title {
-  align-self: flex-start;
-  color: #252876;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 10px 0 20px 0;
 }
 
 /* 🪪 Tarjeta Resumen Superior del Reciclador */
@@ -28,7 +19,6 @@
   padding: 16px;
   margin-bottom: 20px;
   width: 100%;
-
 
   .user-info {
     text-align: left;
@@ -46,6 +36,30 @@
     span {
       color: #a6a6a6;
       font-size: 14px;
+    }
+  }
+}
+
+.tope {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .page-title {
+    align-self: flex-start;
+    color: #252876;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 10px 0 20px 0;
+  }
+  .btn-help-duo {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: #afafaf;
+    cursor: pointer;
+    transition: color 0.2s;
+    &:active {
+      transform: scale(0.9);
     }
   }
 }
@@ -259,7 +273,7 @@
 
 .binance-sheet-modal {
   // 1. Mantenemos el control elástico de la altura por breakpoints de Ionic
-  --height: 100%; 
+  --height: 100%;
 
   // 2. 🚀 EL TRUCO CLÁSICO: Atacamos la parte interna del Shadow DOM de Ionic
   &::part(content) {
@@ -267,13 +281,12 @@
     // Forzamos el radio de curvatura superior exacto del Figma directamente en la caja real
     border-radius: 24px 24px 0 0 !important;
     // Cortamos cualquier fondo o borde cuadrado del componente hijo que intente salirse
-    overflow: hidden !important; 
+    overflow: hidden !important;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
   }
 
   --keyboard-offset: env(safe-area-inset-bottom, 20px);
 }
-
 
 .opcion-toggle-container {
   display: flex;
@@ -323,7 +336,7 @@ ion-toggle {
   height: 80px;
   margin-right: 15px;
   cursor: pointer;
-  
+
   &:active {
     transform: scale(0.96);
   }
@@ -355,7 +368,6 @@ ion-toggle {
   }
 }
 
-
 .alert-banner-duo {
   position: relative;
   background: #f1f7ff;
@@ -376,8 +388,10 @@ ion-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    &:hover { color: #4b4b4b; }
+
+    &:hover {
+      color: #4b4b4b;
+    }
   }
 }
 
@@ -439,7 +453,6 @@ ion-toggle {
   }
 }
 
-
 .btn-duo-action {
   width: 100%;
   height: 50px;
@@ -456,13 +469,18 @@ ion-toggle {
   cursor: pointer;
   transition: all 0.1s ease;
 
-  ion-icon { font-size: 20px; }
+  ion-icon {
+    font-size: 20px;
+  }
 
   &.btn-blue-duo {
     background: #1cb0f6;
     color: white;
     border-bottom: 5px solid #1094d4;
-    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+    &:active {
+      border-bottom-width: 2px;
+      transform: translateY(3px);
+    }
   }
 
   &.btn-gray-duo {
@@ -470,7 +488,9 @@ ion-toggle {
     color: #afafaf;
     border: 2px solid #e5e5e5;
     border-bottom: 5px solid #e5e5e5;
-    &:active { border-bottom-width: 2px; transform: translateY(3px); }
+    &:active {
+      border-bottom-width: 2px;
+      transform: translateY(3px);
+    }
   }
 }
-

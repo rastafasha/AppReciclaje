@@ -43,36 +43,40 @@
 
         <div class="habitos-layout-duo">
           <!-- Lado izquierdo: El personaje que reacciona e interactúa con el usuario -->
-          <div class="character-side-duo" (click)="cambiarEstado('saludando')">
+          <div class="character-side-duo" (click)="animacionAleatoria()" style="cursor: pointer;">
             <app-hoja-animada [estado]="estadoActual()"></app-hoja-animada>
           </div>
 
           <!-- Lado derecho: Lista de lecciones / hábitos con relieve 3D -->
           <div class="habitos-nodes-duo">
-
-            <button class="node-item-duo node-desayuno" id="open-formulario-avance" (click)="irAFormulario()">
+            <!-- 🍳 BOTÓN DESAYUNO -->
+            <button class="node-item-duo node-desayuno" [disabled]="comidasRegistradasHoy().includes('DESAYUNO')"
+              [class.completado]="comidasRegistradasHoy().includes('DESAYUNO')" (click)="irAFormulario('DESAYUNO')">
               <div class="node-icon-box"><ion-icon name="pizza"></ion-icon></div>
               <div class="node-info">
                 <h4>Desayuno</h4>
-                <span>Registrar impacto</span>
+                <span>{{ comidasRegistradasHoy().includes('DESAYUNO') ? '✓ Registrado' : 'Registrar impacto' }}</span>
               </div>
             </button>
 
-            <button class="node-item-duo node-almuerzo" id="open-formulario-avance" (click)="irAFormulario()">
-              <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
+            <button class="node-item-duo node-almuerzo" [disabled]="comidasRegistradasHoy().includes('ALMUERZO')"
+              [class.completado]="comidasRegistradasHoy().includes('ALMUERZO')" (click)="irAFormulario('ALMUERZO')">
+              <div class="node-icon-box"><ion-icon name="pizza"></ion-icon></div>
               <div class="node-info">
                 <h4>Almuerzo</h4>
-                <span>Sumar puntos</span>
+                <span>{{ comidasRegistradasHoy().includes('ALMUERZO') ? '✓ Registrado' : 'Registrar impacto' }}</span>
+              </div>
+            </button>
+            <button class="node-item-duo node-cena" [disabled]="comidasRegistradasHoy().includes('CENA')"
+              [class.completado]="comidasRegistradasHoy().includes('CENA')" (click)="irAFormulario('CENA')">
+              <div class="node-icon-box"><ion-icon name="pizza"></ion-icon></div>
+              <div class="node-info">
+                <h4>Cena</h4>
+                <span>{{ comidasRegistradasHoy().includes('CENA') ? '✓ Registrado' : 'Registrar impacto' }}</span>
               </div>
             </button>
 
-            <button class="node-item-duo node-cena" id="open-formulario-avance" (click)="irAFormulario()">
-              <div class="node-icon-box"><ion-icon name="restaurant"></ion-icon></div>
-              <div class="node-info">
-                <h4>Cena</h4>
-                <span>Cerrar racha</span>
-              </div>
-            </button>
+
 
           </div>
         </div>
@@ -136,7 +140,8 @@
   keepContentsMounted="true" (didDismiss)="onModalFormularioCerrado()" class="binance-sheet-modal">
   <ng-template>
     <!-- Capturamos la salida output () del formulario real para detonar el cierre -->
-    <app-formulario-avance (cerrarModal)="onModalFormularioCerrado()"></app-formulario-avance>
+    <app-formulario-avance [comidaPreseleccionada]="comidaParaFormulario()"
+      (cerrarModal)="onModalFormularioCerrado()"></app-formulario-avance>
   </ng-template>
 </ion-modal>
 

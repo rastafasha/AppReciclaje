@@ -309,3 +309,33 @@
   cursor: pointer;
   &:active { border-bottom-width: 1px; transform: translateY(3px); }
 }
+
+
+.btn-comida {
+  // Tus estilos base actuales para los botones de comidas...
+  transition: all 0.2s ease;
+  
+  &.duplicado-deshabilitado {
+    background-color: #f4f4f4 !important; // Fondo grisáceo
+    color: #a0a0a0 !important;            // Texto gris
+    opacity: 0.6;                         // Transparencia visual
+    cursor: not-allowed !important;       // Cursor de bloqueo (🚫)
+    border: 1px dashed #dcdcdc !important;// Borde punteado discreto
+    pointer-events: none;                 // Desactiva cualquier acción del ratón
+  }
+}
+
+.indicador-ayuda {
+  background-color: #fff8e1; // Un fondo amarillo muy tenue
+  border-left: 4px solid #ffb300; // Línea de aviso
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.3;
+  }
+}

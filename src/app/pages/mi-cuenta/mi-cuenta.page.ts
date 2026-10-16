@@ -7,7 +7,8 @@ import {
   notificationsOutline, menuOutline, close, person,
   pencil, createOutline, powerOutline, refreshCircleOutline,
   documentTextOutline, personCircleOutline,
-  closeCircle
+  closeCircle,
+  helpCircleOutline
 } from 'ionicons/icons';
 import { IonContent, IonIcon, IonToggle, IonModal, ToastController } from '@ionic/angular';
 import { AgregarFamiliarComponent } from '../../components/agregar-familiar/agregar-familiar.component';
@@ -19,6 +20,8 @@ import { IFamiliar } from '../../models/familiar.model';
 import { SkeletonLoaderComponent } from '../../shared/skeleton-loader/skeleton-loader.component';
 import { NotificationService } from '../../services/notificacion-service';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
+import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
+import { ModalIntrFamiliaresComponent } from '../../components/modal-intr-familiares/modal-intr-familiares.component';
 
 @Component({
   selector: 'app-mi-cuenta',
@@ -28,7 +31,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
   imports: [CommonModule, IonContent,
     IonIcon, IonToggle,
     AgregarFamiliarComponent, IonModal, MenufooterComponent, HeaderComponent,
-    SkeletonLoaderComponent, ImagenPipe]
+    SkeletonLoaderComponent, ImagenPipe,  ModalIntrFamiliaresComponent]
 })
 export class MiCuentaPage implements OnInit {
   private router = inject(Router);
@@ -48,8 +51,8 @@ export class MiCuentaPage implements OnInit {
   // 🚦 Signal independiente para controlar el estado de carga del botón Push
   public isPushLoading = signal<boolean>(false);
   public modalAbierto = signal<boolean>(false);
-
   public mostrarBannerFamiliares = signal<boolean>(localStorage.getItem('hide_family_banner') !== 'true');
+  public mostrarModalInstrucciones = signal<boolean>(false);
 
   public imgTemp = signal<string | ArrayBuffer | null>(null);
   public avatarUrl = signal<string>('');
@@ -95,7 +98,7 @@ export class MiCuentaPage implements OnInit {
     addIcons({
       notificationsOutline, menuOutline, close, person,
       pencil, createOutline, powerOutline, refreshCircleOutline,
-      documentTextOutline, personCircleOutline, closeCircle
+      documentTextOutline, personCircleOutline, closeCircle, helpCircleOutline
     });
   }
 
@@ -272,6 +275,15 @@ export class MiCuentaPage implements OnInit {
 
   irAEditarPerfil() {
     this.router.navigateByUrl('/perfil-editar');
+  }
+
+  // ℹ️ Métodos de Control del Botón de Ayuda (Instrucciones)
+  abrirInstrucciones() {
+    this.mostrarModalInstrucciones.set(true);
+  }
+
+  cerrarInstrucciones() {
+    this.mostrarModalInstrucciones.set(false);
   }
 
   /**

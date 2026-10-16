@@ -3,13 +3,13 @@ import { Component, inject, OnInit, ViewChild, computed, signal, effect } from '
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { 
-  notificationsOutline, menuOutline, helpCircleOutline, 
-  pizza, restaurant, ribbon, refreshCircleOutline, 
-  documentTextOutline, personCircleOutline, 
+import {
+  notificationsOutline, menuOutline, helpCircleOutline,
+  pizza, restaurant, ribbon, refreshCircleOutline,
+  documentTextOutline, personCircleOutline,
   trophy
 } from 'ionicons/icons';
-import { IonContent,  IonIcon, IonModal, ToastController } from '@ionic/angular';
+import { IonContent, IonIcon, IonModal, ToastController } from '@ionic/angular';
 import { MiPuntajeComponent } from '../../components/mi-puntaje/mi-puntaje.component';
 import { FormularioAvanceComponent } from '../../components/formulario-avance/formulario-avance.component';
 import { MaterialesService } from '../../services/materiales';
@@ -29,7 +29,7 @@ import { ConsejoService } from '../../services/consejo-service';
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
   imports: [CommonModule, IonContent,
-     IonIcon, RouterModule,
+    IonIcon, RouterModule,
     FormularioAvanceComponent, MiPuntajeComponent, IonModal,
     HeaderComponent, MenufooterComponent, SkeletonLoaderComponent,
     ModalBienvenidaComponent, ModalInstruccionesComponent, HojaAnimadaComponent
@@ -38,17 +38,17 @@ import { ConsejoService } from '../../services/consejo-service';
 export class InicioPage implements OnInit {
   private router = inject(Router);
   private materialesService = inject(MaterialesService);
-  private authService = inject(AuthService); 
+  private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
   public uiModalService = inject(UiModalService);
   public tipsService = inject(ConsejoService);
-  
+
   public nombreUsuario = computed(() => {
     const user = this.authService.usuarioActual();
     if (user) return user.profile?.first_name || user.username || 'Usuario';
-    return 'Retador'; 
+    return 'Retador';
   });
-  
+
   public isLoading = signal<boolean>(false);
   public rango = this.materialesService.rangoActual;
   public totalComidas = this.materialesService.totalRegistros;
@@ -59,9 +59,13 @@ export class InicioPage implements OnInit {
   public mostrarModalBienvenida = signal<boolean>(false);
   public mostrarModalInstrucciones = signal<boolean>(false);
 
-  public estadoActual = signal<any>('normal');
+  // 1. Añade este Signal para recordar qué botón se presionó en el Home
+  public comidaParaFormulario = signal<string | null>(null);
 
-   // 🚀 COMPUTED  Extrae únicamente la última píldora en vivo
+  public estadoActual = signal<any>('saludando');
+  public estaAnimandose = signal<boolean>(false);
+
+  // 🚀 COMPUTED  Extrae únicamente la última píldora en vivo
   public ultimoTipCreado = computed(() => {
     const todosLosTips = this.tipsService.tipsInApp();
     if (todosLosTips && todosLosTips.length > 0) {
@@ -72,17 +76,33 @@ export class InicioPage implements OnInit {
       descripcion: 'Mantén activa tu racha diaria en el campus UCC. Escanea tus depósitos de envases de Mercadona para sumar puntos de recompensa en la cartelera.'
     };
   });
+// Sigue los estándares de Angular usando un computed en lugar de un getter tradicional
+public comidasRegistradasHoy = computed<string[]>(() => {
+  const registros = this.materialesService.historial?.() || [];
+  
+  // Capturamos la fecha de hoy respetando la zona horaria del usuario (Local)
+  const hoyLocal = new Date();
+  const año = hoyLocal.getFullYear();
+  const mes = String(hoyLocal.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoyLocal.getDate()).padStart(2, '0');
+  const hoyStr = `${año}-${mes}-${dia}`; // Resultado exacto: "2026-10-16"
+
+  // Filtramos usando de forma unívoca el campo 'fechaString' de tu base de datos
+  return registros
+    .filter((reg: any) => reg.fechaString === hoyStr)
+    .map((reg: any) => reg.comida.toUpperCase()); // Retorna ej: ['DESAYUNO', 'ALMUERZO']
+});
 
   constructor() {
-  addIcons({ 
-    notificationsOutline, menuOutline, helpCircleOutline, 
-    pizza, restaurant, ribbon, refreshCircleOutline, 
-    documentTextOutline, personCircleOutline, 
-  });
+    addIcons({
+      notificationsOutline, menuOutline, helpCircleOutline,
+      pizza, restaurant, ribbon, refreshCircleOutline,
+      documentTextOutline, personCircleOutline,
+    });
 
-}
+  }
 
-ionViewWillEnter() {
+  ionViewWillEnter() {
     // Cada vez que el participante abra el Home, escaneamos si hay un comunicado nuevo flotando
     this.notificationService.checkUnreadNotificationsInApp();
   }
@@ -92,7 +112,7 @@ ionViewWillEnter() {
     this.isLoading.set(true);
     // Ejecuta la carga inicial de los tips para poblar el computed de inmediato
     this.tipsService.cargarConsejosDelConcurso();
-    
+
     this.materialesService.getHistorial().subscribe({
       next: () => {
         this.isLoading.set(false); // Apagamos cargador para pintar el DOM
@@ -114,6 +134,30 @@ ionViewWillEnter() {
     this.activarNotificacionesPushDelReto();
   }
 
+  public animacionAleatoria() {
+    // 2. Si ya está ejecutando una animación random, ignoramos el clic
+    if (this.estaAnimandose()) return;
+
+    const animaciones: ('saludando' | 'interactuando' | 'apuntando')[] = [
+      'saludando',
+      'interactuando',
+      'apuntando'
+    ];
+
+    const indiceRandom = Math.floor(Math.random() * animaciones.length);
+    const estadoSeleccionado = animaciones[indiceRandom];
+
+    // 3. Bloqueamos el botón y cambiamos el estado
+    this.estaAnimandose.set(true);
+    this.estadoActual.set(estadoSeleccionado);
+
+    // 4. Liberamos el bloqueo y regresamos a la normalidad tras 2.5 segundos
+    setTimeout(() => {
+      this.estadoActual.set('normal');
+      this.estaAnimandose.set(false); // Listo para recibir otro clic
+    }, 2500);
+  }
+
   // ℹ️ Métodos de Control del Botón de Ayuda (Instrucciones)
   abrirInstrucciones() {
     this.mostrarModalInstrucciones.set(true);
@@ -126,13 +170,21 @@ ionViewWillEnter() {
   // 👋 Métodos del Modal de Bienvenida
   cerrarBienvenida() {
     this.mostrarModalBienvenida.set(false);
-    localStorage.setItem('onboarding_visto', 'true'); 
+    localStorage.setItem('onboarding_visto', 'true');
   }
 
-  // 🍳 MÉTODO RECONFIGURADO: Abre el Offcanvas del formulario de forma local
-  irAFormulario() {
-    // console.log('🚀 Abriendo modal de formulario de forma reactiva local.');
-    this.mostrarModalFormularioAvance.set(true);
+
+
+  // 3. Modifica tu método para recibir el parámetro de la comida
+  irAFormulario(comidaElegida: string) {
+    this.comidaParaFormulario.set(comidaElegida); // Guardamos la selección
+    this.mostrarModalFormularioAvance.set(true);   // Abrimos el modal
+  }
+
+  onModalFormularioCerrado() {
+    this.mostrarModalFormularioAvance.set(false);
+    this.comidaParaFormulario.set(null); // 🧼 Limpiamos al cerrar
+    this.uiModalService.resetearDisparador();
   }
 
   // 📊 MÉTODO RECONFIGURADO: Abre el Offcanvas de puntajes de forma local
@@ -141,16 +193,12 @@ ionViewWillEnter() {
     this.mostrarModalMiPuntaje.set(true);
   }
 
-  // 🧼 Métodos de Limpieza y Cierre para el (didDismiss) de Ionic
-  onModalFormularioCerrado() {
-  this.mostrarModalFormularioAvance.set(false);
-  this.uiModalService.resetearDisparador(); // 🧼 Deja el servicio listo para otro clic
-}
+
 
   onModalPuntajeCerrado() {
-  this.mostrarModalMiPuntaje.set(false);
-  this.uiModalService.resetearPuntaje(); // 🧼 Deja el servicio listo para otro clic
-}
+    this.mostrarModalMiPuntaje.set(false);
+    this.uiModalService.resetearPuntaje(); // 🧼 Deja el servicio listo para otro clic
+  }
 
   irAlConsejos() { this.router.navigateByUrl('/consejos'); }
   irAlHistorial() { this.router.navigateByUrl('/historial'); }

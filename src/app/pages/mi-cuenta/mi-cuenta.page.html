@@ -4,7 +4,12 @@
 <ion-content>
   <div class="cuenta-container">
 
-    <h2 class="page-title">Mi Cuenta</h2>
+   <div class="tope">
+     <h2 class="page-title">Mi Cuenta</h2>
+    <button class="btn-help-duo" (click)="abrirInstrucciones()">
+          <ion-icon name="help-circle-outline"></ion-icon>
+        </button>
+   </div>
     @if (isLoading()) {
     <app-skeleton-loader [rows]="2" [columns]="1" template="13"></app-skeleton-loader>
     }@else {
@@ -180,3 +185,8 @@
 
   </ng-template>
 </ion-modal>
+
+<!-- 📖 MODAL 2: INSTRUCCIONES -->
+<app-modal-intr-familiares [isOpen]="mostrarModalInstrucciones()" keepContentsMounted="true"
+  (cerrar)="cerrarInstrucciones()">
+</app-modal-intr-familiares>

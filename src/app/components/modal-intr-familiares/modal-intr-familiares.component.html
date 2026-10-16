@@ -1,0 +1,63 @@
+<ion-modal 
+  [isOpen]="isOpen()" 
+  [initialBreakpoint]="0.65" 
+  [breakpoints]="[0, 0.65, 0.9]"
+  (didDismiss)="notificarCierre()"
+  class="binance-sheet-modal">
+  
+  <ng-template>
+    <!-- 🎴 Contenedor Interno Estilo Duolingo Adaptado a Sheet Modal -->
+    <div class="modal-duo-card-sheet">
+      
+      <!-- 🏛️ Encabezado Estilo Logro -->
+      <header class="modal-header-gamified">
+        <div class="badge-guide-duo">
+          <span>📖</span>
+        </div>
+        <h2>¿Porque Agregar Familiar?</h2>
+      </header>
+
+      <!-- 📜 Contenido de la Guía Paso a Paso con Scroll -->
+      <div class="modal-body-gamified scrollable-body">
+        
+        <div class="step-card-duo">
+          <div class="step-number">1</div>
+          <div class="step-text">
+            <strong>Suma sus esfuerzos:</strong> Si tus familiares te ayudan a reciclar, cocinar o registrar hábitos saludables pero no usan smartphones, puedes centralizar sus logros en tu cuenta.
+          </div>
+        </div>
+
+        <div class="step-card-duo">
+          <div class="step-number">2</div>
+          <div class="step-text">
+            <strong>Multiplica tus recompensas:</strong> Los registros válidos de tu grupo familiar te ayudan a alcanzar más rápido la meta de ≥ 55 puntos para clasificar al sorteo final.
+          </div>
+        </div>
+
+        <div class="step-card-duo">
+          <div class="step-number">3</div>
+          <div class="step-text">
+            <strong>Inclusión para el hogar:</strong> Permite que abuelos, niños o familiares sin acceso tecnológico participen activamente en la dinámica ecológica desde un único dispositivo.
+          </div>
+        </div>
+
+        <div class="step-card-duo">
+          <div class="step-number">4</div>
+          <div class="step-text">
+            <strong>Control centralizado:</strong> Mantén el historial de consumo o reciclaje de toda tu vivienda organizado sin necesidad de crear múltiples cuentas duplicadas.
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- 🔴 Botón Inferior 3D Cerrable -->
+      <footer class="modal-footer-gamified">
+        <button type="button" class="btn-duo-secondary-gray" (click)="notificarCierre()">
+          Entendido, cerrar
+        </button>
+      </footer>
+
+    </div>
+  </ng-template>
+</ion-modal>
